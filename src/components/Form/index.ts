@@ -42,4 +42,16 @@ export const Form = styled.form`
     width: 100%;
     height: 56px;
   }
+
+  p {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 15px;
+  }
+
+  .inputError {
+    text-align: left;
+    font-size: smaller;
+    color: #f00;
+  }
 `;
