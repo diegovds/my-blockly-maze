@@ -26,8 +26,8 @@ const Register = () => {
   return (
     <C.Container>
       <C.Register>
-        <h2>Cadastrar</h2>
-        <p>Insira seus dados</p>
+        <h2>Entrar</h2>
+        <p>Insira suas credenciais</p>
         <C.Form onSubmit={handleSubmit(submit)}>
           <input
             type="text"
@@ -57,7 +57,7 @@ const Register = () => {
           {errors?.password?.type === "required" && (
             <p className="inputError">A senha precisa ser informada.</p>
           )}
-          <Button>Cadastrar</Button>
+          <Button>Entrar</Button>
         </C.Form>
       </C.Register>
     </C.Container>

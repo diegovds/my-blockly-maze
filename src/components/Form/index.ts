@@ -41,6 +41,7 @@ export const Form = styled.form`
     margin-top: 0.8em;
     width: 100%;
     height: 56px;
+    font-size: 1em;
   }
 
   p {
