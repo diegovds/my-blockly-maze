@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import * as C from "@/styles/Home";
+import * as C from "@/styles/Home.styles";
 
 export default function Home() {
   return (
