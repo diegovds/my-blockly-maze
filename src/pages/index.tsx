@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import * as C from "@/styles/home";
+import * as C from "@/styles/Home";
 
 export default function Home() {
   return (
@@ -15,7 +15,6 @@ export default function Home() {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <C.Main>
         <C.Container>
