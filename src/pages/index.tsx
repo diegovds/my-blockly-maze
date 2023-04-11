@@ -16,11 +16,9 @@ export default function Home() {
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
       </Head>
-      <C.Main>
-        <C.Container>
-          <p>My Blockly Maze</p>
-        </C.Container>
-      </C.Main>
+      <C.Container>
+        <p>My Blockly Maze</p>
+      </C.Container>
     </>
   );
 }

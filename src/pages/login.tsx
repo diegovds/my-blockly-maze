@@ -32,6 +32,7 @@ const Register = () => {
           <input
             type="text"
             placeholder="E-mail"
+            autoFocus
             {...register("email", {
               required: true,
               validate: (value) => isEmail(value),
