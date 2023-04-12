@@ -9,23 +9,20 @@ type Props = {
 };
 
 const Home = ({ mazes }: Props) => {
-  console.log(mazes);
   return (
-    <>
+    <div className={styles.container}>
       <Seo
         title="My Blockly Maze | Home"
         description={`Constam ${mazes.length} jogos na página inicial`}
         image=""
       />
-      <div className={styles.container}>
-        <h2>Jogos criados recentemente</h2>
-        <ul>
-          {mazes.map((maze) => (
-            <li key={maze.id}>{maze.name}</li>
-          ))}
-        </ul>
-      </div>
-    </>
+      <h2>Jogos criados recentemente</h2>
+      <ul>
+        {mazes.map((maze) => (
+          <li key={maze.id}>{maze.name}</li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

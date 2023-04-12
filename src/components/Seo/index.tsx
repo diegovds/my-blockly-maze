@@ -21,7 +21,7 @@ const Seo = ({ title, description, image }: Props) => {
       {/* End standard metadata tags */}
       {/* Facebook tags */}
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={`https://${window.location.hostname}`} />
+      <meta property="og:url" content="https://my-blockly-maze.vercel.app" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
