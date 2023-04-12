@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import * as C from "./styles";
+import styles from "./Layout.module.css";
 
 import Navbar from "../Navbar";
 import { useSession } from "next-auth/react";
@@ -12,16 +12,16 @@ const Layout = ({ children }: Props) => {
   const { status: sessionStatus } = useSession();
 
   return (
-    <C.Container>
+    <div>
       {sessionStatus !== "loading" && (
         <>
           <header>
             <Navbar />
           </header>
-          <main>{children}</main>
+          <main className={styles.main}>{children}</main>
         </>
       )}
-    </C.Container>
+    </div>
   );
 };
 

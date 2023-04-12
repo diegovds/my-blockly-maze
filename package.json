@@ -30,14 +30,10 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
-    "styled-components": "^5.3.9",
     "typescript": "5.0.4",
     "validator": "^13.9.0"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.21.4",
-    "@types/styled-components": "^5.1.26",
-    "babel-plugin-styled-components": "^2.1.1",
     "prisma": "^4.12.0"
   }
 }

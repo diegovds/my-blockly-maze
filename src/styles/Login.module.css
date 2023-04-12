@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  width: 90%;
+  text-align: center;
+  border: 1px solid #fff;
+  padding: 2rem 0.3rem;
+  margin: 2rem 0rem;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
+}
+
+.login p {
+  color: rgba(0, 0, 0, 0.38);
+  margin: 1.5rem 0rem;
+}
+
+.form {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0rem 1rem;
+}
+
+.form input {
+  width: 100%;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form button {
+  margin-top: 0.8em;
+  width: 100%;
+  height: 56px;
+}
+
+.login .form p {
+  width: 100%;
+  margin: 0;
+}
+
+.login .form .inputError {
+  text-align: left;
+  font-size: smaller;
+  color: #f00;
+}
+
+@media screen and (min-width: 600px) {
+  .login {
+    width: 400px;
+  }
+
+  .container {
+    min-height: inherit;
+  }
+}

@@ -1,27 +1,32 @@
 import Link from "next/link";
-import * as C from "./styles";
-import { Button } from "../Button";
+import styles from "./Navbar.module.css";
+
 import { signOut, useSession } from "next-auth/react";
+import Button from "../Button";
 
 const Navbar = () => {
   const { data: session } = useSession();
 
+  const onClick = () => {
+    signOut();
+  };
+
   return (
-    <C.Nav>
-      <C.Ul>
-        <C.Li>
+    <nav className={styles.nav}>
+      <ul className={styles.ul}>
+        <li className={styles.li}>
           <Link href="/">Home</Link>
-        </C.Li>
-        <C.Li>
+        </li>
+        <li className={styles.li}>
           <Link href="/login">Entrar</Link>
-        </C.Li>
-        <C.Li>
+        </li>
+        <li className={styles.li}>
           <Link href="/register">Cadastrar</Link>
-        </C.Li>
-      </C.Ul>
-      {session && <Button onClick={() => signOut()}>Sair</Button>}
+        </li>
+      </ul>
+      {session && <Button onClick={onClick} title="Sair" />}
       {session && <p>Olá {session.user.name}</p>}
-    </C.Nav>
+    </nav>
   );
 };
 

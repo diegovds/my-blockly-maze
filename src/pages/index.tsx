@@ -1,4 +1,5 @@
-import * as C from "@/styles/Home.styles";
+import styles from "@/styles/Home.module.css";
+
 import Seo from "@/components/Seo";
 import { Maze } from "@/types/Maze";
 import axios from "axios";
@@ -16,14 +17,14 @@ const Home = ({ mazes }: Props) => {
         description={`Constam ${mazes.length} jogos na página inicial`}
         image=""
       />
-      <C.Container>
+      <div className={styles.container}>
         <h2>Jogos criados recentemente</h2>
         <ul>
           {mazes.map((maze) => (
             <li key={maze.id}>{maze.name}</li>
           ))}
         </ul>
-      </C.Container>
+      </div>
     </>
   );
 };
