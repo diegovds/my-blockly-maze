@@ -11,20 +11,16 @@ type Props = {
 const Layout = ({ children }: Props) => {
   const { status: sessionStatus } = useSession();
 
-  if (sessionStatus === "loading") {
-    return (
-      <C.LoadingContainer>
-        <h1>Carregando!!!</h1>
-      </C.LoadingContainer>
-    );
-  }
-
   return (
     <C.Container>
-      <header>
-        <Navbar />
-      </header>
-      <main>{children}</main>
+      {sessionStatus !== "loading" && (
+        <>
+          <header>
+            <Navbar />
+          </header>
+          <main>{children}</main>
+        </>
+      )}
     </C.Container>
   );
 };
