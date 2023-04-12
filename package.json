@@ -35,7 +35,9 @@
     "validator": "^13.9.0"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.21.4",
     "@types/styled-components": "^5.1.26",
+    "babel-plugin-styled-components": "^2.1.1",
     "prisma": "^4.12.0"
   }
 }
