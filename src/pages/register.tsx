@@ -4,6 +4,10 @@ import { Button } from "@/components/Button";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import isEmail from "validator/lib/isEmail";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
+import axios from "axios";
 
 type FormValues = {
   name: string;
@@ -22,10 +26,37 @@ const Register = () => {
 
   const watchPassword = watch("password");
 
-  const submit: SubmitHandler<FormValues> = (data) => {
+  const [hasError, setHasError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
+  const submit: SubmitHandler<FormValues> = async (data) => {
     const { name, email, password } = data;
 
-    console.log(name, email, password);
+    setHasError(false);
+    setLoading(true);
+
+    const user = await axios.post("/api/users", {
+      name,
+      email,
+      password,
+    });
+
+    if (user) {
+      const request = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+
+      setLoading(false);
+
+      request && request.ok ? router.push("/") : setHasError(true);
+    } else {
+      setLoading(false);
+      setHasError(true);
+    }
   };
 
   return (
@@ -87,6 +118,8 @@ const Register = () => {
             </p>
           )}
           <Button>Cadastrar</Button>
+          {hasError && "Acesso negado!!!"}
+          {loading && "Carregando"}
         </C.Form>
       </C.Register>
     </C.Container>
