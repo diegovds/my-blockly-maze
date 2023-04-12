@@ -42,8 +42,6 @@ export default class MyDocument extends Document {
     return (
       <Html lang="pt">
         <Head>
-          <meta charSet="utf-8" />
-          <link rel="icon" href="/favicon.ico" />
           <link
             href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap"
             rel="stylesheet"
