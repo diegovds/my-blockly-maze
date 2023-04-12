@@ -1,4 +1,5 @@
 import prisma from "./prisma";
+import bcrypt from "bcrypt";
 
 export const api = () => {
   const getAllUsers = async (page: number) => {
@@ -36,11 +37,13 @@ export const api = () => {
     email: string,
     password: string
   ) => {
+    const hash = await bcrypt.hash(password, 10);
+
     return await prisma.user.create({
       data: {
         name,
         email,
-        password,
+        password: hash,
       },
     });
   };
@@ -71,12 +74,23 @@ export const api = () => {
     });
   };
 
-  const getUserFromEmail = async (email: string) => {
-    return await prisma.user.findFirst({
+  const getUserWithEmailAndPassword = async (
+    email: string,
+    password: string
+  ) => {
+    const user = await prisma.user.findFirst({
       where: {
         email,
       },
     });
+
+    if (user) {
+      if (await bcrypt.compare(password, user.password)) {
+        return user;
+      }
+    }
+
+    return null;
   };
 
   const deleteUser = async (id: string) => {
@@ -92,7 +106,7 @@ export const api = () => {
     insertNewUser,
     updateUser,
     getUser,
-    getUserFromEmail,
+    getUserWithEmailAndPassword,
     deleteUser,
   };
 };

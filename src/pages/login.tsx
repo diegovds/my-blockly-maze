@@ -4,6 +4,9 @@ import { Button } from "@/components/Button";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import isEmail from "validator/lib/isEmail";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 type FormValues = {
   email: string;
@@ -17,10 +20,26 @@ const Register = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const submit: SubmitHandler<FormValues> = (data) => {
+  const [hasError, setHasError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
+  const submit: SubmitHandler<FormValues> = async (data) => {
     const { email, password } = data;
 
-    console.log(email, password);
+    setHasError(false);
+    setLoading(true);
+
+    const request = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+
+    setLoading(false);
+
+    request && request.ok ? router.push("/") : setHasError(true);
   };
 
   return (
@@ -58,6 +77,8 @@ const Register = () => {
             <p className="inputError">A senha precisa ser informada.</p>
           )}
           <Button>Entrar</Button>
+          {hasError && "Acesso negado!!!"}
+          {loading && "Carregando"}
         </C.Form>
       </C.Register>
     </C.Container>

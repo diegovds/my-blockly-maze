@@ -13,10 +13,10 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Senha", type: "password" },
       },
       authorize: async (credentials, req) => {
-        const { getUserFromEmail } = api();
+        const { getUserWithEmailAndPassword } = api();
 
         if (credentials && credentials.email && credentials.password) {
-          const user = await getUserFromEmail(credentials.email);
+          const user = await getUserWithEmailAndPassword(credentials.email, credentials.password);
 
           if (user) {
             return {
