@@ -43,7 +43,7 @@ const Register = () => {
       password,
     });
 
-    if (user) {
+    if (user && user.data.status === true) {
       const request = await signIn("credentials", {
         redirect: false,
         email,
