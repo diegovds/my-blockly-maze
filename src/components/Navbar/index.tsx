@@ -4,7 +4,7 @@ import { Button } from "../Button";
 import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
-  const { data } = useSession();
+  const { data: session } = useSession();
 
   return (
     <C.Nav>
@@ -19,8 +19,8 @@ const Navbar = () => {
           <Link href="/register">Cadastrar</Link>
         </C.Li>
       </C.Ul>
-      {data && <Button onClick={() => signOut()}>Sair</Button>}
-      {data && <p>Olá {data.user.name}</p>}
+      {session && <Button onClick={() => signOut()}>Sair</Button>}
+      {session && <p>Olá {session.user.name}</p>}
     </C.Nav>
   );
 };
