@@ -9,7 +9,9 @@ export default createGlobalStyle`
   }
 
   body {
-  background-color: #eceeed;
+    background-color: #eceeed;
+    margin: 0 auto;
+    max-width: 1440px;
   }
 
   input:focus,
