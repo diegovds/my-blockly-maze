@@ -57,6 +57,7 @@ export default createGlobalStyle`
 
   .btn:hover {
     background-color: #0f730c;
+    color: #fff;
   }
 
   button[disabled] {
