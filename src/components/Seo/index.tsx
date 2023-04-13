@@ -17,7 +17,7 @@ const Seo = ({ title, description, image }: Props) => {
         name="viewport"
         content="width=device-width, initial-scale=1, user-scalable=no"
       />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/puzzle-icon.png" />
       {/* End standard metadata tags */}
       {/* Facebook tags */}
       <meta property="og:type" content="website" />

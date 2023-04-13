@@ -15,7 +15,7 @@ const Home = ({ mazes }: Props) => {
   return (
     <C.Container>
       <Seo
-        title="My Blockly Maze | Home"
+        title="My BLOCKLY Maze | Home"
         description={`Constam ${mazes.length} jogos na página inicial`}
         image=""
       />

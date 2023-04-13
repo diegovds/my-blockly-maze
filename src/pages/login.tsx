@@ -8,6 +8,7 @@ import { useState } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { GetServerSideProps } from "next";
+import Seo from "@/components/Seo";
 
 type FormValues = {
   email: string;
@@ -45,6 +46,11 @@ const Register = () => {
 
   return (
     <C.Container>
+      <Seo
+        title="My BLOCKLY Maze | Login"
+        description={`Página de login na plataforma My BLOCKLY Maze.`}
+        image=""
+      />
       <C.Register>
         <h2>Entrar</h2>
         <p>Insira suas credenciais</p>

@@ -9,6 +9,7 @@ import axios from "axios";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
+import Seo from "@/components/Seo";
 
 type FormValues = {
   name: string;
@@ -62,6 +63,11 @@ const Register = () => {
 
   return (
     <C.Container>
+      <Seo
+        title="My BLOCKLY Maze | Cadastro"
+        description={`Página de cadastro na plataforma My BLOCKLY Maze.`}
+        image=""
+      />
       <C.Register>
         <h2>Cadastrar</h2>
         <p>Insira seus dados</p>
