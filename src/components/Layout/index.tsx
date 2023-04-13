@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import styles from "./Layout.module.css";
+import * as C from "./styles";
 
 import Navbar from "../Navbar";
 
@@ -9,12 +9,12 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div>
+    <>
       <header>
         <Navbar />
       </header>
-      <main className={styles.main}>{children}</main>
-    </div>
+      <C.Main>{children}</C.Main>
+    </>
   );
 };
 

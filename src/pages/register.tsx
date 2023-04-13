@@ -1,4 +1,4 @@
-import styles from "@/styles/Register.module.css";
+import * as C from "@/components/Form";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import isEmail from "validator/lib/isEmail";
@@ -58,12 +58,12 @@ const Register = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.login}>
+    <C.Container>
+      <C.Register>
         <h2>Cadastrar</h2>
         <p>Insira seus dados</p>
 
-        <form onSubmit={handleSubmit(submit)} className={styles.form}>
+        <C.Form onSubmit={handleSubmit(submit)}>
           <input
             type="text"
             placeholder="Nome"
@@ -71,7 +71,7 @@ const Register = () => {
             {...register("name", { required: true })}
           />
           {errors?.name?.type === "required" && (
-            <p className={styles.inputError}>O nome precisa ser informado.</p>
+            <p className="inputError">O nome precisa ser informado.</p>
           )}
           <input
             type="text"
@@ -83,12 +83,10 @@ const Register = () => {
             })}
           />
           {errors?.email?.type === "required" && (
-            <p className={styles.inputError}>O e-mail precisa ser informado.</p>
+            <p className="inputError">O e-mail precisa ser informado.</p>
           )}
           {errors?.email?.type === "validate" && (
-            <p className={styles.inputError}>
-              O e-mail informado não é válido.
-            </p>
+            <p className="inputError">O e-mail informado não é válido.</p>
           )}
           <input
             type="password"
@@ -96,12 +94,12 @@ const Register = () => {
             {...register("password", { required: true, minLength: 6 })}
           />
           {errors?.password?.type === "minLength" && (
-            <p className={styles.inputError}>
+            <p className="inputError">
               A senha precisa conter pelo menos 6 caracteres.
             </p>
           )}
           {errors?.password?.type === "required" && (
-            <p className={styles.inputError}>A senha precisa ser informada.</p>
+            <p className="inputError">A senha precisa ser informada.</p>
           )}
           <input
             type="password"
@@ -112,23 +110,23 @@ const Register = () => {
             })}
           />
           {errors?.passwordConfirmation?.type === "validate" && (
-            <p className={styles.inputError}>As senhas precisam ser iguais!</p>
+            <p className="inputError">As senhas precisam ser iguais!</p>
           )}
           {errors?.passwordConfirmation?.type === "required" && (
-            <p className={styles.inputError}>
+            <p className="inputError">
               A confirmação da senha precisa ser informada.
             </p>
           )}
-          <button className="btn">Entrar</button>
+          <button className="btn">Cadastrar</button>
           {loading && (
             <button className="btn" disabled>
               Aguarde...
             </button>
           )}
           {hasError && "Acesso negado!!!"}
-        </form>
-      </div>
-    </div>
+        </C.Form>
+      </C.Register>
+    </C.Container>
   );
 };
 

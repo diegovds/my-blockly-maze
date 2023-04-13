@@ -1,4 +1,4 @@
-import styles from "@/styles/Home.module.css";
+import * as C from '@/styles/Home.styles'
 
 import Seo from "@/components/Seo";
 import { Maze } from "@/types/Maze";
@@ -10,7 +10,7 @@ type Props = {
 
 const Home = ({ mazes }: Props) => {
   return (
-    <div className={styles.container}>
+    <C.Container>
       <Seo
         title="My Blockly Maze | Home"
         description={`Constam ${mazes.length} jogos na página inicial`}
@@ -22,7 +22,7 @@ const Home = ({ mazes }: Props) => {
           <li key={maze.id}>{maze.name}</li>
         ))}
       </ul>
-    </div>
+    </C.Container>
   );
 };
 

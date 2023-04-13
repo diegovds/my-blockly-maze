@@ -1,16 +1,17 @@
-.nav {
+import styled from "styled-components";
+
+export const Nav = styled.nav`
   height: 60px;
   background-color: #add8e6;
   display: flex;
   justify-content: center;
   align-items: center;
-}
+`;
 
-.ul {
+export const Ul = styled.ul`
   display: flex;
   gap: 20px;
   list-style: none;
-}
+`;
 
-.li {
-}
+export const Li = styled.li``;

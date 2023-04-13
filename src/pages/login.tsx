@@ -1,4 +1,4 @@
-import styles from "../styles/Login.module.css";
+import * as C from '@/components/Form'
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import isEmail from "validator/lib/isEmail";
@@ -41,12 +41,12 @@ const Register = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.login}>
+    <C.Container>
+      <C.Register>
         <h2>Entrar</h2>
         <p>Insira suas credenciais</p>
 
-        <form onSubmit={handleSubmit(submit)} className={styles.form}>
+        <C.Form onSubmit={handleSubmit(submit)}>
           <input
             type="text"
             placeholder="E-mail"
@@ -57,10 +57,10 @@ const Register = () => {
             })}
           />
           {errors?.email?.type === "required" && (
-            <p className={styles.inputError}>O e-mail precisa ser informado.</p>
+            <p className="inputError">O e-mail precisa ser informado.</p>
           )}
           {errors?.email?.type === "validate" && (
-            <p className={styles.inputError}>
+            <p className="inputError">
               O e-mail informado não é válido.
             </p>
           )}
@@ -70,12 +70,12 @@ const Register = () => {
             {...register("password", { required: true, minLength: 6 })}
           />
           {errors?.password?.type === "minLength" && (
-            <p className={styles.inputError}>
+            <p className="inputError">
               A senha precisa conter pelo menos 6 caracteres.
             </p>
           )}
           {errors?.password?.type === "required" && (
-            <p className={styles.inputError}>A senha precisa ser informada.</p>
+            <p className="inputError">A senha precisa ser informada.</p>
           )}
           <button className="btn">Entrar</button>
           {loading && (
@@ -84,9 +84,9 @@ const Register = () => {
             </button>
           )}
           {hasError && "Acesso negado!!!"}
-        </form>
-      </div>
-    </div>
+        </C.Form>
+      </C.Register>
+    </C.Container>
   );
 };
 
