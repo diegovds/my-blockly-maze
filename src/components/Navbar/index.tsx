@@ -1,27 +1,92 @@
-import Link from "next/link";
 import * as C from "./styles";
 
 import { signOut, useSession } from "next-auth/react";
-import { Btn } from "../Button";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { FaPuzzlePiece } from "react-icons/fa";
 
 const Navbar = () => {
-  const { data: session } = useSession();
+  const router = useRouter();
+  const { status: sessionStatus } = useSession();
+
+  const verifyActiveLink = (loopPath: string) => {
+    if (loopPath === "/" && router.pathname !== "/") {
+      return null;
+    }
+
+    if (router.pathname.indexOf(loopPath) === 0) {
+      return true;
+    }
+
+    return null;
+  };
 
   return (
     <C.Nav>
+      <Link href="/" className="brand">
+        <FaPuzzlePiece />
+        My <span>Blockly</span> Maze
+      </Link>
       <C.Ul>
         <C.Li>
-          <Link href="/">Home</Link>
+          <Link href={"/"} className={verifyActiveLink("/") ? "active" : ""}>
+            Home
+          </Link>
         </C.Li>
+        {sessionStatus === "unauthenticated" && (
+          <C.Li>
+            <Link
+              href={"/login"}
+              className={verifyActiveLink("/login") ? "active" : ""}
+            >
+              Entrar
+            </Link>
+          </C.Li>
+        )}
+        {sessionStatus === "unauthenticated" && (
+          <C.Li>
+            <Link
+              href={"/register"}
+              className={verifyActiveLink("/register") ? "active" : ""}
+            >
+              Cadastrar
+            </Link>
+          </C.Li>
+        )}
+        {sessionStatus === "authenticated" && (
+          <C.Li>
+            <Link
+              href={"/mazes/create"}
+              className={verifyActiveLink("/mazes/create") ? "active" : ""}
+            >
+              Criar novo jogo
+            </Link>
+          </C.Li>
+        )}
+        {sessionStatus === "authenticated" && (
+          <C.Li>
+            <Link
+              href={"/dashboard"}
+              className={verifyActiveLink("/dashboard") ? "active" : ""}
+            >
+              Dashboard
+            </Link>
+          </C.Li>
+        )}
         <C.Li>
-          <Link href="/login">Entrar</Link>
+          <Link
+            href={"/about"}
+            className={verifyActiveLink("/about") ? "active" : ""}
+          >
+            Sobre
+          </Link>
         </C.Li>
-        <C.Li>
-          <Link href="/register">Cadastrar</Link>
-        </C.Li>
+        {sessionStatus === "authenticated" && (
+          <C.Li>
+            <button onClick={() => signOut()}>Sair</button>
+          </C.Li>
+        )}
       </C.Ul>
-      {session && <Btn onClick={() => signOut()}>Sair</Btn>}
-      {session && <p>Olá {session.user.name}</p>}
     </C.Nav>
   );
 };
