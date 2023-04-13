@@ -67,4 +67,8 @@ export default createGlobalStyle`
   button[disabled]:hover {
     background-color: #aaa;
   }
+
+  img {
+    border-radius: 10px;
+  }
 `;

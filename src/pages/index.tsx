@@ -3,29 +3,25 @@ import * as C from "@/styles/Home.styles";
 import Seo from "@/components/Seo";
 import { Maze } from "@/types/Maze";
 import axios from "axios";
-import { useSession } from "next-auth/react";
+import MazeDetail from "@/components/MazeDetail";
+import { MazesContainer } from "@/components/MazesContainer";
 
 type Props = {
   mazes: Maze[];
 };
 
 const Home = ({ mazes }: Props) => {
-  const { data: session } = useSession();
-
   return (
     <C.Container>
       <Seo
         title="My BLOCKLY Maze | Home"
-        description={`Constam ${mazes.length} jogos na página inicial`}
+        description={`Página inicial da plataforma My BLOCKLY Maze.`}
         image=""
       />
-      <h2>Jogos criados recentemente</h2>
-      {session && <h3>Olá {session?.user.name}</h3>}
-      <ul>
-        {mazes.map((maze) => (
-          <li key={maze.id}>{maze.name}</li>
-        ))}
-      </ul>
+      <C.H2>Jogos criados recentemente:</C.H2>
+      <MazesContainer>
+        {mazes && mazes.map((maze) => <MazeDetail key={maze.id} maze={maze} />)}
+      </MazesContainer>
     </C.Container>
   );
 };
