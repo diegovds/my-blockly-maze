@@ -31,7 +31,7 @@ export default createGlobalStyle`
     background-color: transparent;
     border: none;
     color: #000;
-    transition: 0.4s;
+    transition: all 0.3s ease;
     font-size: 1em;
     cursor: pointer;
   }

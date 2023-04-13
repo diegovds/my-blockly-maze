@@ -24,14 +24,46 @@ export const Nav = styled.nav`
   }
 `;
 
+export const Form = styled.form`
+  display: flex;
+  justify-content: center;
+  min-height: 30px;
+
+  input {
+    width: 18rem;
+    background-color: #fff;
+    margin-right: 1rem;
+    border-radius: 5px;
+    padding: 0.4em 0.6em;
+  }
+
+  button {
+    border-radius: 8px;
+    padding: 0 0.6em 0 0.6em;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+  }
+
+  button svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  button:hover {
+    color: #fff;
+    background-color: #1a8918;
+  }
+`;
+
 export const Ul = styled.ul`
   display: flex;
   list-style: none;
+  gap: 1em;
 `;
 
 export const Li = styled.li`
-  margin-right: 1em;
-
   a {
     padding: 0.4em 0.6em;
     border-radius: 10px;

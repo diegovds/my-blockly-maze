@@ -3,11 +3,14 @@ import * as C from "./styles";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { FaPuzzlePiece } from "react-icons/fa";
+import { HiSearch } from "react-icons/hi";
 
 const Navbar = () => {
   const router = useRouter();
   const { status: sessionStatus } = useSession();
+  const [query, setQuery] = useState("");
 
   const verifyActiveLink = (loopPath: string) => {
     if (loopPath === "/" && router.pathname !== "/") {
@@ -21,19 +24,44 @@ const Navbar = () => {
     return null;
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const target = e.target as HTMLFormElement;
+
+    if (!query) {
+      return;
+    }
+
+    //navigate(`/search?q=${query}`);
+    console.log(query);
+    target.reset();
+    setQuery("");
+  };
+
   return (
     <C.Nav>
       <Link href="/" className="brand">
         <FaPuzzlePiece />
         My <span>Blockly</span> Maze
       </Link>
+      <C.Form onSubmit={handleSubmit}>
+        <input
+          type="search"
+          placeholder="Nome ou código do jogo..."
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button>
+          <HiSearch />
+        </button>
+      </C.Form>
       <C.Ul>
         <C.Li>
           <Link href={"/"} className={verifyActiveLink("/") ? "active" : ""}>
             Home
           </Link>
         </C.Li>
-        {sessionStatus === "unauthenticated" && (
+        {sessionStatus !== "authenticated" && (
           <C.Li>
             <Link
               href={"/login"}
@@ -43,7 +71,7 @@ const Navbar = () => {
             </Link>
           </C.Li>
         )}
-        {sessionStatus === "unauthenticated" && (
+        {sessionStatus !== "authenticated" && (
           <C.Li>
             <Link
               href={"/register"}
