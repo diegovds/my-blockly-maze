@@ -6,6 +6,9 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import axios from "axios";
+import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 type FormValues = {
   name: string;
@@ -128,6 +131,20 @@ const Register = () => {
       </C.Register>
     </C.Container>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+
+  if (session) {
+    return {
+      redirect: { destination: "/dashboard", permanent: true },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default Register;

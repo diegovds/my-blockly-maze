@@ -1,10 +1,13 @@
-import * as C from '@/components/Form'
+import * as C from "@/components/Form";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import isEmail from "validator/lib/isEmail";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
+import { GetServerSideProps } from "next";
 
 type FormValues = {
   email: string;
@@ -60,9 +63,7 @@ const Register = () => {
             <p className="inputError">O e-mail precisa ser informado.</p>
           )}
           {errors?.email?.type === "validate" && (
-            <p className="inputError">
-              O e-mail informado não é válido.
-            </p>
+            <p className="inputError">O e-mail informado não é válido.</p>
           )}
           <input
             type="password"
@@ -88,6 +89,20 @@ const Register = () => {
       </C.Register>
     </C.Container>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+
+  if (session) {
+    return {
+      redirect: { destination: "/dashboard", permanent: true },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default Register;
