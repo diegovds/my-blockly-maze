@@ -14,6 +14,11 @@ export default createGlobalStyle`
     max-width: 1440px;
   }
 
+  html {
+    /* chrome://flags/#smooth-scrolling */
+    scroll-behavior: smooth;
+  }
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;

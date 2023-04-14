@@ -5,6 +5,7 @@ import { GetServerSideProps } from "next";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, ToastOptions, toast } from "react-toastify";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 import { FullMaze } from "@/types/FullMaze";
 import Seo from "@/components/Seo";
@@ -17,21 +18,41 @@ type Props = {
 
 const Maze = ({
   maze,
-  maze: { name, url_image, username, created_at, executions },
+  maze: { id, name, url_image, username, created_at, executions, levels },
 }: Props) => {
+  const router = useRouter();
   const [runGame, setRunGame] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const loadGame = () => {
-    /** fazer a requisição para contar a nova execução */
+  const loadGame = async () => {
+    const dataMaze = new FormData();
+    const execs = (executions + 1).toString();
 
-    maze.executions += 1;
-    setRunGame(true);
+    dataMaze.append("executions", execs);
+
+    setLoading(true);
+
+    await axios
+      .put(
+        `https://new-api-blockly-next-prisma-postgresql.vercel.app/api/mazes/${id}`,
+        dataMaze
+      )
+      .then(() => {
+        executions += 1;
+        setRunGame(true);
+      })
+      .catch(() => {
+        notify("erro", "Ocorreu um erro ao tentar executar o jogo.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const endGame = () => {
     window.scrollTo(0, 0);
     setRunGame(false);
-    //navigate(`/mazes/${id}`);
+    router.push(`/mazes/${id}`);
   };
 
   const toastConfig: ToastOptions<{}> = {
@@ -44,19 +65,16 @@ const Maze = ({
     theme: "colored",
   };
 
-  const notify = (status: string) => {
+  const notify = (status: string, message?: string) => {
     status === "copy"
       ? toast.success("Link copiado com sucesso!", {
           autoClose: 2000,
           ...toastConfig,
         })
-      : toast.error(
-          "A execução do jogo não está disponível para essa largura de tela.",
-          {
-            autoClose: 3000,
-            ...toastConfig,
-          }
-        );
+      : toast.error(message, {
+          autoClose: 3000,
+          ...toastConfig,
+        });
   };
 
   return (
@@ -68,13 +86,18 @@ const Maze = ({
       />
       {!runGame && (
         <>
-          <MazePage maze={maze} notify={notify} loadGame={loadGame} />
+          <MazePage
+            maze={maze}
+            notify={notify}
+            loadGame={loadGame}
+            loading={loading}
+          />
           <ToastContainer />
         </>
       )}
       {runGame && (
         <Iframe
-          link={`https://myblocklymaze-game.vercel.app/maze.html?levels=${maze.levels}&url_image=${maze.url_image}&reset=1`}
+          link={`https://myblocklymaze-game.vercel.app/maze.html?levels=${levels}&url_image=${url_image}&reset=1`}
           redirect={endGame}
         />
       )}

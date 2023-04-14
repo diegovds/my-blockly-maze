@@ -9,6 +9,7 @@ type Props = {
   maze: FullMaze;
   notify: (status: string) => void;
   loadGame: () => void;
+  loading: boolean;
 };
 
 const MazePage = ({
@@ -22,17 +23,10 @@ const MazePage = ({
     executions,
     levels,
   },
+  loading,
   notify,
   loadGame,
 }: Props) => {
-  const goToMaze = () => {
-    loadGame();
-  };
-
-  const clipboard = () => {
-    copy(window.location.href);
-  };
-
   return (
     <C.Coontainer>
       <C.Maze>
@@ -59,19 +53,26 @@ const MazePage = ({
           <p className="p_a">
             Ao clicar no botão abaixo a reprodução do Maze Game será iniciada.
           </p>
-          <button
-            className="btn"
-            onClick={() => {
-              goToMaze();
-            }}
-          >
-            Iniciar Maze Game
-          </button>
+          {!loading && (
+            <button
+              onClick={() => {
+                loadGame();
+              }}
+              className="btn"
+            >
+              Iniciar Maze Game
+            </button>
+          )}
+          {loading && (
+            <button className="btn" disabled>
+              Aguarde...
+            </button>
+          )}
           <button
             className="btn"
             id="copy"
             onClick={() => {
-              clipboard();
+              copy(window.location.href);
               notify("copy");
             }}
           >
