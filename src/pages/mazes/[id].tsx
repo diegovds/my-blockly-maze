@@ -108,17 +108,23 @@ const Maze = ({
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { id } = query;
 
-  const res = await axios.get(
-    `https://new-api-blockly-next-prisma-postgresql.vercel.app/api/mazes/${id}`
-  );
+  try {
+    const res = await axios.get(
+      `https://new-api-blockly-next-prisma-postgresql.vercel.app/api/mazes/${id}`
+    );
 
-  const maze: FullMaze = res.data.data;
+    const maze: FullMaze = res.data.data;
 
-  return {
-    props: {
-      maze,
-    },
-  };
+    return {
+      props: {
+        maze,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default Maze;
