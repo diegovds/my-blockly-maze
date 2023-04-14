@@ -36,14 +36,15 @@ const Register = () => {
   const submit: SubmitHandler<FormValues> = async (data) => {
     const { name, email, password } = data;
 
+    const userData = new FormData();
+    userData.append("name", name);
+    userData.append("email", email);
+    userData.append("password", password);
+
     setHasError(false);
     setLoading(true);
 
-    const user = await axios.post("/api/users", {
-      name,
-      email,
-      password,
-    });
+    const user = await axios.post("/api/users", userData);
 
     if (user && user.data.status === true) {
       const request = await signIn("credentials", {
