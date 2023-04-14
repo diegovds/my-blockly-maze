@@ -9,6 +9,6 @@ export const MazesContainer = styled.div`
   max-width: 97%;
   margin: 0 auto;
   justify-content: space-evenly;
-  gap: 3rem 4rem;
+  gap: 3rem 4.06rem;
   margin-bottom: 3rem;
 `;

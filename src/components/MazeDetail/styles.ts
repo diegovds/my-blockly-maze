@@ -20,6 +20,7 @@ export const MazeDiv = styled.div`
     width: 90%;
     height: auto;
     margin-bottom: 0.4em;
+    box-shadow: 0 0 2px #3d3d3d;
   }
 
   h3 {

@@ -33,8 +33,7 @@ const Navbar = () => {
       return;
     }
 
-    //navigate(`/search?q=${query}`);
-    console.log(query);
+    router.push(`/search?q=${query}`);
     target.reset();
     setQuery("");
   };
