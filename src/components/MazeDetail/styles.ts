@@ -18,7 +18,7 @@ export const MazeDiv = styled.div`
 
   img {
     width: 90%;
-    aspect-ratio: 7/6;
+    height: auto;
     margin-bottom: 0.4em;
   }
 
