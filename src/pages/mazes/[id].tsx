@@ -4,10 +4,12 @@ import axios from "axios";
 import { GetServerSideProps } from "next";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, ToastOptions, toast } from "react-toastify";
+import { useState } from "react";
 
 import { FullMaze } from "@/types/FullMaze";
 import Seo from "@/components/Seo";
 import MazePage from "@/components/MazePage";
+import Iframe from "@/components/Iframe";
 
 type Props = {
   maze: FullMaze;
@@ -17,6 +19,21 @@ const Maze = ({
   maze,
   maze: { name, url_image, username, created_at, executions },
 }: Props) => {
+  const [runGame, setRunGame] = useState(false);
+
+  const loadGame = () => {
+    /** fazer a requisição para contar a nova execução */
+
+    maze.executions += 1;
+    setRunGame(true);
+  };
+
+  const endGame = () => {
+    window.scrollTo(0, 0);
+    setRunGame(false);
+    //navigate(`/mazes/${id}`);
+  };
+
   const toastConfig: ToastOptions<{}> = {
     position: "top-left",
     closeButton: false,
@@ -49,8 +66,18 @@ const Maze = ({
         description={`Página do jogo ${name}, criado em ${created_at} por ${username}. Total de execuções ${executions}`}
         image={url_image}
       />
-      <MazePage maze={maze} notify={notify} />
-      <ToastContainer />
+      {!runGame && (
+        <>
+          <MazePage maze={maze} notify={notify} loadGame={loadGame} />
+          <ToastContainer />
+        </>
+      )}
+      {runGame && (
+        <Iframe
+          link={`https://myblocklymaze-game.vercel.app/maze.html?levels=${maze.levels}&url_image=${maze.url_image}&reset=1`}
+          redirect={endGame}
+        />
+      )}
     </C.Container>
   );
 };

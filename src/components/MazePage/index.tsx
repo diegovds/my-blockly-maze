@@ -8,6 +8,7 @@ import { FaRegCopy } from "react-icons/fa";
 type Props = {
   maze: FullMaze;
   notify: (status: string) => void;
+  loadGame: () => void;
 };
 
 const MazePage = ({
@@ -22,7 +23,12 @@ const MazePage = ({
     levels,
   },
   notify,
+  loadGame,
 }: Props) => {
+  const goToMaze = () => {
+    loadGame();
+  };
+
   const clipboard = () => {
     copy(window.location.href);
   };
@@ -53,7 +59,14 @@ const MazePage = ({
           <p className="p_a">
             Ao clicar no botão abaixo a reprodução do Maze Game será iniciada.
           </p>
-          <button className="btn">Iniciar Maze Game</button>
+          <button
+            className="btn"
+            onClick={() => {
+              goToMaze();
+            }}
+          >
+            Iniciar Maze Game
+          </button>
           <button
             className="btn"
             id="copy"
