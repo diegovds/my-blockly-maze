@@ -14,6 +14,16 @@ export default createGlobalStyle`
     max-width: 1440px;
   }
 
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+  }
+
   input:focus,
   textarea:focus {
     outline: none;
