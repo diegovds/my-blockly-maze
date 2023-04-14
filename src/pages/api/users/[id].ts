@@ -1,6 +1,7 @@
 import { api } from "@/libs/userApi";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
+import multer from "multer";
 
 const apiRoute = nextConnect({
   onError(error, req: NextApiRequest, res: NextApiResponse) {
@@ -11,6 +12,12 @@ const apiRoute = nextConnect({
   onNoMatch(req: NextApiRequest, res: NextApiResponse) {
     res.status(405).json({ error: `Method "${req.method}" Not Allowed` });
   },
+});
+
+apiRoute.use(multer().any());
+
+apiRoute.options(async (req, res: NextApiResponse) => {
+  return res.status(200).json({});
 });
 
 apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -49,3 +56,9 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 export default apiRoute;
+
+export const config = {
+  api: {
+    bodyParser: false, // Disallow body parsing, consume as stream
+  },
+};
