@@ -2,10 +2,12 @@ import * as C from "./styles";
 
 import { FullMaze } from "@/types/FullMaze";
 import Image from "next/image";
+import copy from "copy-to-clipboard";
 import { FaRegCopy } from "react-icons/fa";
 
 type Props = {
   maze: FullMaze;
+  notify: (status: string) => void;
 };
 
 const MazePage = ({
@@ -19,7 +21,12 @@ const MazePage = ({
     executions,
     levels,
   },
+  notify,
 }: Props) => {
+  const clipboard = () => {
+    copy(window.location.href);
+  };
+
   return (
     <C.Coontainer>
       <C.Maze>
@@ -47,7 +54,14 @@ const MazePage = ({
             Ao clicar no botão abaixo a reprodução do Maze Game será iniciada.
           </p>
           <button className="btn">Iniciar Maze Game</button>
-          <button className="btn" id="copy">
+          <button
+            className="btn"
+            id="copy"
+            onClick={() => {
+              clipboard();
+              notify("copy");
+            }}
+          >
             Copiar link
             <FaRegCopy />
           </button>
