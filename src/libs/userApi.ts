@@ -3,22 +3,7 @@ import bcrypt from "bcrypt";
 
 export const api = () => {
   const getAllUsers = async (page: number) => {
-    /** Qtde de users retornados */
-    let take = 2;
-
-    /** Qtde de users a ser saltados */
-    let skip = 0;
-
-    /** skip e take para fazer a paginação */
-
-    if (page) {
-      skip = (page - 1) * take;
-    }
-
     const users = await prisma.user.findMany({
-      skip,
-      take,
-
       select: {
         id: true,
         name: true,
@@ -45,6 +30,11 @@ export const api = () => {
         email,
         password: hash,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
     });
   };
 
@@ -63,6 +53,7 @@ export const api = () => {
         id,
       },
       data,
+      select: { id: true, name: true, email: true },
     });
   };
 
@@ -70,6 +61,11 @@ export const api = () => {
     return await prisma.user.findUniqueOrThrow({
       where: {
         id,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
       },
     });
   };
@@ -97,6 +93,11 @@ export const api = () => {
     return await prisma.user.delete({
       where: {
         id,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
       },
     });
   };

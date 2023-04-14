@@ -1,4 +1,4 @@
-import { api } from "@/libs/api";
+import { api } from "@/libs/userApi";
 import { User } from "@/types/User";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -16,7 +16,10 @@ export const authOptions: NextAuthOptions = {
         const { getUserWithEmailAndPassword } = api();
 
         if (credentials && credentials.email && credentials.password) {
-          const user = await getUserWithEmailAndPassword(credentials.email, credentials.password);
+          const user = await getUserWithEmailAndPassword(
+            credentials.email,
+            credentials.password
+          );
 
           if (user) {
             return {

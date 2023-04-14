@@ -1,4 +1,4 @@
-import { api } from "@/libs/api";
+import { api } from "@/libs/userApi";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 
@@ -27,11 +27,9 @@ apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
   const { name } = req.body;
   const { updateUser } = api();
 
-  const updatedUser = await updateUser(id as string, name).catch(
-    (e) => {
-      res.status(501).json({ error: e.meta });
-    }
-  );
+  const updatedUser = await updateUser(id as string, name).catch((e) => {
+    res.status(501).json({ error: e.meta });
+  });
 
   if (updatedUser) {
     res.json({ user: updatedUser });
