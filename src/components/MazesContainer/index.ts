@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const MazesContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(
-    auto-fit,
+    auto-fill,
     9rem
   ); /* o auto-fit ajusta a quantidade de itens de acordo a largura do container */
   max-width: 97%;
