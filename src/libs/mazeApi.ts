@@ -1,3 +1,4 @@
+import { FullMaze } from "@/types/FullMaze";
 import { Maze } from "@/types/Maze";
 
 import prisma from "./prisma";
@@ -30,8 +31,8 @@ export const mazeApi = () => {
             ? element.name.slice(0, 8) + "..."
             : element.name,
         image: element.image,
-        url_image: element.urlImage,
-        created_at: dayjs(element.createdAt)
+        urlImage: element.urlImage,
+        createdAt: dayjs(element.createdAt)
           .locale("pt-br")
           .format("DD/MM/YYYY"),
       });
@@ -98,9 +99,45 @@ export const mazeApi = () => {
     });
   };
 
+  const getMaze = async (id: string) => {
+    const maze = await prisma.maze.findUniqueOrThrow({
+      where: {
+        id: parseInt(id as string),
+      },
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        levels: true,
+        image: true,
+        urlImage: true,
+        executions: true,
+        createdAt: true,
+        user: { select: { name: true } },
+      },
+    });
+
+    let treatedData: FullMaze = {
+      id: maze.id,
+      name: maze.name,
+      code: maze.code,
+      levels: JSON.parse(JSON.stringify(maze.levels)),
+      image: maze.image,
+      urlImage: maze.urlImage,
+      executions: maze.executions,
+      createdAt: dayjs(maze.createdAt).locale("pt-br").format("DD/MM/YYYY"),
+      username: maze.user.name,
+    };
+
+    if (maze) {
+      return treatedData;
+    }
+  };
+
   return {
     getAllMazes,
     insertNewMaze,
     deleteMaze,
+    getMaze,
   };
 };

@@ -9,16 +9,16 @@ type Props = {
 };
 
 const MazeDetail = ({
-  maze: { url_image, image, name, created_at, id },
+  maze: { urlImage, image, name, createdAt, id },
 }: Props) => {
   return (
     <C.MazeDiv>
-      <Image src={url_image} alt={image} width={100} height={100} priority />
+      <Image src={urlImage} alt={image} width={100} height={100} priority />
       <h3>{name}</h3>
       <p id="date">
         Criado em:
         <br />
-        {created_at}
+        {createdAt}
       </p>
       <Link href={`/mazes/${id}`} className="btn">
         Detalhes

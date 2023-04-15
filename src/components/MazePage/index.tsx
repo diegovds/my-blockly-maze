@@ -15,11 +15,11 @@ type Props = {
 const MazePage = ({
   maze: {
     name,
-    url_image,
+    urlImage,
     image,
     code,
     username,
-    created_at,
+    createdAt,
     executions,
     levels,
   },
@@ -32,7 +32,7 @@ const MazePage = ({
       <C.Maze>
         <C.Img>
           <Image
-            src={url_image}
+            src={urlImage}
             alt={image}
             width={700}
             height={600}
@@ -44,7 +44,7 @@ const MazePage = ({
             {name} (Cód. {code})
           </h2>
           <p className="p_data">
-            Criado por {username} em {created_at}
+            Criado por {username} em {createdAt}
           </p>
           <p className="p_data">
             Quantidade de níveis: {JSON.parse(levels).length}

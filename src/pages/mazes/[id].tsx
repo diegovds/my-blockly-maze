@@ -11,6 +11,7 @@ import { FullMaze } from "@/types/FullMaze";
 import Seo from "@/components/Seo";
 import MazePage from "@/components/MazePage";
 import Iframe from "@/components/Iframe";
+import { mazeApi } from "@/libs/mazeApi";
 
 type Props = {
   maze: FullMaze;
@@ -18,7 +19,7 @@ type Props = {
 
 const Maze = ({
   maze,
-  maze: { id, name, url_image, username, created_at, executions, levels },
+  maze: { id, name, urlImage, username, createdAt, executions, levels },
 }: Props) => {
   const router = useRouter();
   const [runGame, setRunGame] = useState(false);
@@ -81,8 +82,8 @@ const Maze = ({
     <C.Container>
       <Seo
         title={`My BLOCKLY Maze | Página do jogo ${name}`}
-        description={`Página do jogo ${name}, criado em ${created_at} por ${username}. Total de execuções ${executions}`}
-        image={url_image}
+        description={`Página do jogo ${name}, criado em ${createdAt} por ${username}. Total de execuções ${executions}`}
+        image={urlImage}
       />
       {!runGame && (
         <>
@@ -97,7 +98,7 @@ const Maze = ({
       )}
       {runGame && (
         <Iframe
-          link={`https://myblocklymaze-game.vercel.app/maze.html?levels=${levels}&url_image=${url_image}&reset=1`}
+          link={`https://myblocklymaze-game.vercel.app/maze.html?levels=${levels}&url_image=${urlImage}&reset=1`}
           redirect={endGame}
         />
       )}
@@ -107,19 +108,24 @@ const Maze = ({
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { id } = query;
+  const { getMaze } = mazeApi();
 
   try {
-    const res = await axios.get(
-      `https://new-api-blockly-next-prisma-postgresql.vercel.app/api/mazes/${id}`
-    );
+    const res = await getMaze(id as string);
 
-    const maze: FullMaze = res.data.data;
+    if (res) {
+      const maze = res;
 
-    return {
-      props: {
-        maze,
-      },
-    };
+      return {
+        props: {
+          maze,
+        },
+      };
+    } else {
+      return {
+        notFound: true,
+      };
+    }
   } catch (error) {
     return {
       notFound: true,

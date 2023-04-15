@@ -79,6 +79,19 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(404).json({ message: "Maze não encontrado" });
 });
 
+/** Getting a maze game */
+apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+  const { getMaze } = api();
+
+  const maze = await getMaze(id as string);
+
+  if (maze) {
+    res.json({ data: maze });
+    return;
+  }
+});
+
 export default apiRoute;
 
 export const config = {
