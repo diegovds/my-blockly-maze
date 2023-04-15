@@ -1,4 +1,4 @@
-import { api } from "@/libs/userApi";
+import { userApi as api } from "@/libs/userApi";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import multer from "multer";

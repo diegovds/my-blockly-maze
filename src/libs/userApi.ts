@@ -1,8 +1,8 @@
 import prisma from "./prisma";
 import bcrypt from "bcrypt";
 
-export const api = () => {
-  const getAllUsers = async (page: number) => {
+export const userApi = () => {
+  const getAllUsers = async () => {
     const users = await prisma.user.findMany({
       select: {
         id: true,

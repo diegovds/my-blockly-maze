@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import multer from "multer";
 
-import { api } from "@/libs/userApi";
+import { userApi as api } from "@/libs/userApi";
 
 const apiRoute = nextConnect({
   onError(error, req: NextApiRequest, res: NextApiResponse) {
@@ -22,10 +22,9 @@ apiRoute.options(async (req, res: NextApiResponse) => {
 });
 
 apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { page } = req.query;
   const { getAllUsers } = api();
 
-  const users = await getAllUsers(parseInt(page as string));
+  const users = await getAllUsers();
 
   res.status(200).json({ data: users });
 });

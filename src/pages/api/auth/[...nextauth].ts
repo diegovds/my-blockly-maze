@@ -1,4 +1,4 @@
-import { api } from "@/libs/userApi";
+import { userApi as api } from "@/libs/userApi";
 import { User } from "@/types/User";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
