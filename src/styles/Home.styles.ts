@@ -1,6 +1,18 @@
 import styled from "styled-components";
 
-export const Container = styled.div``;
+type VisibleProps = {
+  visible?: string;
+};
+
+export const Container = styled.div<VisibleProps>`
+  min-height: ${(props) =>
+    props.visible !== "visible" ? "inherit" : undefined};
+  display: ${(props) => (props.visible !== "visible" ? "flex" : undefined)};
+  justify-content: ${(props) =>
+    props.visible !== "visible" ? "center" : undefined};
+  align-items: ${(props) =>
+    props.visible !== "visible" ? "center" : undefined};
+`;
 
 export const H2 = styled.h2`
   padding: 1rem 0rem;
@@ -9,4 +21,16 @@ export const H2 = styled.h2`
   width: 97%;
   margin: 0 auto;
   margin-bottom: 2rem;
+`;
+
+export const NoMazes = styled.div`
+  text-align: center;
+
+  p {
+    margin-bottom: 1.5em;
+  }
+
+  a {
+    padding: 10px 25px;
+  }
 `;
