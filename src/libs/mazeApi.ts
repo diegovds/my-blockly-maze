@@ -76,8 +76,31 @@ export const mazeApi = () => {
     });
   };
 
+  const deleteMaze = async (id: string) => {
+    return await prisma.maze.delete({
+      where: {
+        id: parseInt(id as string),
+      },
+      select: {
+        id: true,
+        name: true,
+        executions: true,
+        code: true,
+        image: true,
+        urlImage: true,
+        levels: true,
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+  };
+
   return {
     getAllMazes,
     insertNewMaze,
+    deleteMaze,
   };
 };

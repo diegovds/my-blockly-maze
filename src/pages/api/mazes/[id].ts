@@ -23,6 +23,7 @@ apiRoute.options(async (req, res: NextApiResponse) => {
   return res.status(200).json({});
 });
 
+/** Inserting new Maze Game */
 apiRoute.post(async (req: any, res: NextApiResponse) => {
   const { id } = req.query;
   const { name, levels } = req.body;
@@ -57,6 +58,25 @@ apiRoute.post(async (req: any, res: NextApiResponse) => {
       res.status(201).json({ status: true, data: newMaze });
     }
   });
+});
+
+/** Deleting maze info */
+apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+  const { deleteMaze } = api();
+
+  const deletedMaze = await deleteMaze(id as string).catch((e) => {
+    res.status(400).json({ e });
+  });
+
+  if (deletedMaze) {
+    removeFromFirebase(deletedMaze.image);
+
+    res.json({ message: "Maze deletado com sucesso", data: deletedMaze });
+    return;
+  }
+
+  res.status(404).json({ message: "Maze não encontrado" });
 });
 
 export default apiRoute;
