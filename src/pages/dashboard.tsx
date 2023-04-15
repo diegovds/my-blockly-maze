@@ -1,13 +1,21 @@
 import { GetServerSideProps } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
+/*import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";*/
+import { getSession } from "next-auth/react";
 
-const Dashboard = () => {
-  return <h2>Dashboard</h2>;
+import { User } from "@/types/User";
+
+type Props = {
+  user: User;
+};
+
+const Dashboard = ({ user }: Props) => {
+  return <h2>Dashboard de {user.name}</h2>;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+  //const session = await getServerSession(ctx.req, ctx.res, authOptions);
+  const session = await getSession(ctx);
 
   if (!session) {
     return {
@@ -16,7 +24,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   return {
-    props: {},
+    props: {
+      user: session.user,
+    },
   };
 };
 
