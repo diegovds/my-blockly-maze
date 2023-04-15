@@ -40,7 +40,44 @@ export const mazeApi = () => {
     return treatedData;
   };
 
+  const insertNewMaze = async (
+    userId: string,
+    name: string,
+    executions: number,
+    code: string,
+    image: string,
+    urlImage: string,
+    levels: string
+  ) => {
+    return await prisma.maze.create({
+      data: {
+        userId,
+        name,
+        executions,
+        code,
+        image,
+        urlImage,
+        levels,
+      },
+      select: {
+        id: true,
+        name: true,
+        executions: true,
+        code: true,
+        image: true,
+        urlImage: true,
+        levels: true,
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+  };
+
   return {
     getAllMazes,
+    insertNewMaze,
   };
 };
