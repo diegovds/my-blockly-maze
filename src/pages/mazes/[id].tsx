@@ -35,7 +35,7 @@ const Maze = ({
 
     await axios
       .put(
-        `https://new-api-blockly-next-prisma-postgresql.vercel.app/api/mazes/${id}`,
+        `/api/mazes/${id}`,
         dataMaze
       )
       .then(() => {

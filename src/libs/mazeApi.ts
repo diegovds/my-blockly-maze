@@ -3,6 +3,7 @@ import { Maze } from "@/types/Maze";
 
 import prisma from "./prisma";
 import dayjs from "dayjs";
+import { UpdatedMaze } from "@/types/UpdatedMaze";
 
 export const mazeApi = () => {
   const getAllMazes = async () => {
@@ -134,10 +135,28 @@ export const mazeApi = () => {
     }
   };
 
+  const updateMaze = async (id: string, data: UpdatedMaze) => {
+    return await prisma.maze.update({
+      where: {
+        id: parseInt(id as string),
+      },
+      data: {
+        name: data.name,
+        image: data.image,
+        urlImage: data.urlImage,
+        createdAt: data.createdAt,
+        code: data.code,
+        executions: data.executions,
+        levels: JSON.stringify(data.levels),
+      },
+    });
+  };
+
   return {
     getAllMazes,
     insertNewMaze,
     deleteMaze,
     getMaze,
+    updateMaze,
   };
 };
