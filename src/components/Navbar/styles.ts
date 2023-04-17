@@ -84,7 +84,7 @@ export const Form = styled.form`
 
   @media (max-width: 1115px) {
     flex: 1;
-    max-width: 300px;
+    max-width: 250px;
 
     input {
       width: 100%;
