@@ -28,7 +28,14 @@ export const Img = styled.div`
   img {
     width: 87%;
     height: auto;
-    box-shadow: 0 0 2px #3d3d3d;
+    aspect-ratio: 7/6;
+  }
+
+  span {
+    width: 87%;
+    aspect-ratio: 7/6;
+    border-radius: 10px;
+    overflow: hidden;
   }
 `;
 

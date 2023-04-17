@@ -4,6 +4,9 @@ import { FullMaze } from "@/types/FullMaze";
 import Image from "next/image";
 import copy from "copy-to-clipboard";
 import { FaRegCopy } from "react-icons/fa";
+import { useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 type Props = {
   maze: FullMaze;
@@ -27,16 +30,25 @@ const MazePage = ({
   notify,
   loadGame,
 }: Props) => {
+  const [showSkeleton, setShowSkeleton] = useState(true);
+  const [styleImg, setStyleImg] = useState("img_loading");
+
   return (
     <C.Coontainer>
       <C.Maze>
         <C.Img>
+          {showSkeleton && <Skeleton width={`100%`} />}
           <Image
             src={urlImage}
             alt={image}
             width={700}
             height={600}
             priority
+            className={styleImg}
+            onLoad={() => {
+              setShowSkeleton(false);
+              setStyleImg("img_loaded");
+            }}
           />
         </C.Img>
         <C.Informations>
