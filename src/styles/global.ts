@@ -87,4 +87,14 @@ export default createGlobalStyle`
   img {
     border-radius: 10px;
   }
+
+  .img_loading {
+    display: none;
+  }
+
+  .img_loaded {
+    display: inline-block;
+    border: none;
+    box-shadow: 0 0 2px #3d3d3d;
+  }
 `;
