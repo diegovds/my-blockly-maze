@@ -13,6 +13,7 @@ export const mazeApi = () => {
       select: {
         id: true,
         name: true,
+        code: true,
         image: true,
         urlImage: true,
         createdAt: true,
@@ -31,6 +32,7 @@ export const mazeApi = () => {
           element.name.length > 8
             ? element.name.slice(0, 8) + "..."
             : element.name,
+        code: element.code,
         image: element.image,
         urlImage: element.urlImage,
         createdAt: dayjs(element.createdAt)
