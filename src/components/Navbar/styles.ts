@@ -35,12 +35,13 @@ export const Form = styled.form`
     background-color: #fff;
     margin-right: 1rem;
     border-radius: 5px;
-    padding: 0.4em 0.6em;
+    padding: 0.54em 0.6em;
+    border-bottom: none;
   }
 
   button {
     border-radius: 8px;
-    padding: 0.315em 0.6em;
+    padding: 0.4em 0.6em;
     background-color: #000;
     color: #fff;
     display: flex;
