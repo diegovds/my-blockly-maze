@@ -27,6 +27,7 @@ export const Nav = styled.nav`
 export const Form = styled.form`
   display: flex;
   justify-content: center;
+  align-items: center;
   min-height: 30px;
 
   input {
@@ -39,7 +40,7 @@ export const Form = styled.form`
 
   button {
     border-radius: 8px;
-    padding: 0 0.6em 0 0.6em;
+    padding: 0.315em 0.6em;
     background-color: #000;
     color: #fff;
     display: flex;
@@ -59,6 +60,7 @@ export const Form = styled.form`
 
 export const Ul = styled.ul`
   display: flex;
+  align-items: center;
   list-style: none;
   gap: 1em;
 `;
@@ -67,6 +69,10 @@ export const Li = styled.li`
   a {
     padding: 0.4em 0.6em;
     border-radius: 10px;
+  }
+
+  button {
+    padding: 0.4em 0.6em;
   }
 
   .active {
