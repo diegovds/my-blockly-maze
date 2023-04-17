@@ -23,11 +23,70 @@ export const Nav = styled.nav`
     text-transform: uppercase;
   }
 
-  #toggleMenu {
+  .menuMobile {
     display: none;
-    width: 30px;
-    height: 30px;
-    background-color: #000;
+    height: 19px;
+    width: 26px;
+    z-index: 4;
+  }
+
+  #hiddenHamburger {
+    right: 2em;
+    position: fixed;
+  }
+
+  #checkbox_menu {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .menuMobile label {
+    cursor: pointer;
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
+  .menuMobile label span {
+    position: absolute;
+    display: block;
+    height: 3px;
+    width: 100%;
+    border-radius: 30px;
+    transition: 0.4s ease-in-out;
+    /*transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.2s;*/
+  }
+
+  .menuMobile label span:nth-child(1) {
+    top: 0;
+  }
+
+  .menuMobile label span:nth-child(2) {
+    top: 8px;
+  }
+
+  .menuMobile label span:nth-child(3) {
+    top: 16px;
+  }
+
+  #checkbox_menu:checked + label span:nth-child(1) {
+    transform: rotate(-45deg);
+    /*transform: rotate(-405deg);
+    transform: rotate(-135deg);*/
+    top: 8px;
+  }
+
+  #checkbox_menu:checked + label span:nth-child(2) {
+    transform: scaleX(0);
+  }
+
+  #checkbox_menu:checked + label span:nth-child(3) {
+    transform: rotate(45deg);
+    /*transform: rotate(405deg);
+    transform: rotate(135deg);*/
+    top: 8px;
   }
 
   @media (max-width: 1115px) {
@@ -42,7 +101,7 @@ export const Nav = styled.nav`
       height: 30px;
     }
 
-    #toggleMenu {
+    .menuMobile {
       display: block;
     }
   }
@@ -92,14 +151,39 @@ export const Form = styled.form`
   }
 `;
 
-export const Ul = styled.ul`
+type UlProps = {
+  showMenu: string;
+  isMobileOnly?: string;
+};
+
+export const Ul = styled.ul<UlProps>`
   display: flex;
   align-items: center;
   list-style: none;
   gap: 1em;
 
   @media (max-width: 1115px) {
-    display: none;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    width: 100%;
+    height: 100%;
+    background: rgba(173, 216, 230, 0.5);
+    backdrop-filter: blur(20px);
+    visibility: ${(props) =>
+      props.showMenu === "show" ? "visible" : "hidden"};
+    margin-left: ${(props) => (props.showMenu === "show" ? 0 : "100%")};
+    transition: 0.75s ease-in-out;
+  }
+
+  @media (max-width: 1115px) and (orientation: landscape) {
+    gap: ${(props) => (props.isMobileOnly === "true" ? "20px" : "60px")};
   }
 `;
 

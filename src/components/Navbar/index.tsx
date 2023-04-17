@@ -3,14 +3,17 @@ import * as C from "./styles";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { FaPuzzlePiece } from "react-icons/fa";
 import { HiSearch } from "react-icons/hi";
+import { isMobileOnly } from "react-device-detect";
 
 const Navbar = () => {
+  const checkbox = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { status: sessionStatus } = useSession();
   const [query, setQuery] = useState("");
+  const [showMenu, setShowMenu] = useState(false);
 
   const verifyActiveLink = (loopPath: string) => {
     if (loopPath === "/" && router.pathname !== "/") {
@@ -22,6 +25,16 @@ const Navbar = () => {
     }
 
     return null;
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.target.checked ? setShowMenu(true) : setShowMenu(false);
+  };
+
+  const handleHamburger = () => {
+    if (checkbox.current) {
+      checkbox.current.click();
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,9 +55,14 @@ const Navbar = () => {
     <C.Nav>
       <Link href="/" className="brand">
         <FaPuzzlePiece />
-        <div id="labelBrand">My <span>Blockly</span> Maze</div>
+        <div id="labelBrand">
+          My <span>Blockly</span> Maze
+        </div>
       </Link>
-      <C.Form onSubmit={handleSubmit}>
+      <C.Form
+        onSubmit={handleSubmit}
+        style={showMenu ? { display: "none" } : { display: "flex" }}
+      >
         <input
           type="search"
           placeholder="Nome ou código do jogo..."
@@ -54,9 +72,16 @@ const Navbar = () => {
           <HiSearch />
         </button>
       </C.Form>
-      <C.Ul>
+      <C.Ul
+        showMenu={showMenu ? "show" : "hidden"}
+        isMobileOnly={isMobileOnly ? "true" : undefined}
+      >
         <C.Li>
-          <Link href={"/"} className={verifyActiveLink("/") ? "active" : ""}>
+          <Link
+            href={"/"}
+            className={verifyActiveLink("/") ? "active" : ""}
+            onClick={() => handleHamburger()}
+          >
             Home
           </Link>
         </C.Li>
@@ -65,6 +90,7 @@ const Navbar = () => {
             <Link
               href={"/login"}
               className={verifyActiveLink("/login") ? "active" : ""}
+              onClick={() => handleHamburger()}
             >
               Entrar
             </Link>
@@ -75,6 +101,7 @@ const Navbar = () => {
             <Link
               href={"/register"}
               className={verifyActiveLink("/register") ? "active" : ""}
+              onClick={() => handleHamburger()}
             >
               Cadastrar
             </Link>
@@ -85,6 +112,7 @@ const Navbar = () => {
             <Link
               href={"/mazes/create"}
               className={verifyActiveLink("/mazes/create") ? "active" : ""}
+              onClick={() => handleHamburger()}
             >
               Criar novo jogo
             </Link>
@@ -95,6 +123,7 @@ const Navbar = () => {
             <Link
               href={"/dashboard"}
               className={verifyActiveLink("/dashboard") ? "active" : ""}
+              onClick={() => handleHamburger()}
             >
               Dashboard
             </Link>
@@ -104,17 +133,38 @@ const Navbar = () => {
           <Link
             href={"/about"}
             className={verifyActiveLink("/about") ? "active" : ""}
+            onClick={() => handleHamburger()}
           >
             Sobre
           </Link>
         </C.Li>
         {sessionStatus === "authenticated" && (
           <C.Li>
-            <button onClick={() => signOut()}>Sair</button>
+            <button
+              onClick={() => {
+                signOut();
+                handleHamburger();
+              }}
+            >
+              Sair
+            </button>
           </C.Li>
         )}
       </C.Ul>
-      <button id="toggleMenu"></button>
+      <div className="menuMobile" id={showMenu ? "hiddenHamburger" : ""}>
+        <input
+          type="checkbox"
+          id="checkbox_menu"
+          name="grid"
+          onChange={handleChange}
+          ref={checkbox}
+        />
+        <label htmlFor="checkbox_menu">
+          <span style={{ backgroundColor: "#000" }}></span>
+          <span style={{ backgroundColor: "#000" }}></span>
+          <span style={{ backgroundColor: "#000" }}></span>
+        </label>
+      </div>
     </C.Nav>
   );
 };
