@@ -42,7 +42,7 @@ const Navbar = () => {
     <C.Nav>
       <Link href="/" className="brand">
         <FaPuzzlePiece />
-        My <span>Blockly</span> Maze
+        <div id="labelBrand">My <span>Blockly</span> Maze</div>
       </Link>
       <C.Form onSubmit={handleSubmit}>
         <input
@@ -114,6 +114,7 @@ const Navbar = () => {
           </C.Li>
         )}
       </C.Ul>
+      <button id="toggleMenu"></button>
     </C.Nav>
   );
 };

@@ -22,6 +22,30 @@ export const Nav = styled.nav`
     font-weight: 900;
     text-transform: uppercase;
   }
+
+  #toggleMenu {
+    display: none;
+    width: 30px;
+    height: 30px;
+    background-color: #000;
+  }
+
+  @media (max-width: 1115px) {
+    padding: 0.5em 20px;
+
+    #labelBrand {
+      display: none;
+    }
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    #toggleMenu {
+      display: block;
+    }
+  }
 `;
 
 export const Form = styled.form`
@@ -33,7 +57,7 @@ export const Form = styled.form`
   input {
     width: 18rem;
     background-color: #fff;
-    margin-right: 1rem;
+    margin-right: 0.4rem;
     border-radius: 5px;
     padding: 0.54em 0.6em;
     border-bottom: none;
@@ -57,6 +81,15 @@ export const Form = styled.form`
     color: #fff;
     background-color: #1a8918;
   }
+
+  @media (max-width: 1115px) {
+    flex: 1;
+    max-width: 300px;
+
+    input {
+      width: 100%;
+    }
+  }
 `;
 
 export const Ul = styled.ul`
@@ -64,6 +97,10 @@ export const Ul = styled.ul`
   align-items: center;
   list-style: none;
   gap: 1em;
+
+  @media (max-width: 1115px) {
+    display: none;
+  }
 `;
 
 export const Li = styled.li`
