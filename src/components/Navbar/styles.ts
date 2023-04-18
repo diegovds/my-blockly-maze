@@ -31,7 +31,7 @@ export const Nav = styled.nav`
   }
 
   #hiddenHamburger {
-    right: 2em;
+    right: 20px;
     position: fixed;
   }
 
