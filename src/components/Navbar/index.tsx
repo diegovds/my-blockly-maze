@@ -7,6 +7,7 @@ import { useState, useRef } from "react";
 import { FaPuzzlePiece } from "react-icons/fa";
 import { HiSearch } from "react-icons/hi";
 import { isMobileOnly } from "react-device-detect";
+import { useMediaQuery } from "usehooks-ts";
 
 const Navbar = () => {
   const checkbox = useRef<HTMLInputElement>(null);
@@ -14,6 +15,7 @@ const Navbar = () => {
   const { status: sessionStatus } = useSession();
   const [query, setQuery] = useState("");
   const [showMenu, setShowMenu] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 1115px)");
 
   const verifyActiveLink = (loopPath: string) => {
     if (loopPath === "/" && router.pathname !== "/") {
@@ -32,7 +34,7 @@ const Navbar = () => {
   };
 
   const handleHamburger = () => {
-    if (checkbox.current) {
+    if (checkbox.current && isMobile) {
       checkbox.current.click();
     }
   };
