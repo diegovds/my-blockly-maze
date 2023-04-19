@@ -19,6 +19,8 @@ const SearchPage = ({ q, mazes }: Props) => {
           title={`My BLOCKLY Maze | Busca por "${q}"`}
           description={`Página de busca na plataforma My BLOCKLY Maze.`}
           image=""
+          path={`/search?q=${q}`}
+
         />
         <h2>Pesquisa por &quot;{q}&quot;</h2>
         <p>

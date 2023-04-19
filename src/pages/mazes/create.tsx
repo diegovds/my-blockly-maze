@@ -23,6 +23,7 @@ const Create = ({ user: { id } }: Props) => {
         title="My BLOCKLY Maze | Criação"
         description={`Página de criação dos jogos de labirinto da plataforma My BLOCKLY Maze.`}
         image=""
+        path="/mazes/create"
       />
       <Iframe
         link={`https://mazegamebuilder.vercel.app/index.html?userId=${id}`}

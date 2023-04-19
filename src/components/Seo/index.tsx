@@ -1,33 +1,34 @@
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 
 type Props = {
   title: string;
   description: string;
   image: string;
+  path:string
 };
 
-const Seo = ({ title, description, image }: Props) => {
+const Seo = ({ title, description, image, path }: Props) => {
   return (
-    <Head>
-      {/* Standard metadata tags */}
-      <title>{title}</title>
-      <meta name="title" content={title} />
-      <meta name="description" content={description} />
-      {/* End standard metadata tags */}
-      {/* Facebook tags */}
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://my-blockly-maze.vercel.app" />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
-      {/* End Facebook tags */}
-      {/* Twitter tags */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
-      {/* End Twitter tags */}
-    </Head>
+    <NextSeo
+      title={title}
+      description={description}
+      canonical="https://my-blockly-maze.vercel.app"
+      openGraph={{
+        url: `https://my-blockly-maze.vercel.app${path}`,
+        title: title,
+        description: description,
+        images: [
+          {
+            url: image,
+          },
+        ],
+        siteName: "My BLOCKLY Maze",
+        type: "website",
+      }}
+      twitter={{
+        cardType: "summary_large_image",
+      }}
+    />
   );
 };
 

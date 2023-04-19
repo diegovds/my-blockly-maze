@@ -84,6 +84,7 @@ const Maze = ({
         title={`My BLOCKLY Maze | Página do jogo ${name}`}
         description={`Página do jogo ${name}, criado em ${createdAt} por ${username}. Total de execuções ${executions}`}
         image={urlImage}
+        path={`/mazes/${id}`}
       />
       {!runGame && (
         <>
