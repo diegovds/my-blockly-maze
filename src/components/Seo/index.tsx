@@ -3,8 +3,8 @@ import { NextSeo } from "next-seo";
 type Props = {
   title: string;
   description: string;
-  image: string;
-  path:string
+  image?: string;
+  path: string;
 };
 
 const Seo = ({ title, description, image, path }: Props) => {
@@ -19,7 +19,7 @@ const Seo = ({ title, description, image, path }: Props) => {
         description: description,
         images: [
           {
-            url: image,
+            url: image ? image : "https://i.imgur.com/C2xpI35.png",
           },
         ],
         siteName: "My BLOCKLY Maze",

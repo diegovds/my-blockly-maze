@@ -18,7 +18,6 @@ const Home = ({ mazes }: Props) => {
       <Seo
         title="My BLOCKLY Maze | Home"
         description={`Página inicial da plataforma My BLOCKLY Maze.`}
-        image=""
         path="/"
       />
       {mazes && mazes.length > 0 && (

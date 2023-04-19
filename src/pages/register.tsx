@@ -67,7 +67,6 @@ const Register = () => {
       <Seo
         title="My BLOCKLY Maze | Cadastro"
         description={`Página de cadastro na plataforma My BLOCKLY Maze.`}
-        image=""
         path="/register"
       />
       <C.Register>

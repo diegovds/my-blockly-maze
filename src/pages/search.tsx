@@ -18,7 +18,6 @@ const SearchPage = ({ q, mazes }: Props) => {
         <Seo
           title={`My BLOCKLY Maze | Busca por "${q}"`}
           description={`Página de busca na plataforma My BLOCKLY Maze.`}
-          image=""
           path={`/search?q=${q}`}
 
         />
