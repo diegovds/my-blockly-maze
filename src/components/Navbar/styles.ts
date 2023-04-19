@@ -183,8 +183,8 @@ export const Ul = styled.ul<UlProps>`
     gap: 60px;
     width: 100%;
     height: 100%;
-    background: rgba(173, 216, 230, 0.5);
-    backdrop-filter: blur(20px);
+    background: rgba(173, 216, 230, 0.8);
+    backdrop-filter: blur(10px);
     visibility: ${(props) =>
       props.showMenu === "show" ? "visible" : "hidden"};
     margin-left: ${(props) => (props.showMenu === "show" ? 0 : "100%")};

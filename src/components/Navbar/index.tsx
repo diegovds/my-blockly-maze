@@ -81,6 +81,20 @@ const Navbar = () => {
         <C.Li>
           <Link
             href={"/"}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+            onClick={() => handleHamburger()}
+          >
+            <FaPuzzlePiece />
+            My <span>Blockly</span> Maze
+          </Link>
+        </C.Li>
+        <C.Li>
+          <Link
+            href={"/"}
             className={verifyActiveLink("/") ? "active" : ""}
             onClick={() => handleHamburger()}
           >
