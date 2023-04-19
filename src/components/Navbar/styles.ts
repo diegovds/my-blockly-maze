@@ -18,6 +18,10 @@ export const Nav = styled.nav`
     gap: 0.5rem;
   }
 
+  .brand svg{
+    font-size: 1.5em;
+  }
+
   .brand span {
     font-weight: 900;
     text-transform: uppercase;
