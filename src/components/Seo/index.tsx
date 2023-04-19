@@ -18,6 +18,8 @@ const Seo = ({ title, description, image }: Props) => {
         content="width=device-width, initial-scale=1, user-scalable=no"
       />
       <link rel="icon" href="/puzzle-icon.png" />
+      <link rel="apple-touch-icon" href="/puzzle-icon.png" />
+      <meta name="theme-color" content="#add8e6" />
       {/* End standard metadata tags */}
       {/* Facebook tags */}
       <meta property="og:type" content="website" />
