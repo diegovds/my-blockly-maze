@@ -2,14 +2,15 @@ import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 
-import { User } from "@/types/User";
+import { userApi } from "@/libs/userApi";
+import { MazesUser } from "@/types/MazesUser";
 
 type Props = {
-  user: User;
+  userData: MazesUser;
 };
 
-const Dashboard = ({ user }: Props) => {
-  return <h2>Dashboard de {user.name}</h2>;
+const Dashboard = ({ userData }: Props) => {
+  return <h2>Dashboard de {userData.username}</h2>;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -21,9 +22,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
+  const { getUser } = userApi();
+  const userData: MazesUser = await getUser(session.user.id);
+
   return {
     props: {
-      user: session.user,
+      userData,
     },
   };
 };

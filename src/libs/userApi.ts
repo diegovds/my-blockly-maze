@@ -1,5 +1,8 @@
+import { Maze } from "@/types/Maze";
 import prisma from "./prisma";
 import bcrypt from "bcrypt";
+import dayjs from "dayjs";
+import { MazesUser } from "@/types/MazesUser";
 
 export const userApi = () => {
   const getAllUsers = async () => {
@@ -58,16 +61,58 @@ export const userApi = () => {
   };
 
   const getUser = async (id: string) => {
-    return await prisma.user.findUniqueOrThrow({
+    let treatedMaze: Maze[] = [];
+
+    const dataUser = await prisma.user.findUniqueOrThrow({
       where: {
         id,
       },
       select: {
         id: true,
         name: true,
-        email: true,
+        mazes: {
+          select: {
+            id: true,
+            name: true,
+            code: true,
+            image: true,
+            urlImage: true,
+            createdAt: true,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
+
+    if (dataUser.mazes.length !== undefined) {
+      for (let index = 0; index < dataUser.mazes.length; index++) {
+        const element = dataUser.mazes[index];
+
+        treatedMaze.push({
+          id: element.id,
+          name:
+            element.name.length > 8
+              ? element.name.slice(0, 8) + "..."
+              : element.name,
+          code: element.code,
+          image: element.image,
+          urlImage: element.urlImage,
+          createdAt: dayjs(element.createdAt)
+            .locale("pt-br")
+            .format("DD/MM/YYYY"),
+        });
+      }
+    }
+
+    let treatedUser: MazesUser = {
+      id: dataUser.id,
+      username: dataUser.name,
+      mazes: treatedMaze,
+    };
+
+    return treatedUser;
   };
 
   const getUserWithEmailAndPassword = async (
