@@ -120,6 +120,11 @@ export const Form = styled.form`
     border-radius: 5px;
     padding: 0.54em 0.6em;
     border-bottom: none;
+    border: none;
+  }
+
+  input:focus {
+    outline: none;
   }
 
   button {
@@ -138,7 +143,7 @@ export const Form = styled.form`
 
   button:hover {
     color: #fff;
-    background-color: #1a8918;
+    background-color: #666;
   }
 
   @media (max-width: 1115px) {
