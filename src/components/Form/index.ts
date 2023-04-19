@@ -42,6 +42,14 @@ export const Form = styled.form`
     width: 100%;
     font-size: 1rem;
     margin-bottom: 1rem;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 0.8em 0;
+    background-color: transparent;
+  }
+
+  input:focus {
+    outline: none;
   }
 
   button {

@@ -29,19 +29,6 @@ export default createGlobalStyle`
     border-radius: 3px;
   }
 
-  input:focus,
-  textarea:focus {
-    outline: none;
-  }
-
-  input,
-  textarea {
-    border: none;
-    border-bottom: 1px solid #ccc;
-    padding: 0.8em 0;
-    background-color: transparent;
-  }
-
   a,
   nav button {
     text-decoration: none;
@@ -55,7 +42,7 @@ export default createGlobalStyle`
 
   a:hover,
   nav button:hover {
-    color: #bbb;
+    color: #666;
   }
 
   .btn {
