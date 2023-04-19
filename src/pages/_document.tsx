@@ -37,6 +37,13 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap"
             rel="stylesheet"
           />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, user-scalable=no"
+          />
+          <link rel="icon" href="/puzzle-icon.png" />
+          <link rel="apple-touch-icon" href="/puzzle-icon.png" />
+          <meta name="theme-color" content="#add8e6" />
         </Head>
         <body>
           <Main />
