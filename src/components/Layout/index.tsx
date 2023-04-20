@@ -32,13 +32,13 @@ const Layout = ({ children }: Props) => {
 
   return (
     <C.Container
-      hiddenContainer={hidden}
-      loading={sessionStatus === "loading" ? "hidden" : "visible"}
+      positionContainer={hidden}
+      visibility={sessionStatus === "loading" ? "hidden" : "visible"}
     >
       <header>
         <Navbar openMenu={openMenu} />
       </header>
-      <C.Main loading={loading ? "hidden" : "visible"}>{children}</C.Main>
+      <C.Main visibility={loading ? "hidden" : "visible"}>{children}</C.Main>
     </C.Container>
   );
 };
