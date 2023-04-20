@@ -14,6 +14,7 @@ import Seo from "@/components/Seo";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { useState } from "react";
 import DashBoardModal from "@/components/DashBoardModal";
 
 type Props = {
@@ -21,7 +22,10 @@ type Props = {
 };
 
 const Dashboard = ({ userData }: Props) => {
+  const [openModal, setOpenModal] = useState(false);
+
   const deleteMazeGame = async (maze: Maze) => {
+    setOpenModal(true);
     /*await toast.promise(
       axios.delete(`api/mazes/${maze.id}`),
       {
@@ -49,7 +53,7 @@ const Dashboard = ({ userData }: Props) => {
         description={`Página dashboard da plataforma My BLOCKLY Maze.`}
         path="/dashboard"
       />
-      <DashBoardModal openModal={false}/>
+      <DashBoardModal openModal={openModal} setOpenModal={setOpenModal} />
       <DashboardHeader
         username={userData.username}
         amount={userData.mazes.length}
