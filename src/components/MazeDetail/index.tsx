@@ -11,12 +11,16 @@ type Props = {
   maze: Maze;
   dashboard?: boolean;
   deleteMazeGame?: (maze: Maze) => void;
+  loading?: boolean;
+  disabled?: boolean;
 };
 
 const MazeDetail = ({
   maze: { urlImage, image, name, createdAt, id, code },
   dashboard,
   deleteMazeGame,
+  loading,
+  disabled,
 }: Props) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [styleImg, setStyleImg] = useState("img_loading");
@@ -42,16 +46,32 @@ const MazeDetail = ({
         <br />
         {createdAt}
       </p>
-      <Link href={`/mazes/${id}`} className="btn">
+      <Link
+        href={`/mazes/${id}`}
+        className="btn"
+        style={loading || disabled ? { pointerEvents: "none" } : {}}
+      >
         Detalhes
       </Link>
-      {dashboard && deleteMazeGame && (
+      {dashboard && deleteMazeGame && !loading && !disabled && (
         <button
           className="btn btn-danger"
           onClick={() =>
             deleteMazeGame({ urlImage, image, name, createdAt, id, code })
           }
         >
+          Excluir
+        </button>
+      )}
+
+      {dashboard && deleteMazeGame && loading && (
+        <button className="btn" disabled>
+          Aguarde...
+        </button>
+      )}
+
+      {dashboard && deleteMazeGame && disabled && (
+        <button className="btn" style={{ backgroundColor: "#f00" }} disabled>
           Excluir
         </button>
       )}

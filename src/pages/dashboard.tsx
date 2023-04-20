@@ -16,34 +16,59 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useState } from "react";
 import DashBoardModal from "@/components/DashBoardModal";
+import { useRouter } from "next/router";
 
 type Props = {
   userData: MazesUser;
 };
 
 const Dashboard = ({ userData }: Props) => {
+  const router = useRouter();
+  const [mazeDelete, setMazeDelete] = useState<Maze | undefined>(undefined);
   const [openModal, setOpenModal] = useState(false);
 
+  const toDelete = async (toDelete: boolean) => {
+    if (toDelete) {
+      setOpenModal(false);
+
+      await toast
+        .promise(
+          axios.delete(`api/mazes/${mazeDelete?.id}`),
+          {
+            pending: "Processando solicitação",
+            success: "Jogo excluído com sucesso 👌",
+            error: "Ocorreu um erro ao tentar excluir o jogo 🤯",
+          },
+          {
+            position: "top-left",
+            autoClose: 2000,
+            closeButton: false,
+            hideProgressBar: true,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "colored",
+          }
+        )
+        .catch(() => {});
+
+      const delay = setTimeout(async () => {
+        setMazeDelete(undefined);
+        router.reload(); /** alterar futuramente */
+      }, 2000); // aguarda 2 segundos
+
+      return () => {
+        clearTimeout(delay);
+      };
+    } else {
+      setMazeDelete(undefined);
+      setOpenModal(false);
+    }
+  };
+
   const deleteMazeGame = async (maze: Maze) => {
+    setMazeDelete(maze);
     setOpenModal(true);
-    /*await toast.promise(
-      axios.delete(`api/mazes/${maze.id}`),
-      {
-        pending: "Processando solicitação",
-        success: "Jogo excluído com sucesso 👌",
-        error: "Ocorreu um erro ao tentar excluir o jogo 🤯",
-      },
-      {
-        position: "top-left",
-        autoClose: 2000,
-        closeButton: false,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "colored",
-      }
-    );*/
   };
 
   return (
@@ -53,21 +78,38 @@ const Dashboard = ({ userData }: Props) => {
         description={`Página dashboard da plataforma My BLOCKLY Maze.`}
         path="/dashboard"
       />
-      <DashBoardModal openModal={openModal} setOpenModal={setOpenModal} />
+      {mazeDelete && (
+        <DashBoardModal
+          openModal={openModal}
+          toDelete={toDelete}
+          maze={mazeDelete}
+        />
+      )}
       <DashboardHeader
         username={userData.username}
         amount={userData.mazes.length}
       />
       {userData && userData.mazes.length > 0 && (
         <MazesContainer>
-          {userData.mazes.map((maze) => (
-            <MazeDetail
-              key={maze.id}
-              maze={maze}
-              dashboard={true}
-              deleteMazeGame={deleteMazeGame}
-            />
-          ))}
+          {userData.mazes.map((maze) =>
+            maze.id !== mazeDelete?.id ? (
+              <MazeDetail
+                key={maze.id}
+                maze={maze}
+                deleteMazeGame={deleteMazeGame}
+                dashboard={true}
+                disabled={mazeDelete !== undefined ? true : false}
+              />
+            ) : (
+              <MazeDetail
+                key={maze.id}
+                maze={maze}
+                deleteMazeGame={deleteMazeGame}
+                dashboard={true}
+                loading={true}
+              />
+            )
+          )}
         </MazesContainer>
       )}
       {userData && userData.mazes.length === 0 && (
