@@ -12,8 +12,8 @@ export const Container = styled.div<PropsContainer>`
   visibility: ${(props) => props.loading};
   opacity: ${(props) => (props.loading === "hidden" ? 0 : 1)};
   transition: all 0.3s ease;
-  height: ${({ hiddenContainer }) => (hiddenContainer ? "100vh" : undefined)};
-  overflow-y: ${({ hiddenContainer }) => (hiddenContainer ? "hidden" : undefined)};
+  width: ${({ hiddenContainer }) => (hiddenContainer ? "100%" : undefined)};
+  position: ${({ hiddenContainer }) => (hiddenContainer ? "fixed" : undefined)};
 `;
 
 export const Main = styled.main<Props>`
