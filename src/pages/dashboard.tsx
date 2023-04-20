@@ -11,16 +11,37 @@ import { MazesContainer } from "@/components/MazesContainer";
 import MazeDetail from "@/components/MazeDetail";
 import { Maze } from "@/types/Maze";
 import Seo from "@/components/Seo";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import DashBoardModal from "@/components/DashBoardModal";
 
 type Props = {
   userData: MazesUser;
 };
 
-const deleteMazeGame = (maze: Maze) => {
-  console.table(maze);
-};
-
 const Dashboard = ({ userData }: Props) => {
+  const deleteMazeGame = async (maze: Maze) => {
+    /*await toast.promise(
+      axios.delete(`api/mazes/${maze.id}`),
+      {
+        pending: "Processando solicitação",
+        success: "Jogo excluído com sucesso 👌",
+        error: "Ocorreu um erro ao tentar excluir o jogo 🤯",
+      },
+      {
+        position: "top-left",
+        autoClose: 2000,
+        closeButton: false,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "colored",
+      }
+    );*/
+  };
+
   return (
     <>
       <Seo
@@ -28,6 +49,7 @@ const Dashboard = ({ userData }: Props) => {
         description={`Página dashboard da plataforma My BLOCKLY Maze.`}
         path="/dashboard"
       />
+      <DashBoardModal openModal={false}/>
       <DashboardHeader
         username={userData.username}
         amount={userData.mazes.length}
@@ -49,6 +71,7 @@ const Dashboard = ({ userData }: Props) => {
           <p>Não foram encontrados jogos criados por você 😢</p>
         </C.NoMazes>
       )}
+      <ToastContainer />
     </>
   );
 };
