@@ -9,14 +9,25 @@ import { MazesUser } from "@/types/MazesUser";
 import DashboardHeader from "@/components/DashboardHeader";
 import { MazesContainer } from "@/components/MazesContainer";
 import MazeDetail from "@/components/MazeDetail";
+import { Maze } from "@/types/Maze";
+import Seo from "@/components/Seo";
 
 type Props = {
   userData: MazesUser;
 };
 
+const deleteMazeGame = (maze: Maze) => {
+  console.table(maze);
+};
+
 const Dashboard = ({ userData }: Props) => {
   return (
     <>
+      <Seo
+        title="My BLOCKLY Maze | Dashboard"
+        description={`Página dashboard da plataforma My BLOCKLY Maze.`}
+        path="/dashboard"
+      />
       <DashboardHeader
         username={userData.username}
         amount={userData.mazes.length}
@@ -24,7 +35,12 @@ const Dashboard = ({ userData }: Props) => {
       {userData && userData.mazes.length > 0 && (
         <MazesContainer>
           {userData.mazes.map((maze) => (
-            <MazeDetail key={maze.id} maze={maze} />
+            <MazeDetail
+              key={maze.id}
+              maze={maze}
+              dashboard={true}
+              deleteMazeGame={deleteMazeGame}
+            />
           ))}
         </MazesContainer>
       )}

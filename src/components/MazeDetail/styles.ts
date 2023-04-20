@@ -41,8 +41,13 @@ export const MazeDiv = styled.div`
     margin-bottom: 1.5em;
   }
 
-  a {
+  a,
+  button {
     width: 90%;
     font-size: 0.9em;
+  }
+
+  button {
+    margin-top: 0.5em;
   }
 `;

@@ -9,10 +9,14 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 type Props = {
   maze: Maze;
+  dashboard?: boolean;
+  deleteMazeGame?: (maze: Maze) => void;
 };
 
 const MazeDetail = ({
-  maze: { urlImage, image, name, createdAt, id },
+  maze: { urlImage, image, name, createdAt, id, code },
+  dashboard,
+  deleteMazeGame,
 }: Props) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [styleImg, setStyleImg] = useState("img_loading");
@@ -41,6 +45,16 @@ const MazeDetail = ({
       <Link href={`/mazes/${id}`} className="btn">
         Detalhes
       </Link>
+      {dashboard && deleteMazeGame && (
+        <button
+          className="btn btn-danger"
+          onClick={() =>
+            deleteMazeGame({ urlImage, image, name, createdAt, id, code })
+          }
+        >
+          Excluir
+        </button>
+      )}
     </C.MazeDiv>
   );
 };

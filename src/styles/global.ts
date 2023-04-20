@@ -62,6 +62,15 @@ export default createGlobalStyle`
     color: #fff;
   }
 
+  .btn-danger {
+    background-color: #FF0000;
+}
+
+  .btn-danger:hover {
+    background-color: rgb(225,0,0);
+    color: #fff;
+  }
+
   button[disabled] {
     background-color: #aaa;
     cursor: default;
