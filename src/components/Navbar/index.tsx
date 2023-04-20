@@ -3,19 +3,31 @@ import * as C from "./styles";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaPuzzlePiece } from "react-icons/fa";
 import { HiSearch } from "react-icons/hi";
 import { isMobileOnly } from "react-device-detect";
 import { useMediaQuery } from "usehooks-ts";
 
-const Navbar = () => {
+type Props = {
+  openMenu: (showMenu: boolean) => void;
+};
+
+const Navbar = ({ openMenu }: Props) => {
   const checkbox = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { status: sessionStatus } = useSession();
   const [query, setQuery] = useState("");
   const [showMenu, setShowMenu] = useState(false);
   const isMobile = useMediaQuery("(max-width: 1115px)");
+
+  useEffect(() => {
+    if (isMobile) {
+      openMenu(showMenu);
+    } else {
+      openMenu(false);
+    }
+  }, [isMobile, openMenu, showMenu]);
 
   const verifyActiveLink = (loopPath: string) => {
     if (loopPath === "/" && router.pathname !== "/") {
@@ -61,10 +73,7 @@ const Navbar = () => {
           My <span>Blockly</span> Maze
         </div>
       </Link>
-      <C.Form
-        onSubmit={handleSubmit}
-        style={showMenu ? { display: "none" } : { display: "flex" }}
-      >
+      <C.Form onSubmit={handleSubmit}>
         <input
           type="search"
           placeholder="Nome ou código do jogo..."
@@ -153,7 +162,7 @@ const Navbar = () => {
           </C.Li>
         )}
       </C.Ul>
-      <div className="menuMobile" id={showMenu ? "hiddenHamburger" : ""}>
+      <div className="menuMobile">
         <input
           type="checkbox"
           id="checkbox_menu"

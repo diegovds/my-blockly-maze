@@ -34,11 +34,6 @@ export const Nav = styled.nav`
     z-index: 4;
   }
 
-  #hiddenHamburger {
-    right: 20px;
-    position: fixed;
-  }
-
   #checkbox_menu {
     position: absolute;
     opacity: 0;

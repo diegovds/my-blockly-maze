@@ -4,10 +4,16 @@ type Props = {
   loading: string;
 };
 
-export const Container = styled.div<Props>`
+type PropsContainer = Props & {
+  hiddenContainer: boolean;
+};
+
+export const Container = styled.div<PropsContainer>`
   visibility: ${(props) => props.loading};
   opacity: ${(props) => (props.loading === "hidden" ? 0 : 1)};
   transition: all 0.3s ease;
+  height: ${({ hiddenContainer }) => (hiddenContainer ? "100vh" : undefined)};
+  overflow-y: ${({ hiddenContainer }) => (hiddenContainer ? "hidden" : undefined)};
 `;
 
 export const Main = styled.main<Props>`

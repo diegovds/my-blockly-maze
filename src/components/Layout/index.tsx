@@ -12,6 +12,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const { status: sessionStatus } = useSession();
 
   useEffect(() => {
@@ -25,10 +26,17 @@ const Layout = ({ children }: Props) => {
     };
   }, [router.events]);
 
+  const openMenu = (showMenu: boolean) => {
+    setHidden(showMenu);
+  };
+
   return (
-    <C.Container loading={sessionStatus === "loading" ? "hidden" : "visible"}>
+    <C.Container
+      hiddenContainer={hidden}
+      loading={sessionStatus === "loading" ? "hidden" : "visible"}
+    >
       <header>
-        <Navbar />
+        <Navbar openMenu={openMenu} />
       </header>
       <C.Main loading={loading ? "hidden" : "visible"}>{children}</C.Main>
     </C.Container>
