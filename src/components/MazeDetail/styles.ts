@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const MazeDiv = styled.div`
-  width: 9rem;
+  width: 9.5rem;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
