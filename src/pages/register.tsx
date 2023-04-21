@@ -28,7 +28,7 @@ const Register = () => {
 
   const watchPassword = watch("password");
 
-  const [hasError, setHasError] = useState(false);
+  const [hasError, setHasError] = useState<string | boolean>(false);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -44,7 +44,13 @@ const Register = () => {
     setHasError(false);
     setLoading(true);
 
-    const user = await axios.post("/api/users", userData);
+    const user = await axios.post("/api/users", userData).catch((e) => {
+      if (e.response.data.error.target.includes("email")) {
+        setHasError("E-mail já cadastrado.");
+      } else {
+        setHasError("Ocorreu um erro, por favor tente mais tarde.");
+      }
+    });
 
     if (user && user.data.status === true) {
       const request = await signIn("credentials", {
@@ -55,10 +61,11 @@ const Register = () => {
 
       setLoading(false);
 
-      request && request.ok ? router.push("/dashboard") : setHasError(true);
+      request && request.ok
+        ? router.push("/dashboard")
+        : setHasError("Ocorreu um erro, por favor tente mais tarde.");
     } else {
       setLoading(false);
-      setHasError(true);
     }
   };
 
@@ -127,13 +134,13 @@ const Register = () => {
               A confirmação da senha precisa ser informada.
             </p>
           )}
-          <button className="btn">Cadastrar</button>
+          {!loading && <button className="btn">Cadastrar</button>}
           {loading && (
             <button className="btn" disabled>
               Aguarde...
             </button>
           )}
-          {hasError && "Acesso negado!!!"}
+          {hasError && <p className="error">{hasError}</p>}
         </C.Form>
       </C.Register>
     </C.Container>
