@@ -17,7 +17,7 @@ const Home = ({ mazes }: Props) => {
     <C.Container visible={mazes && mazes.length > 0 ? "visible" : undefined}>
       <Seo
         title="My BLOCKLY Maze | Home"
-        description={`Página inicial da plataforma My BLOCKLY Maze.`}
+        description={`My Blockly Maze é uma plataforma de criação e compartilhamento de jogos de labirinto, nela os usuários também podem jogar suas criações e as da comunidade. Os jogos utilizam programação baseada em blocos para concluir os desafios.`}
         path="/"
       />
       {mazes && mazes.length > 0 && (
