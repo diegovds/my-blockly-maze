@@ -84,13 +84,13 @@ const Register = () => {
           {errors?.password?.type === "required" && (
             <p className="inputError">A senha precisa ser informada.</p>
           )}
-          <button className="btn">Entrar</button>
+          {!loading && <button className="btn">Entrar</button>}
           {loading && (
             <button className="btn" disabled>
               Aguarde...
             </button>
           )}
-          {hasError && "Acesso negado!!!"}
+          {hasError && <p className="error">Credenciais inválidas</p>}
         </C.Form>
       </C.Register>
     </C.Container>
