@@ -55,7 +55,7 @@ const Register = () => {
 
       setLoading(false);
 
-      request && request.ok ? router.push("/") : setHasError(true);
+      request && request.ok ? router.push("/dashboard") : setHasError(true);
     } else {
       setLoading(false);
       setHasError(true);
