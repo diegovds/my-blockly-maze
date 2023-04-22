@@ -6,6 +6,7 @@ type OverlayProps = {
 
 export const Overlay = styled.div<OverlayProps>`
   background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
   position: fixed;
   top: 0;
   bottom: 0;
@@ -43,5 +44,13 @@ export const Content = styled.div`
     flex-direction: row;
     width: 100%;
     justify-content: space-evenly;
+  }
+
+  @media (max-width: 600px) {
+    width: 97%;
+  }
+
+  button {
+    min-width: 5.625rem;
   }
 `;
