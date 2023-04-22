@@ -31,7 +31,7 @@ export const Nav = styled.nav`
     display: none;
     height: 19px;
     width: 26px;
-    z-index: 4;
+    z-index: 2;
   }
 
   #checkbox_menu {
@@ -168,7 +168,7 @@ export const Ul = styled.ul<UlProps>`
 
   @media (max-width: 1115px) {
     position: fixed;
-    z-index: 3;
+    z-index: 1;
     top: 0;
     left: 0;
     display: flex;

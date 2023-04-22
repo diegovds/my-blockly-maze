@@ -12,6 +12,7 @@ export const Overlay = styled.div<OverlayProps>`
   bottom: 0;
   right: 0;
   left: 0;
+  z-index: 3;
 
   display: ${({ display }) => display};
   align-items: center;
