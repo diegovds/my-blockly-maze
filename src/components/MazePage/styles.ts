@@ -5,6 +5,10 @@ export const Coontainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 800px) and (orientation: portrait) {
+    min-height: auto;
+  }
 `;
 export const Maze = styled.div`
   margin: 2.5rem 0rem 2.5rem 0rem;
@@ -16,6 +20,10 @@ export const Maze = styled.div`
   border-radius: 20px;
   background-color: #fff;
   box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
+
+  @media (max-width: 800px) and (orientation: portrait) {
+    flex-direction: column;
+  }
 `;
 
 export const Img = styled.div`
@@ -36,6 +44,14 @@ export const Img = styled.div`
     aspect-ratio: 7/6;
     border-radius: 10px;
     overflow: hidden;
+  }
+
+  @media (max-width: 800px) and (orientation: portrait) {
+    width: 100%;
+    min-height: fit-content;
+
+    padding: 0;
+    padding-top: 1.7rem;
   }
 `;
 
@@ -85,5 +101,48 @@ export const Informations = styled.div`
     width: 1em;
     height: 1em;
     margin-left: 0.5rem;
+  }
+
+  @media (max-width: 800px) and (orientation: portrait) {
+    width: 100%;
+    min-height: fit-content;
+
+    padding: 0;
+    padding: 0.75rem 0rem 1.7rem 0rem;
+
+    h2 {
+      font-size: 1rem;
+      margin: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .p_a,
+    .p_data {
+      font-size: 0.75rem;
+      margin: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .p_a {
+      margin: 0.25rem 0 0.75rem 0;
+    }
+
+    button {
+      margin: 0;
+      font-size: 0.75rem;
+    }
+
+    #copy {
+      margin: 0;
+      margin-top: 0.5rem;
+    }
+  }
+
+  @media (max-width: 800px) and (orientation: landscape) {
+    font-size: 0.75rem;
+
+    p {
+      font-size: 0.75rem;
+    }
   }
 `;
