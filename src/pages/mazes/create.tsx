@@ -25,7 +25,7 @@ const Create = ({ user: { id } }: Props) => {
         path="/mazes/create"
       />
       <Iframe
-        link={`https://mazegamebuilder.vercel.app/index.html?userId=${id}`}
+        link={`https://maze-game-builder-v2.vercel.app/index.html?userId=${id}`}
         redirect={redirect}
       />
     </>
