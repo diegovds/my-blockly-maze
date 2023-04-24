@@ -103,7 +103,7 @@ export const Informations = styled.div`
     margin-left: 0.5rem;
   }
 
-  @media (max-width: 800px) and (orientation: portrait) {
+  @media (max-width: 800px) and ((orientation: portrait) or (orientation: landscape)) {
     width: 100%;
     min-height: fit-content;
 
@@ -135,14 +135,6 @@ export const Informations = styled.div`
     #copy {
       margin: 0;
       margin-top: 0.5rem;
-    }
-  }
-
-  @media (max-width: 800px) and (orientation: landscape) {
-    font-size: 0.75rem;
-
-    p {
-      font-size: 0.75rem;
     }
   }
 `;
