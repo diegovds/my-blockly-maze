@@ -7,6 +7,7 @@ import { FaRegCopy } from "react-icons/fa";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import CountUp from "react-countup";
 
 type Props = {
   maze: FullMaze;
@@ -61,7 +62,9 @@ const MazePage = ({
           <p className="p_data">
             Quantidade de níveis: {JSON.parse(levels).length}
           </p>
-          <p className="p_data">Total de execuções: {executions}</p>
+          <p className="p_data">
+            Total de execuções: <CountUp end={executions} delay={0.35} />
+          </p>
           <p className="p_a">
             Ao clicar no botão abaixo a reprodução do Maze Game será iniciada.
           </p>
