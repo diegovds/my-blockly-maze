@@ -16,15 +16,14 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useState } from "react";
 import DashBoardModal from "@/components/DashBoardModal";
-import { useRouter } from "next/router";
 
 type Props = {
   userData: MazesUser;
 };
 
 const Dashboard = ({ userData }: Props) => {
-  const router = useRouter();
   const [mazeDelete, setMazeDelete] = useState<Maze | undefined>(undefined);
+  const [mazeGames, setMazeGames] = useState<Maze[]>(userData.mazes);
   const [openModal, setOpenModal] = useState(false);
 
   const toDelete = async (toDelete: boolean) => {
@@ -50,16 +49,27 @@ const Dashboard = ({ userData }: Props) => {
             theme: "colored",
           }
         )
-        .catch(() => {});
+        .then(() => {
+          const delay = setTimeout(async () => {
+            let verifiedMazeGames: Maze[] = [];
 
-      const delay = setTimeout(async () => {
-        setMazeDelete(undefined);
-        router.reload(); /** alterar futuramente */
-      }, 2000); // aguarda 2 segundos
+            for (let index in mazeGames) {
+              if (mazeGames[index].id !== mazeDelete?.id) {
+                verifiedMazeGames.push(mazeGames[index]);
+              }
+            }
 
-      return () => {
-        clearTimeout(delay);
-      };
+            setMazeDelete(undefined);
+            setMazeGames(verifiedMazeGames);
+          }, 2000); // aguarda 2 segundos
+
+          return () => {
+            clearTimeout(delay);
+          };
+        })
+        .catch(() => {
+          setMazeDelete(undefined);
+        });
     } else {
       setMazeDelete(undefined);
       setOpenModal(false);
@@ -85,13 +95,10 @@ const Dashboard = ({ userData }: Props) => {
           maze={mazeDelete}
         />
       )}
-      <DashboardHeader
-        username={userData.username}
-        amount={userData.mazes.length}
-      />
-      {userData && userData.mazes.length > 0 && (
+      <DashboardHeader username={userData.username} amount={mazeGames.length} />
+      {userData && mazeGames.length > 0 && (
         <MazesContainer>
-          {userData.mazes.map((maze) =>
+          {mazeGames.map((maze) =>
             maze.id !== mazeDelete?.id ? (
               <MazeDetail
                 key={maze.id}
@@ -112,7 +119,7 @@ const Dashboard = ({ userData }: Props) => {
           )}
         </MazesContainer>
       )}
-      {userData && userData.mazes.length === 0 && (
+      {userData && mazeGames.length === 0 && (
         <C.NoMazes>
           <p>Não foram encontrados jogos criados por você 😢</p>
         </C.NoMazes>
