@@ -12,6 +12,7 @@ import Seo from "@/components/Seo";
 import MazePage from "@/components/MazePage";
 import Iframe from "@/components/Iframe";
 import { mazeApi } from "@/libs/mazeApi";
+import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
   maze: FullMaze;
@@ -24,30 +25,35 @@ const Maze = ({
   const router = useRouter();
   const [runGame, setRunGame] = useState(false);
   const [loading, setLoading] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 1115px)");
 
   const loadGame = async () => {
-    const dataMaze = new FormData();
-    const execs = (executions + 1).toString();
+    if (isMobile) {
+      notify(
+        "erro",
+        "A execução do jogo não está disponível para essa largura de tela."
+      );
+    } else {
+      const dataMaze = new FormData();
+      const execs = (executions + 1).toString();
 
-    dataMaze.append("executions", execs);
+      dataMaze.append("executions", execs);
 
-    setLoading(true);
+      setLoading(true);
 
-    await axios
-      .put(
-        `/api/mazes/${id}`,
-        dataMaze
-      )
-      .then(() => {
-        executions += 1;
-        setRunGame(true);
-      })
-      .catch(() => {
-        notify("erro", "Ocorreu um erro ao tentar executar o jogo.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      await axios
+        .put(`/api/mazes/${id}`, dataMaze)
+        .then(() => {
+          executions += 1;
+          setRunGame(true);
+        })
+        .catch(() => {
+          notify("erro", "Ocorreu um erro ao tentar executar o jogo.");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   const endGame = () => {
