@@ -4,7 +4,7 @@ import { SessionProvider } from "next-auth/react";
 
 import Layout from "@/components/Layout";
 import GlobalStyle from "@/styles/global";
-import Analytics from "@/components/Analytics";
+import { GoogleAnalytics } from "nextjs-google-analytics";
 
 export default function App({
   Component,
@@ -12,7 +12,7 @@ export default function App({
 }: AppProps) {
   return (
     <SessionProvider session={session}>
-      <Analytics />
+      <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
       <Layout>
         <Component {...pageProps} />
       </Layout>
