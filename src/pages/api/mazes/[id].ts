@@ -24,7 +24,7 @@ apiRoute.options(async (req, res: NextApiResponse) => {
   return res.status(200).json({});
 });
 
-/** Inserting new Maze Game */
+/** Insert new maze */
 apiRoute.post(async (req: any, res: NextApiResponse) => {
   const { id } = req.query;
   const { name, levels } = req.body;
@@ -61,7 +61,7 @@ apiRoute.post(async (req: any, res: NextApiResponse) => {
   });
 });
 
-/** Deleting maze info */
+/** Delete a maze */
 apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const { deleteMaze } = api();
@@ -80,7 +80,7 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(404).json({ message: "Maze não encontrado" });
 });
 
-/** Getting a maze game */
+/** Get a maze */
 apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const { getMaze } = api();
@@ -93,7 +93,7 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
   }
 });
 
-/** Updating a Maze Game */
+/** Update a maze */
 apiRoute.put(async (req: any, res: NextApiResponse) => {
   const { name, levels, executions, code, createdAt } = req.body;
   const { id } = req.query;

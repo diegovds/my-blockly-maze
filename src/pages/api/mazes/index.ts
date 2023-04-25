@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import multer from "multer";
 
-import { userApi as api } from "@/libs/userApi";
+import { mazeApi as api } from "../../../libs/mazeApi";
 
 const apiRoute = nextConnect({
   onError(error, req: NextApiRequest, res: NextApiResponse) {
@@ -21,29 +21,13 @@ apiRoute.options(async (req, res: NextApiResponse) => {
   return res.status(200).json({});
 });
 
-/** Get all users */
+/** Get all mazes */
 apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { getAllUsers } = api();
+  const { getAllMazes } = api();
 
-  const users = await getAllUsers();
+  const mazes = await getAllMazes();
 
-  res.status(200).json({ data: users });
-});
-
-/** Insert new user */
-apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { name, email, password } = req.body;
-  const { insertNewUser } = api();
-
-  const newUser = await insertNewUser(name, email, password).catch((e) => {
-    e.meta
-      ? res.status(501).json({ error: e.meta })
-      : res.status(501).json({ error: e });
-  });
-
-  if (newUser) {
-    res.status(201).json({ status: true, user: newUser });
-  }
+  res.status(200).json({ data: mazes });
 });
 
 export default apiRoute;

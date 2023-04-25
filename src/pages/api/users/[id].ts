@@ -20,6 +20,7 @@ apiRoute.options(async (req, res: NextApiResponse) => {
   return res.status(200).json({});
 });
 
+/** Get a user */
 apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const { getUser } = api();
@@ -29,6 +30,7 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).json(user);
 });
 
+/** Update a user */
 apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const { name } = req.body;
@@ -44,6 +46,7 @@ apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
   }
 });
 
+/** Delete a user */
 apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const { deleteUser } = api();
