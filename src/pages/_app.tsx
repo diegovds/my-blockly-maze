@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 
 import Layout from "@/components/Layout";
 import GlobalStyle from "@/styles/global";
+import Analytics from "@/components/Analytics";
 
 export default function App({
   Component,
@@ -11,6 +12,7 @@ export default function App({
 }: AppProps) {
   return (
     <SessionProvider session={session}>
+      <Analytics />
       <Layout>
         <Component {...pageProps} />
       </Layout>
