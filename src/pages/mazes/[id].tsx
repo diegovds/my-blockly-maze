@@ -88,7 +88,11 @@ const Maze = ({
     <C.Container>
       <Seo
         title={`My BLOCKLY Maze | Página do jogo ${name}`}
-        description={`Página do jogo ${name}, criado em ${createdAt} por ${username}. Total de execuções ${executions}`}
+        description={`O jogo ${name} foi criado por ${username} em ${createdAt}, possui ${
+          JSON.parse(levels).length
+        } ${
+          JSON.parse(levels).length > 1 ? "níveis" : "nível"
+        } e foi executado ${executions} ${executions > 1 ? "vezes" : "vez"}.`}
         image={urlImage}
         path={`/mazes/${id}`}
       />
