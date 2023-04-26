@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { NextSeo } from "next-seo";
+import Script from "next/script";
 
 type Props = {
   title: string;
@@ -36,6 +37,19 @@ const Seo = ({ title, description, image, path }: Props) => {
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#add8e6" />
       </Head>
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
+        `}
+      </Script>
       <NextSeo
         title={title}
         description={description}
