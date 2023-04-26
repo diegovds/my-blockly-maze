@@ -92,7 +92,9 @@ const Maze = ({
           JSON.parse(levels).length
         } ${
           JSON.parse(levels).length > 1 ? "níveis" : "nível"
-        } e foi executado ${executions} ${executions > 1 ? "vezes" : "vez"}.`}
+        } e foi executado ${executions} ${
+          executions > 1 || executions === 0 ? "vezes" : "vez"
+        }.`}
         image={urlImage}
         path={`/mazes/${id}`}
       />
