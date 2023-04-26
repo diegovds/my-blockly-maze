@@ -57,13 +57,17 @@ const MazePage = ({
             {name} (Cód. {code})
           </h2>
           <p className="p_data">
-            Criado por {username} em {createdAt}
+            Criado por <strong>{username}</strong> em{" "}
+            <strong>{createdAt}</strong>
           </p>
           <p className="p_data">
-            Quantidade de níveis: {JSON.parse(levels).length}
+            Quantidade de níveis: <strong>{JSON.parse(levels).length}</strong>
           </p>
           <p className="p_data">
-            Total de execuções: <CountUp end={executions} delay={0.35} />
+            Total de execuções:{" "}
+            <strong>
+              <CountUp end={executions} delay={0.35} />
+            </strong>
           </p>
           <p className="p_a">
             Ao clicar no botão abaixo a reprodução do Maze Game será iniciada.
