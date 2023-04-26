@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 
 import Layout from "@/components/Layout";
 import GlobalStyle from "@/styles/global";
+import ScrollTopButton from "@/components/ScrollTopButton";
 
 export default function App({
   Component,
@@ -15,6 +16,7 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
+      <ScrollTopButton />
       <Layout>
         <Component {...pageProps} />
       </Layout>
