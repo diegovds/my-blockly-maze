@@ -1,5 +1,6 @@
 import { NextSeo } from "next-seo";
 import Head from "next/head";
+import ReactGA from "react-ga4";
 
 type Props = {
   title: string;
@@ -9,6 +10,13 @@ type Props = {
 };
 
 const Seo = ({ title, description, image, path }: Props) => {
+  // Send pageview with a custom path
+  ReactGA.send({
+    hitType: "pageview",
+    page: path,
+    title: title,
+  });
+
   return (
     <>
       <Head>
