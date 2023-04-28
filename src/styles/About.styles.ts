@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
 
 export const Container = styled.div`
   max-width: 97%;
@@ -15,7 +14,7 @@ export const Container = styled.div`
   }
 `;
 
-export const SectionContainer = styled(motion.div)`
+export const SectionContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -24,7 +23,7 @@ export const SectionContainer = styled(motion.div)`
   margin: 2rem 0;
 `;
 
-export const Section = styled(motion.section)`
+export const Section = styled.section`
   width: 20rem;
   display: flex;
   flex-direction: column;

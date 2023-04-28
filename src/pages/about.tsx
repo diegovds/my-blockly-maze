@@ -1,4 +1,3 @@
-import { container, item } from "@/components/FramerMotionOptions.js";
 import Seo from "@/components/Seo";
 import * as C from "@/styles/About.styles";
 
@@ -12,12 +11,8 @@ const About = () => {
       />
       <C.Container>
         <h2>Sobre:</h2>
-        <C.SectionContainer
-          variants={container}
-          initial="hidden"
-          animate="visible"
-        >
-          <C.Section variants={item}>
+        <C.SectionContainer>
+          <C.Section>
             <h3>My Blockly Maze</h3>
             <p>
               É uma plataforma de criação e compartilhamento de jogos de
@@ -29,7 +24,7 @@ const About = () => {
             </p>
           </C.Section>
 
-          <C.Section variants={item}>
+          <C.Section>
             <h3>Maze Builder</h3>
             <p>
               É a ferramenta de criação dos jogos, nela é possível elaborar um
@@ -38,7 +33,7 @@ const About = () => {
             </p>
           </C.Section>
 
-          <C.Section variants={item}>
+          <C.Section>
             <h3>Maze Game</h3>
             <p>
               Uma versão modificada do Maze Blockly Games desenvolvido pelo

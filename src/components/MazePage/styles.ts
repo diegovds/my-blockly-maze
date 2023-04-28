@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 export const Coontainer = styled.div`
   min-height: inherit;
@@ -10,12 +11,13 @@ export const Coontainer = styled.div`
     min-height: auto;
   }
 `;
-export const Maze = styled.div`
+export const Maze = styled(motion.div)`
   margin: 2.5rem 0rem 2.5rem 0rem;
   width: 90%;
   min-height: fit-content;
   display: flex;
   flex-direction: row;
+  overflow: hidden;
 
   border-radius: 20px;
   background-color: #fff;
@@ -26,7 +28,7 @@ export const Maze = styled.div`
   }
 `;
 
-export const Img = styled.div`
+export const Img = styled(motion.div)`
   flex: 1;
   padding: 2.5rem 0rem 2.5rem 0rem;
   display: flex;
@@ -55,7 +57,7 @@ export const Img = styled.div`
   }
 `;
 
-export const Informations = styled.div`
+export const Informations = styled(motion.div)`
   flex: 1;
   padding: 2.5rem 0rem 2.5rem 0rem;
 
