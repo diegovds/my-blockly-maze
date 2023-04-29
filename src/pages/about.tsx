@@ -2,6 +2,31 @@ import Seo from "@/components/Seo";
 import * as C from "@/styles/About.styles";
 
 const About = () => {
+  const SectionContainerAnimate = {
+    hidden: {},
+    visible: {
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const ItemSide = {
+    visible: {
+      x: 0,
+      opacity: 1,
+    },
+  };
+
+  const ItemCenter = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
+
   return (
     <>
       <Seo
@@ -11,8 +36,17 @@ const About = () => {
       />
       <C.Container>
         <h2>Sobre:</h2>
-        <C.SectionContainer>
-          <C.Section>
+        <C.SectionContainer
+          variants={SectionContainerAnimate}
+          initial="hidden"
+          animate="visible"
+        >
+          <C.Section
+            variants={{
+              hidden: { x: -20, opacity: 0 },
+              ...ItemSide,
+            }}
+          >
             <h3>My Blockly Maze</h3>
             <p>
               É uma plataforma de criação e compartilhamento de jogos de
@@ -24,7 +58,7 @@ const About = () => {
             </p>
           </C.Section>
 
-          <C.Section>
+          <C.Section variants={ItemCenter}>
             <h3>Maze Builder</h3>
             <p>
               É a ferramenta de criação dos jogos, nela é possível elaborar um
@@ -33,7 +67,12 @@ const About = () => {
             </p>
           </C.Section>
 
-          <C.Section>
+          <C.Section
+            variants={{
+              hidden: { x: 20, opacity: 0 },
+              ...ItemSide,
+            }}
+          >
             <h3>Maze Game</h3>
             <p>
               Uma versão modificada do Maze Blockly Games desenvolvido pelo
