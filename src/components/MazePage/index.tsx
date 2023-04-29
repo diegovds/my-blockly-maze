@@ -35,37 +35,29 @@ const MazePage = ({
   const [styleImg, setStyleImg] = useState("img_loading");
 
   const MazeAnimate = {
-    hidden: { y: "5%", opacity: 1 },
+    hidden: { opacity: 1, scale: 0.75 },
     visible: {
-      y: 0,
       opacity: 1,
+      scale: 1,
       transition: {
-        duration: 0.3,
-        delayChildren: 0.4,
-        staggerChildren: 0.4,
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
       },
     },
   };
 
-  const VisibleVariant = {
+  const ItemVariant = {
+    hidden: { y: 20, opacity: 0 },
     visible: {
-      x: 0,
+      y: 0,
       opacity: 1,
-      transition: {
-        duration: 0.4,
-      },
     },
   };
 
   return (
     <C.Coontainer>
       <C.Maze variants={MazeAnimate} initial="hidden" animate="visible">
-        <C.Img
-          variants={{
-            hidden: { x: "-5%", opacity: 0 },
-            ...VisibleVariant,
-          }}
-        >
+        <C.Img variants={ItemVariant}>
           {showSkeleton && <Skeleton width={`100%`} />}
           <Image
             src={urlImage}
@@ -80,12 +72,7 @@ const MazePage = ({
             }}
           />
         </C.Img>
-        <C.Informations
-          variants={{
-            hidden: { x: "5%", opacity: 0 },
-            ...VisibleVariant,
-          }}
-        >
+        <C.Informations variants={ItemVariant}>
           <h2>
             {name} (Cód. {code})
           </h2>
@@ -99,7 +86,7 @@ const MazePage = ({
           <p className="p_data">
             Total de execuções:{" "}
             <strong>
-              <CountUp end={executions} delay={1.05} />
+              <CountUp end={executions} delay={0.8} />
             </strong>
           </p>
           <p className="p_a">
