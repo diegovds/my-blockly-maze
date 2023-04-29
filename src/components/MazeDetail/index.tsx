@@ -26,7 +26,16 @@ const MazeDetail = ({
   const [styleImg, setStyleImg] = useState("img_loading");
 
   return (
-    <C.MazeDiv>
+    <C.MazeDiv
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.8,
+        delay: 0.5,
+        ease: "backInOut",
+      }}
+    >
       {showSkeleton && <Skeleton width={`100%`} />}
       <Image
         src={urlImage}

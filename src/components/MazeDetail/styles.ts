@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
-export const MazeDiv = styled.div`
+export const MazeDiv = styled(motion.div)`
   width: 9.5rem;
   border-radius: 15px;
   display: flex;
