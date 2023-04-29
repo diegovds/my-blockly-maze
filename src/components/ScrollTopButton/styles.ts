@@ -16,6 +16,7 @@ export const TopButton = styled.div<Props>`
   border: 0;
   border-radius: 25%;
   cursor: pointer;
+  z-index: 1;
   transition: 0.4s ease-in-out;
   opacity: ${({ showButton }) => (showButton ? 1 : 0)};
   scale: ${({ showButton }) => (showButton ? 1 : 0)};
