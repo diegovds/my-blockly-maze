@@ -46,10 +46,9 @@ const MazePage = ({
     },
   };
 
-  const ItemVariant = {
-    hidden: { y: 20, opacity: 0 },
+  const VisibleItemVariant = {
     visible: {
-      y: 0,
+      x: 0,
       opacity: 1,
     },
   };
@@ -57,7 +56,12 @@ const MazePage = ({
   return (
     <C.Coontainer>
       <C.Maze variants={MazeAnimate} initial="hidden" animate="visible">
-        <C.Img variants={ItemVariant}>
+        <C.Img
+          variants={{
+            hidden: { x: -20, opacity: 0 },
+            ...VisibleItemVariant,
+          }}
+        >
           {showSkeleton && <Skeleton width={`100%`} />}
           <Image
             src={urlImage}
@@ -72,7 +76,12 @@ const MazePage = ({
             }}
           />
         </C.Img>
-        <C.Informations variants={ItemVariant}>
+        <C.Informations
+          variants={{
+            hidden: { x: 20, opacity: 0 },
+            ...VisibleItemVariant,
+          }}
+        >
           <h2>
             {name} (Cód. {code})
           </h2>
