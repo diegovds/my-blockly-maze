@@ -183,7 +183,7 @@ export const Ul = styled.ul<UlProps>`
     visibility: ${(props) =>
       props.showMenu === "show" ? "visible" : "hidden"};
     margin-left: ${(props) => (props.showMenu === "show" ? 0 : "100%")};
-    transition: 0.75s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
 
   @media (max-width: 1115px) and (orientation: landscape) {

@@ -32,7 +32,7 @@ const MazeDetail = ({
       viewport={{ once: true }}
       transition={{
         duration: 0.8,
-        delay: 0.5,
+        delay: 0.25,
         ease: "backInOut",
       }}
     >
