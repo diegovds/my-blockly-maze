@@ -51,4 +51,16 @@ export const MazeDiv = styled(motion.div)`
   button {
     margin-top: 0.5em;
   }
+
+  @media (max-width: 800px) {
+    a,
+    p,
+    button {
+      font-size: 0.8rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+  }
 `;

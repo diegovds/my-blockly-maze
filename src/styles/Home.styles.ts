@@ -21,6 +21,10 @@ export const H2 = styled.h2`
   width: 97%;
   margin: 0 auto;
   margin-bottom: 2rem;
+
+  @media (max-width: 800px) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const NoMazes = styled.div`

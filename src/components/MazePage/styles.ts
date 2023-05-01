@@ -113,7 +113,7 @@ export const Informations = styled(motion.div)`
     padding: 0.75rem 0rem 1.7rem 0rem;
 
     h2 {
-      font-size: 1rem;
+      font-size: 1.2rem;
       margin: 0;
       margin-bottom: 0.5rem;
     }
@@ -131,7 +131,7 @@ export const Informations = styled(motion.div)`
 
     button {
       margin: 0;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
     }
 
     #copy {

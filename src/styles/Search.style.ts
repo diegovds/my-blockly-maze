@@ -25,4 +25,15 @@ export const Container = styled.div`
     width: auto;
     border-bottom: none;
   }
+
+  @media (max-width: 800px) {
+    p,
+    .p_a {
+      font-size: 0.8rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+    }
+  }
 `;
