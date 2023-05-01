@@ -120,7 +120,7 @@ export const Informations = styled(motion.div)`
 
     .p_a,
     .p_data {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       margin: 0;
       margin-bottom: 0.5rem;
     }
