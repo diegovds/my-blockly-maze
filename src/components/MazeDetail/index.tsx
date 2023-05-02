@@ -3,9 +3,11 @@ import * as C from "./styles";
 import { Maze } from "@/types/Maze";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useInView } from "framer-motion";
+import { useElementSize } from "usehooks-ts";
 
 type Props = {
   maze: Maze;
@@ -25,66 +27,71 @@ const MazeDetail = ({
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [styleImg, setStyleImg] = useState("img_loading");
 
+  const ref = useRef<HTMLDivElement>(null);
+  const isVisible = useInView(ref);
+
+  const [refFlipCardBack, { height }] = useElementSize();
+
   return (
-    <C.MazeDiv
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{
-        duration: 0.8,
-        delay: 0.25,
-        ease: "backInOut",
-      }}
-    >
-      {showSkeleton && <Skeleton width={`100%`} />}
-      <Image
-        src={urlImage}
-        alt={image}
-        width={100}
-        height={100}
-        priority
-        className={styleImg}
-        onLoad={() => {
-          setShowSkeleton(false);
-          setStyleImg("img_loaded");
-        }}
-      />
-      <h3>{name}</h3>
-      <p id="date">
-        Criado em:
-        <br />
-        {createdAt}
-      </p>
-      <Link
-        href={`/mazes/${id}`}
-        className="btn"
-        style={loading || disabled ? { pointerEvents: "none" } : {}}
-      >
-        Detalhes
-      </Link>
-      {dashboard && deleteMazeGame && !loading && !disabled && (
-        <button
-          className="btn btn-danger"
-          onClick={() =>
-            deleteMazeGame({ urlImage, image, name, createdAt, id, code })
-          }
-        >
-          Excluir
-        </button>
-      )}
+    <C.FlipCard ref={ref} height={height}>
+      <C.FlipCardInner isVisible={isVisible}>
+        <C.FlipCardFront></C.FlipCardFront>
+        <C.FlipCardBack ref={refFlipCardBack}>
+          {showSkeleton && <Skeleton width={`100%`} />}
+          <Image
+            src={urlImage}
+            alt={image}
+            width={100}
+            height={100}
+            priority
+            className={styleImg}
+            onLoad={() => {
+              setShowSkeleton(false);
+              setStyleImg("img_loaded");
+            }}
+          />
+          <h3>{name}</h3>
+          <p id="date">
+            Criado em:
+            <br />
+            {createdAt}
+          </p>
+          <Link
+            href={`/mazes/${id}`}
+            className="btn"
+            style={loading || disabled ? { pointerEvents: "none" } : {}}
+          >
+            Detalhes
+          </Link>
+          {dashboard && deleteMazeGame && !loading && !disabled && (
+            <button
+              className="btn btn-danger"
+              onClick={() =>
+                deleteMazeGame({ urlImage, image, name, createdAt, id, code })
+              }
+            >
+              Excluir
+            </button>
+          )}
 
-      {dashboard && deleteMazeGame && loading && (
-        <button className="btn" disabled>
-          Aguarde...
-        </button>
-      )}
+          {dashboard && deleteMazeGame && loading && (
+            <button className="btn" disabled>
+              Aguarde...
+            </button>
+          )}
 
-      {dashboard && deleteMazeGame && disabled && (
-        <button className="btn" style={{ backgroundColor: "#f00" }} disabled>
-          Excluir
-        </button>
-      )}
-    </C.MazeDiv>
+          {dashboard && deleteMazeGame && disabled && (
+            <button
+              className="btn"
+              style={{ backgroundColor: "#f00" }}
+              disabled
+            >
+              Excluir
+            </button>
+          )}
+        </C.FlipCardBack>
+      </C.FlipCardInner>
+    </C.FlipCard>
   );
 };
 

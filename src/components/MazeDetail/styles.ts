@@ -1,8 +1,47 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
 
-export const MazeDiv = styled(motion.div)`
+type Props = {
+  height: number;
+};
+
+type FlipCardInnerProps = {
+  isVisible: boolean;
+};
+
+export const FlipCard = styled.div<Props>`
   width: 9.5rem;
+  height: ${({ height }) => height + "px"};
+  background-color: transparent;
+  perspective: 1000px;
+`;
+
+export const FlipCardInner = styled.div<FlipCardInnerProps>`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  transition-delay: 0.25s;
+
+  transform: ${({ isVisible }) => (isVisible ? "rotateY(180deg)" : undefined)};
+`;
+
+export const FlipCardFront = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 15px;
+  background-color: #eceeed;
+`;
+
+export const FlipCardBack = styled.div`
+  position: absolute;
+  width: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -16,6 +55,7 @@ export const MazeDiv = styled(motion.div)`
   box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
   word-wrap: break-word; /* com isso o conteúdo não vai vazar da div */
   box-sizing: border-box;
+  transform: rotateY(180deg);
 
   img {
     width: 90%;
