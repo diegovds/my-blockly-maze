@@ -47,11 +47,20 @@ export const Content = styled.div`
     justify-content: space-evenly;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     width: 97%;
-  }
 
-  button {
-    min-width: 5.625rem;
+    h3 {
+      font-size: 1rem;
+    }
+
+    button,
+    p {
+      font-size: 0.8rem;
+    }
+
+    button {
+      min-width: 5.625rem;
+    }
   }
 `;

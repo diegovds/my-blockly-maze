@@ -10,4 +10,10 @@ export const NoMazes = styled.div`
   p {
     color: #aaa;
   }
+
+  @media (max-width: 800px) {
+    p {
+      font-size: 0.8rem;
+    }
+  }
 `;

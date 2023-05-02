@@ -2,6 +2,7 @@ import { useRef } from "react";
 import * as C from "./styles";
 
 import { useClickAnyWhere } from "usehooks-ts";
+import Balance from "react-wrap-balancer";
 import { Maze } from "@/types/Maze";
 
 type Props = {
@@ -24,7 +25,9 @@ const DashBoardModal = ({ openModal, toDelete, maze }: Props) => {
     <C.Overlay ref={overlayRef} display={openModal ? "flex" : "none"}>
       <C.Content ref={contentRef}>
         <h3>
-          Deseja excluir o jogo {maze.name} (Cód. {maze.code})?
+          <Balance>
+            Deseja excluir o jogo {maze.name} (Cód. {maze.code})?
+          </Balance>
         </h3>
         <p>Essa ação não pode ser desfeita!</p>
         <div className="div_btn">

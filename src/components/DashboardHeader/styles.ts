@@ -19,6 +19,16 @@ export const Container = styled.div`
     word-wrap: break-word; /* com isso o conteúdo não vai vazar */
     margin-bottom: 2rem;
   }
+
+  @media (max-width: 800px) {
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
+  }
 `;
 
 export const WelcomeBanner = styled.div`
@@ -50,5 +60,11 @@ export const WelcomeBanner = styled.div`
     color: #000;
     opacity: 0.7;
     text-decoration: underline;
+  }
+
+  @media (max-width: 800px) {
+    p {
+      font-size: 0.8rem;
+    }
   }
 `;
