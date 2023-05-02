@@ -64,6 +64,7 @@ const Layout = ({ children }: Props) => {
     <C.Container
       positionContainer={hidden}
       visibility={sessionStatus === "loading" ? "hidden" : "visible"}
+      timeElapsed={timeElapsed}
     >
       <header>
         <Navbar openMenu={openMenu} />
