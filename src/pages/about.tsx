@@ -1,5 +1,6 @@
 import Seo from "@/components/Seo";
 import * as C from "@/styles/About.styles";
+import Balance from "react-wrap-balancer";
 
 const About = () => {
   const SectionContainerAnimate = {
@@ -49,21 +50,25 @@ const About = () => {
           >
             <h3>My Blockly Maze</h3>
             <p>
-              É uma plataforma de criação e compartilhamento de jogos de
-              labirinto, nela os usuários também podem jogar suas criações e as
-              da comunidade.
-              <br />
-              Os jogos utilizam programação baseada em blocos para concluir os
-              desafios.
+              <Balance>
+                É uma plataforma de criação e compartilhamento de jogos de
+                labirinto, nela os usuários também podem jogar suas criações e
+                as da comunidade.
+                <br />
+                Os jogos utilizam programação baseada em blocos para concluir os
+                desafios.
+              </Balance>
             </p>
           </C.Section>
 
           <C.Section variants={ItemCenter}>
             <h3>Maze Builder</h3>
             <p>
-              É a ferramenta de criação dos jogos, nela é possível elaborar um
-              jogo de labirinto com imagem de fundo e níveis de desafio
-              personalizados.
+              <Balance>
+                É a ferramenta de criação dos jogos, nela é possível elaborar um
+                jogo de labirinto com imagem de fundo e níveis de desafio
+                personalizados.
+              </Balance>
             </p>
           </C.Section>
 
@@ -75,8 +80,10 @@ const About = () => {
           >
             <h3>Maze Game</h3>
             <p>
-              Uma versão modificada do Maze Blockly Games desenvolvido pelo
-              Google. Tem como função executar os jogos personalizados.
+              <Balance>
+                Uma versão modificada do Maze Blockly Games desenvolvido pelo
+                Google. Tem como função executar os jogos personalizados.
+              </Balance>
             </p>
           </C.Section>
         </C.SectionContainer>

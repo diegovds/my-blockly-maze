@@ -13,6 +13,12 @@ export const Container = styled.div`
     margin: 0 auto;
     margin-bottom: 2rem;
   }
+
+  @media (max-width: 800px) {
+    h2 {
+      font-size: 1.2rem;
+    }
+  }
 `;
 
 export const SectionContainer = styled(motion.div)`
@@ -29,7 +35,6 @@ export const Section = styled(motion.section)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
   padding: 1.5rem;
   border-radius: 15px;
   background-color: #fff;
@@ -37,8 +42,8 @@ export const Section = styled(motion.section)`
 
   p {
     margin-top: 0.8rem;
-    line-height: 1.5rem;
-    color: #444;
+    line-height: 160%; /** para títulos o recomendado é 120% */
+    letter-spacing: -0.75px;
     text-align: justify;
   }
 
@@ -48,5 +53,15 @@ export const Section = styled(motion.section)`
 
   @media (max-width: 800px) and (min-width: 600px) {
     width: 80%;
+  }
+
+  @media (max-width: 800px) {
+    h3 {
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
   }
 `;
