@@ -29,7 +29,7 @@ export const Maze = styled(motion.div)`
 `;
 
 export const Img = styled(motion.div)`
-  flex: 1;
+  width: 50%;
   padding: 2.5rem 0rem 2.5rem 0rem;
   display: flex;
   justify-content: center;
@@ -58,7 +58,7 @@ export const Img = styled(motion.div)`
 `;
 
 export const Informations = styled(motion.div)`
-  flex: 1;
+  width: 50%;
   padding: 2.5rem 0rem 2.5rem 0rem;
 
   display: flex;

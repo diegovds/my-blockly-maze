@@ -8,6 +8,7 @@ import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import CountUp from "react-countup";
+import Balance from "react-wrap-balancer";
 
 type Props = {
   maze: FullMaze;
@@ -83,7 +84,9 @@ const MazePage = ({
           }}
         >
           <h2>
-            {name} (Cód. {code})
+            <Balance>
+              {name} (Cód. {code})
+            </Balance>
           </h2>
           <p className="p_data">
             Criado por <strong>{username}</strong> em{" "}
@@ -99,7 +102,9 @@ const MazePage = ({
             </strong>
           </p>
           <p className="p_a">
-            Ao clicar no botão abaixo a reprodução do Maze Game será iniciada.
+            <Balance>
+              Ao clicar no botão abaixo a reprodução do Maze Game será iniciada.
+            </Balance>
           </p>
           {!loading && (
             <button
