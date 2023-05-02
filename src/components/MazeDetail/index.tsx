@@ -3,10 +3,9 @@ import * as C from "./styles";
 import { Maze } from "@/types/Maze";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useInView } from "framer-motion";
 import { useElementSize } from "usehooks-ts";
 
 type Props = {
@@ -27,14 +26,11 @@ const MazeDetail = ({
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [styleImg, setStyleImg] = useState("img_loading");
 
-  const ref = useRef<HTMLDivElement>(null);
-  const isVisible = useInView(ref);
-
   const [refFlipCardBack, { height }] = useElementSize();
 
   return (
-    <C.FlipCard ref={ref} height={height}>
-      <C.FlipCardInner isVisible={isVisible}>
+    <C.FlipCard height={height}>
+      <C.FlipCardInner whileInView={{ rotateY: 180 }} viewport={{ once: true }}>
         <C.FlipCardFront></C.FlipCardFront>
         <C.FlipCardBack ref={refFlipCardBack}>
           {showSkeleton && <Skeleton width={`100%`} />}

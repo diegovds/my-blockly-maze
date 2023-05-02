@@ -1,11 +1,8 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 type Props = {
   height: number;
-};
-
-type FlipCardInnerProps = {
-  isVisible: boolean;
 };
 
 export const FlipCard = styled.div<Props>`
@@ -15,7 +12,7 @@ export const FlipCard = styled.div<Props>`
   perspective: 1000px;
 `;
 
-export const FlipCardInner = styled.div<FlipCardInnerProps>`
+export const FlipCardInner = styled(motion.div)`
   position: relative;
   width: 100%;
   height: 100%;
@@ -23,8 +20,6 @@ export const FlipCardInner = styled.div<FlipCardInnerProps>`
   transition: transform 1s;
   transform-style: preserve-3d;
   transition-delay: 0.25s;
-
-  transform: ${({ isVisible }) => (isVisible ? "rotateY(180deg)" : undefined)};
 `;
 
 export const FlipCardFront = styled.div`
