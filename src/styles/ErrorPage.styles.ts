@@ -21,13 +21,29 @@ export const Content = styled.div`
   & p:nth-child(3) {
     margin-bottom: 30px;
   }
+
+  @media (max-width: 800px) {
+    width: 97%;
+
+    a {
+      font-size: 0.8rem;
+    }
+  }
 `;
 
 export const H2 = styled.h2`
   font-size: 70px;
+
+  @media (max-width: 800px) {
+    font-size: 45px;
+  }
 `;
 
 export const P = styled.p`
   color: #aaa;
   margin-bottom: 5px;
+
+  @media (max-width: 800px) {
+    font-size: 0.8rem;
+  }
 `;
