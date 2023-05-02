@@ -28,6 +28,16 @@ export const Register = styled.div`
   @media screen and (min-width: 600px) {
     width: 400px;
   }
+
+  @media (max-width: 800px) {
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
+  }
 `;
 
 export const Form = styled.form`
@@ -44,8 +54,9 @@ export const Form = styled.form`
     margin-bottom: 1rem;
     border: none;
     border-bottom: 1px solid #ccc;
-    padding: 0.8em 0;
+    padding: 0.8em 0.3em;
     background-color: transparent;
+    border-radius: 0%;
   }
 
   input:focus {
@@ -55,7 +66,6 @@ export const Form = styled.form`
   button {
     margin-top: 0.8em;
     width: 100%;
-    height: 56px;
   }
 
   p {
@@ -76,5 +86,14 @@ export const Form = styled.form`
     border: 1px solid #f5c6cb;
     padding: 5px;
     border-radius: 5px;
+  }
+
+  @media (max-width: 800px) {
+    button,
+    input,
+    .error,
+    .inputError {
+      font-size: 0.8rem;
+    }
   }
 `;
