@@ -10,6 +10,8 @@ type Props = {
 };
 
 const Seo = ({ title, description, image, path }: Props) => {
+  const urlD = "https://my-blockly-maze.vercel.app";
+
   // Send pageview with a custom path
   ReactGA.send({
     hitType: "pageview",
@@ -47,16 +49,16 @@ const Seo = ({ title, description, image, path }: Props) => {
       <NextSeo
         title={title}
         description={description}
-        canonical="https://my-blockly-maze.vercel.app"
+        canonical={urlD}
         openGraph={{
-          url: `https://my-blockly-maze.vercel.app${path}`,
+          url: `${urlD}${path}`,
           title: title,
           description: description,
           images: [
             {
-              url: image ? image : "https://i.imgur.com/C2xpI35.png",
-              width: image ? 700 : 1366,
-              height: image ? 600 : 768,
+              url: image ? image : `${urlD}/image.png`,
+              width: 700,
+              height: 600,
             },
           ],
           siteName: "My BLOCKLY Maze",
