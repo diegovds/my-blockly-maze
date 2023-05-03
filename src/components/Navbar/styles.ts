@@ -205,4 +205,11 @@ export const Li = styled.li`
     background-color: #000;
     color: #fff;
   }
+
+  @media (max-width: 1115px) {
+    a,
+    button {
+      font-weight: bold;
+    }
+  }
 `;

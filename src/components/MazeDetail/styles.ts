@@ -28,7 +28,8 @@ export const FlipCardFront = styled.div`
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: 15px;
-  background-color: #eceeed;
+  background-color: #fff;
+  box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
 `;
 
 export const FlipCardBack = styled.div`
