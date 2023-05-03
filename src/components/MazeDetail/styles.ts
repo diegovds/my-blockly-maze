@@ -19,7 +19,6 @@ export const FlipCardInner = styled(motion.div)`
   text-align: center;
   transition: transform 1s;
   transform-style: preserve-3d;
-  transition-delay: 0.25s;
 `;
 
 export const FlipCardFront = styled.div`

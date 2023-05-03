@@ -30,7 +30,10 @@ const MazeDetail = ({
 
   return (
     <C.FlipCard height={height}>
-      <C.FlipCardInner whileInView={{ rotateY: 180 }} viewport={{ once: true }}>
+      <C.FlipCardInner
+        whileInView={{ rotateY: 180, transition: { delay: 0.3 } }}
+        viewport={{ once: true }}
+      >
         <C.FlipCardFront></C.FlipCardFront>
         <C.FlipCardBack ref={refFlipCardBack}>
           {showSkeleton && <Skeleton width={`100%`} />}
