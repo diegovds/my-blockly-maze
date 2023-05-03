@@ -55,6 +55,8 @@ const Seo = ({ title, description, image, path }: Props) => {
           images: [
             {
               url: image ? image : "https://i.imgur.com/C2xpI35.png",
+              width: image ? 700 : 1366,
+              height: image ? 600 : 768,
             },
           ],
           siteName: "My BLOCKLY Maze",
