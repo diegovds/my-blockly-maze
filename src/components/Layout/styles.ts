@@ -10,7 +10,8 @@ type PropsContainer = Props & {
 };
 
 export const Container = styled.div<PropsContainer>`
-  display: ${({ loading }) => (loading ? "none" : "block")};
+  /*display: ${({ loading }) => (loading ? "none" : "block")};*/
+  visibility: ${({ loading }) => (loading ? "hidden" : "visible")};
   width: ${({ positionContainer, timeElapsed }) =>
     positionContainer || timeElapsed > 3 ? "100%" : undefined};
   position: ${({ positionContainer, timeElapsed }) =>
