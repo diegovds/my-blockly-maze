@@ -63,13 +63,13 @@ const Layout = ({ children }: Props) => {
   return (
     <C.Container
       positionContainer={hidden}
-      visibility={sessionStatus === "loading" ? "hidden" : "visible"}
+      loading={sessionStatus === "loading" ? true : false}
       timeElapsed={timeElapsed}
     >
       <header>
         <Navbar openMenu={openMenu} />
       </header>
-      <C.Main visibility={loading ? "hidden" : "visible"}>{children}</C.Main>
+      <C.Main loading={loading ? true : false}>{children}</C.Main>
       {timeElapsed > 3 && <Loading />}
     </C.Container>
   );
