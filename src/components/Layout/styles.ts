@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 type Props = {
-  loading?: boolean;
+  loading: boolean;
 };
 
 type PropsContainer = Props & {
