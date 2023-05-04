@@ -9,6 +9,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import CountUp from "react-countup";
 import Balance from "react-wrap-balancer";
+import { useSession } from "next-auth/react";
 
 type Props = {
   maze: FullMaze;
@@ -32,6 +33,7 @@ const MazePage = ({
   notify,
   loadGame,
 }: Props) => {
+  const { status: sessionStatus } = useSession();
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [styleImg, setStyleImg] = useState("img_loading");
 
@@ -56,7 +58,11 @@ const MazePage = ({
 
   return (
     <C.Coontainer>
-      <C.Maze variants={MazeAnimate} initial="hidden" animate="visible">
+      <C.Maze
+        variants={MazeAnimate}
+        initial="hidden"
+        animate={sessionStatus === "loading" ? undefined : "visible"}
+      >
         <C.Img
           variants={{
             hidden: { x: -20, opacity: 0 },

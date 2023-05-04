@@ -1,8 +1,11 @@
 import Seo from "@/components/Seo";
 import * as C from "@/styles/About.styles";
+import { useSession } from "next-auth/react";
 import Balance from "react-wrap-balancer";
 
 const About = () => {
+  const { status: sessionStatus } = useSession();
+
   const SectionContainerAnimate = {
     hidden: {},
     visible: {
@@ -40,7 +43,7 @@ const About = () => {
         <C.SectionContainer
           variants={SectionContainerAnimate}
           initial="hidden"
-          animate="visible"
+          animate={sessionStatus === "loading" ? undefined : "visible"}
         >
           <C.Section
             variants={{
