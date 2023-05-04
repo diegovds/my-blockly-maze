@@ -1,6 +1,7 @@
 import * as C from "./styles";
 
 import { Maze } from "@/types/Maze";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -23,6 +24,7 @@ const MazeDetail = ({
   loading,
   disabled,
 }: Props) => {
+  const { status: sessionStatus } = useSession();
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [styleImg, setStyleImg] = useState("img_loading");
 
@@ -31,7 +33,10 @@ const MazeDetail = ({
   return (
     <C.FlipCard height={height}>
       <C.FlipCardInner
-        whileInView={{ rotateY: 180, transition: { delay: 0.3 } }}
+        whileInView={{
+          rotateY: sessionStatus === "loading" ? undefined : 180,
+          transition: { delay: 0.3 },
+        }}
         viewport={{ once: true }}
       >
         <C.FlipCardFront></C.FlipCardFront>

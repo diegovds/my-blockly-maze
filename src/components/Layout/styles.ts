@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 type Props = {
-  loading: boolean;
+  load: boolean;
 };
 
 type PropsContainer = Props & {
@@ -10,8 +10,8 @@ type PropsContainer = Props & {
 };
 
 export const Container = styled.div<PropsContainer>`
-  /*display: ${({ loading }) => (loading ? "none" : "block")};*/
-  visibility: ${({ loading }) => (loading ? "hidden" : "visible")};
+  opacity: ${({ load }) => (load ? 0 : 1)};
+  transition: all 0.3s ease;
   width: ${({ positionContainer, timeElapsed }) =>
     positionContainer || timeElapsed > 3 ? "100%" : undefined};
   position: ${({ positionContainer, timeElapsed }) =>
@@ -19,7 +19,7 @@ export const Container = styled.div<PropsContainer>`
 `;
 
 export const Main = styled.main<Props>`
-  opacity: ${({ loading }) => (loading ? 0 : 1)};
+  opacity: ${({ load }) => (load ? 0 : 1)};
   transition: all 0.3s ease;
   min-height: calc(100vh - 70.94px); /*  70.94px é a altura da navbar */
 `;
