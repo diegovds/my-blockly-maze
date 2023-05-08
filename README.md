@@ -60,4 +60,4 @@ npm install
 npm run dev
 ```
 
-- Após a compilação, a página será aberta em seu navegador, caso contrário, basta acessar o localhost:3000
+- Após a compilação, a página será aberta em seu navegador, caso contrário, basta acessar [localhost:3000](http://localhost:3000/)
