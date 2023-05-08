@@ -1,4 +1,3 @@
-import { Fredoka } from "next/font/google";
 import { ReactElement, useEffect, useState } from "react";
 import * as C from "./styles";
 
@@ -11,8 +10,6 @@ import Loading from "../Loading";
 type Props = {
   children: ReactElement;
 };
-
-const fredoka = Fredoka({ weight: "400", subsets: ["latin"], display: "swap" });
 
 const Layout = ({ children }: Props) => {
   const router = useRouter();
@@ -69,11 +66,6 @@ const Layout = ({ children }: Props) => {
       load={sessionStatus === "loading" ? true : false}
       timeElapsed={timeElapsed}
     >
-      <style jsx global>{`
-        * {
-          font-family: ${fredoka.style.fontFamily};
-        }
-      `}</style>
       <header>
         <Navbar openMenu={openMenu} />
       </header>

@@ -1,10 +1,14 @@
+import { Fredoka } from "next/font/google";
 import { createGlobalStyle } from "styled-components";
 
+const fredoka = Fredoka({ weight: "400", subsets: ["latin"], display: "swap" });
+
 export default createGlobalStyle`
-  *{
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: ${fredoka.style.fontFamily};
   }
 
   body {
