@@ -10,7 +10,7 @@ type Props = {
 };
 
 const Seo = ({ title, description, image, path }: Props) => {
-  const urlD = "https://my-blockly-maze.vercel.app";
+  const urlD = "https://myblocklymaze-v2.vercel.app";
 
   // Send pageview with a custom path
   ReactGA.send({
