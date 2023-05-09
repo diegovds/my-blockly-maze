@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useState } from "react";
 import DashBoardModal from "@/components/DashBoardModal";
+import { AnimatePresence } from "framer-motion";
 
 type Props = {
   userData: MazesUser;
@@ -88,13 +89,15 @@ const Dashboard = ({ userData }: Props) => {
         description={`Página dashboard da plataforma My BLOCKLY Maze.`}
         path="/dashboard"
       />
-      {mazeDelete && (
-        <DashBoardModal
-          openModal={openModal}
-          toDelete={toDelete}
-          maze={mazeDelete}
-        />
-      )}
+      <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
+        {mazeDelete && (
+          <DashBoardModal
+            openModal={openModal}
+            toDelete={toDelete}
+            maze={mazeDelete}
+          />
+        )}
+      </AnimatePresence>
       <DashboardHeader username={userData.username} amount={mazeGames.length} />
       {userData && mazeGames.length > 0 && (
         <MazesContainer>
