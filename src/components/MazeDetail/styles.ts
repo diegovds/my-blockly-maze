@@ -34,23 +34,23 @@ export const FlipCardFront = styled.div`
 
 const flipInY = keyframes`
   0% {
-    transform: perspective(1000px) rotate3d(0, 1, 0, 90deg);
+    transform: perspective(1000px) rotateY(90deg);
     animation-timing-function: ease-in;
     //opacity: 0;
   }
 
   40% {
-    transform: perspective(1000px) rotate3d(0, 1, 0, -20deg);
+    transform: perspective(1000px) rotateY(-20deg);
     animation-timing-function: ease-in;
   }
 
   60% {
-    transform: perspective(1000px) rotate3d(0, 1, 0, 10deg);
+    transform: perspective(1000px) rotateY(10deg);
     //opacity: 1;
   }
 
   80% {
-    transform: perspective(1000px) rotate3d(0, 1, 0, -5deg);
+    transform: perspective(1000px) rotateY(-5deg);
   }
 
   100% {
