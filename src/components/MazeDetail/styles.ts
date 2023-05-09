@@ -33,10 +33,13 @@ export const FlipCardFront = styled.div`
 `;
 
 export const FlipCardBack = styled.div`
+  /*
   position: absolute;
   width: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  */
+  width: 9.5rem;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -50,7 +53,10 @@ export const FlipCardBack = styled.div`
   box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
   word-wrap: break-word; /* com isso o conteúdo não vai vazar da div */
   box-sizing: border-box;
+  /*
   transform: rotateY(180deg);
+  */
+  animation-delay: 0.3s;
 
   img {
     width: 90%;
