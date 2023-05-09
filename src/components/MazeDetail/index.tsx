@@ -1,5 +1,4 @@
 import * as C from "./styles";
-import "animate.css";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import { Maze } from "@/types/Maze";
@@ -34,16 +33,7 @@ const MazeDetail = ({
   return (
     <C.FlipCardBack
       ref={refFlipCardBack}
-      className={
-        isInView && sessionStatus !== "loading"
-          ? "animate__animated animate__flipInY"
-          : undefined
-      }
-      style={
-        isInView && sessionStatus !== "loading"
-          ? { visibility: "visible" }
-          : { visibility: "hidden" }
-      }
+      inView={isInView && sessionStatus !== "loading" ? true : false}
     >
       {showSkeleton && <Skeleton width={`100%`} />}
       <Image

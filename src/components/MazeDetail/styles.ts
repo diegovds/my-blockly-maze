@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 
 type Props = {
@@ -32,7 +32,37 @@ export const FlipCardFront = styled.div`
   box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
 `;
 
-export const FlipCardBack = styled.div`
+const flipInY = keyframes`
+  0% {
+    transform: perspective(1000px) rotate3d(0, 1, 0, 90deg);
+    animation-timing-function: ease-in;
+    //opacity: 0;
+  }
+
+  40% {
+    transform: perspective(1000px) rotate3d(0, 1, 0, -20deg);
+    animation-timing-function: ease-in;
+  }
+
+  60% {
+    transform: perspective(1000px) rotate3d(0, 1, 0, 10deg);
+    //opacity: 1;
+  }
+
+  80% {
+    transform: perspective(1000px) rotate3d(0, 1, 0, -5deg);
+  }
+
+  100% {
+    transform: perspective(1000px);
+  }
+`;
+
+type FlipCardBackProps = {
+  inView: boolean;
+};
+
+export const FlipCardBack = styled.div<FlipCardBackProps>`
   /*
   position: absolute;
   width: 100%;
@@ -56,7 +86,10 @@ export const FlipCardBack = styled.div`
   /*
   transform: rotateY(180deg);
   */
+  visibility: ${({ inView }) => (inView ? "visible" : "hidden")};
+  animation: ${({ inView }) => (inView ? flipInY : undefined)} 1s;
   animation-delay: 0.3s;
+  animation-fill-mode: both;
 
   img {
     width: 90%;
