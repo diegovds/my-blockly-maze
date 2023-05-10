@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useState } from "react";
 import DashBoardModal from "@/components/DashBoardModal";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
   userData: MazesUser;
@@ -103,21 +103,23 @@ const Dashboard = ({ userData }: Props) => {
         <MazesContainer>
           {mazeGames.map((maze) =>
             maze.id !== mazeDelete?.id ? (
-              <MazeDetail
-                key={maze.id}
-                maze={maze}
-                deleteMazeGame={deleteMazeGame}
-                dashboard={true}
-                disabled={mazeDelete !== undefined ? true : false}
-              />
+              <motion.div key={maze.id} layout>
+                <MazeDetail
+                  maze={maze}
+                  deleteMazeGame={deleteMazeGame}
+                  dashboard={true}
+                  disabled={mazeDelete !== undefined ? true : false}
+                />
+              </motion.div>
             ) : (
-              <MazeDetail
-                key={maze.id}
-                maze={maze}
-                deleteMazeGame={deleteMazeGame}
-                dashboard={true}
-                loading={true}
-              />
+              <motion.div key={maze.id} layout>
+                <MazeDetail
+                  maze={maze}
+                  deleteMazeGame={deleteMazeGame}
+                  dashboard={true}
+                  loading={true}
+                />
+              </motion.div>
             )
           )}
         </MazesContainer>

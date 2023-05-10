@@ -5,6 +5,7 @@ import { Maze } from "@/types/Maze";
 import { GetServerSideProps } from "next";
 import MazeDetail from "@/components/MazeDetail";
 import { MazesContainer } from "@/components/MazesContainer";
+import { motion } from "framer-motion";
 
 type Props = {
   q: string;
@@ -19,7 +20,6 @@ const SearchPage = ({ q, mazes }: Props) => {
           title={`My BLOCKLY Maze | Busca por "${q}"`}
           description={`Página de busca na plataforma My BLOCKLY Maze.`}
           path={`/search?q=${q}`}
-
         />
         <h2>Pesquisa por &quot;{q}&quot;</h2>
         <p>
@@ -35,7 +35,9 @@ const SearchPage = ({ q, mazes }: Props) => {
         <>
           <MazesContainer>
             {mazes.map((maze) => (
-              <MazeDetail key={maze.id} maze={maze} />
+              <motion.div key={maze.id} layout>
+                <MazeDetail maze={maze} />
+              </motion.div>
             ))}
           </MazesContainer>
         </>
