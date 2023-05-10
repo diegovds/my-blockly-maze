@@ -69,7 +69,9 @@ const Layout = ({ children }: Props) => {
       <header>
         <Navbar openMenu={openMenu} />
       </header>
-      <C.Main load={loading ? true : false}>{children}</C.Main>
+      <C.Main load={loading && router.pathname !== "/search" ? true : false}>
+        {children}
+      </C.Main>
       {timeElapsed > 3 && <Loading />}
     </C.Container>
   );
