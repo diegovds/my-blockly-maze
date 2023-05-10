@@ -28,12 +28,12 @@ const Dashboard = ({ userData }: Props) => {
   const [openModal, setOpenModal] = useState(false);
 
   const toDelete = async (toDelete: boolean) => {
-    if (toDelete) {
+    if (toDelete && mazeDelete) {
       setOpenModal(false);
 
       await toast
         .promise(
-          axios.delete(`api/mazes/${mazeDelete?.id}`),
+          axios.delete(`api/mazes/${mazeDelete.id}`),
           {
             pending: "Processando solicitação",
             success: "Jogo excluído com sucesso 👌",
@@ -52,16 +52,12 @@ const Dashboard = ({ userData }: Props) => {
         )
         .then(() => {
           const delay = setTimeout(async () => {
-            let verifiedMazeGames: Maze[] = [];
+            let index = mazeGames.map((maze) => maze.id).indexOf(mazeDelete.id);
 
-            for (let index in mazeGames) {
-              if (mazeGames[index].id !== mazeDelete?.id) {
-                verifiedMazeGames.push(mazeGames[index]);
-              }
-            }
+            mazeGames.splice(index, 1);
 
             setMazeDelete(undefined);
-            setMazeGames(verifiedMazeGames);
+            setMazeGames([...mazeGames]);
           }, 2000); // aguarda 2 segundos
 
           return () => {
