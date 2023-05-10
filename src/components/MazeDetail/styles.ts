@@ -2,12 +2,14 @@ import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 
 type Props = {
-  height: number;
+  height?: number;
 };
 
 export const FlipCard = styled.div<Props>`
+  /*
   width: 9.5rem;
   height: ${({ height }) => height + "px"};
+  */
   background-color: transparent;
   perspective: 1000px;
 `;
@@ -34,28 +36,26 @@ export const FlipCardFront = styled.div`
 
 const flipInY = keyframes`
   0% {
-    transform: perspective(1000px) rotateY(90deg);
+    transform: rotateY(90deg);
     animation-timing-function: ease-in;
     //opacity: 0;
   }
 
   40% {
-    transform: perspective(1000px) rotateY(-20deg);
+    transform: rotateY(-20deg);
     animation-timing-function: ease-in;
   }
 
   60% {
-    transform: perspective(1000px) rotateY(10deg);
+    transform: rotateY(10deg);
     //opacity: 1;
   }
 
   80% {
-    transform: perspective(1000px) rotateY(-5deg);
+    transform: rotateY(-5deg);
   }
 
-  100% {
-    transform: perspective(1000px);
-  }
+  100% { }
 `;
 
 type FlipCardBackProps = {

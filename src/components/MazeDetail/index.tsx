@@ -31,59 +31,61 @@ const MazeDetail = ({
   const [styleImg, setStyleImg] = useState("img_loading");
 
   return (
-    <C.FlipCardBack
-      ref={refFlipCardBack}
-      inView={isInView && sessionStatus !== "loading" ? true : false}
-    >
-      {showSkeleton && <Skeleton width={`100%`} />}
-      <Image
-        src={urlImage}
-        alt={image}
-        width={100}
-        height={100}
-        priority
-        className={styleImg}
-        onLoad={() => {
-          setShowSkeleton(false);
-          setStyleImg("img_loaded");
-        }}
-      />
-      <h3>{name}</h3>
-      <p id="date">
-        Criado em:
-        <br />
-        {createdAt}
-      </p>
-      <Link
-        href={`/mazes/${id}`}
-        className="btn"
-        style={loading || disabled ? { pointerEvents: "none" } : {}}
+    <C.FlipCard>
+      <C.FlipCardBack
+        ref={refFlipCardBack}
+        inView={isInView && sessionStatus !== "loading" ? true : false}
       >
-        Detalhes
-      </Link>
-      {dashboard && deleteMazeGame && !loading && !disabled && (
-        <button
-          className="btn btn-danger"
-          onClick={() =>
-            deleteMazeGame({ urlImage, image, name, createdAt, id, code })
-          }
+        {showSkeleton && <Skeleton width={`100%`} />}
+        <Image
+          src={urlImage}
+          alt={image}
+          width={100}
+          height={100}
+          priority
+          className={styleImg}
+          onLoad={() => {
+            setShowSkeleton(false);
+            setStyleImg("img_loaded");
+          }}
+        />
+        <h3>{name}</h3>
+        <p id="date">
+          Criado em:
+          <br />
+          {createdAt}
+        </p>
+        <Link
+          href={`/mazes/${id}`}
+          className="btn"
+          style={loading || disabled ? { pointerEvents: "none" } : {}}
         >
-          Excluir
-        </button>
-      )}
+          Detalhes
+        </Link>
+        {dashboard && deleteMazeGame && !loading && !disabled && (
+          <button
+            className="btn btn-danger"
+            onClick={() =>
+              deleteMazeGame({ urlImage, image, name, createdAt, id, code })
+            }
+          >
+            Excluir
+          </button>
+        )}
 
-      {dashboard && deleteMazeGame && loading && (
-        <button className="btn" disabled>
-          Aguarde...
-        </button>
-      )}
+        {dashboard && deleteMazeGame && loading && (
+          <button className="btn" disabled>
+            Aguarde...
+          </button>
+        )}
 
-      {dashboard && deleteMazeGame && disabled && (
-        <button className="btn" style={{ backgroundColor: "#f00" }} disabled>
-          Excluir
-        </button>
-      )}
-    </C.FlipCardBack>
+        {dashboard && deleteMazeGame && disabled && (
+          <button className="btn" style={{ backgroundColor: "#f00" }} disabled>
+            Excluir
+          </button>
+        )}
+      </C.FlipCardBack>
+    </C.FlipCard>
   );
 };
 
