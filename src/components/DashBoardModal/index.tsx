@@ -14,23 +14,20 @@ type Props = {
 const DashBoardModal = ({ openModal, toDelete, maze }: Props) => {
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  const flip = {
+  const dropIn = {
     hidden: {
-      transform: "scale(0) rotateX(-360deg)",
+      y: "-100vh",
       opacity: 0,
-      transition: {
-        delay: 0.3,
-      },
     },
     visible: {
-      transform: " scale(1) rotateX(0deg)",
+      y: "0",
       opacity: 1,
       transition: {
         duration: 0.5,
       },
     },
     exit: {
-      transform: "scale(0) rotateX(360deg)",
+      y: "100vh",
       opacity: 0,
       transition: {
         duration: 0.5,
@@ -50,11 +47,11 @@ const DashBoardModal = ({ openModal, toDelete, maze }: Props) => {
       display={openModal ? "flex" : "none"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, transition: { delay: 0.2 } }}
     >
       <C.Content
         onClick={(e) => e.stopPropagation()}
-        variants={flip}
+        variants={dropIn}
         initial="hidden"
         animate="visible"
         exit="exit"

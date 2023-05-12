@@ -32,6 +32,8 @@ export const Content = styled(motion.div)`
   width: 40%;
   min-height: 12rem;
   word-wrap: break-word; /* com isso o conteúdo não vai vazar da div */
+  //box-shadow: rgba(204, 204, 204, 0.375) 0px 0px 20px;
+  box-shadow: rgb(204, 204, 204) 0px 0px 4px;
 
   button {
     min-width: 7.625rem;
