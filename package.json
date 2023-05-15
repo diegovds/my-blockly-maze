@@ -30,7 +30,6 @@
     "eslint-config-next": "^13.4.1",
     "firebase": "^9.19.1",
     "framer-motion": "^10.12.4",
-    "license-key-generator": "^1.1.2",
     "multer": "^1.4.5-lts.1",
     "next": "^13.4.1",
     "next-auth": "^4.22.0",

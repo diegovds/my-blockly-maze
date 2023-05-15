@@ -7,7 +7,7 @@ import {
   removeFromFirebase,
 } from "@/hooks/useFirebaseStorage";
 import { UpdatedMaze as UpdatedMazeType } from "@/types/UpdatedMaze";
-const Generator = require("license-key-generator");
+import { codeGenerator } from "@/utils/codeGenerator";
 
 const getFile = multerConfig.single("image");
 
@@ -39,35 +39,24 @@ apiRoute.post(getFile, async (req: any, res: NextApiResponse) => {
     return;
   }
 
-  const options = {
-    type: "random", // default "random"
-    length: 6, // default 16
-    group: 1, // default 4
-    split: "-", // default "-"
-    splitStatus: false, // default true
-  };
-  const codeGen = new Generator(options);
-  codeGen.get(async (error: any, code: any) => {
-    if (error) return console.error(error);
-    //console.log("code=", code);
+  const { code } = await codeGenerator(6);
 
-    const newMaze = await insertNewMaze(
-      id as string,
-      name,
-      0,
-      code,
-      image,
-      urlImage,
-      levels
-    ).catch((e) => {
-      removeFromFirebase(image);
-      res.status(400).json({ error: e });
-    });
-
-    if (newMaze) {
-      res.status(201).json({ status: true, data: newMaze });
-    }
+  const newMaze = await insertNewMaze(
+    id as string,
+    name,
+    0,
+    code,
+    image,
+    urlImage,
+    levels
+  ).catch((e) => {
+    removeFromFirebase(image);
+    res.status(400).json({ error: e });
   });
+
+  if (newMaze) {
+    res.status(201).json({ status: true, data: newMaze });
+  }
 });
 
 /** Delete a maze */
