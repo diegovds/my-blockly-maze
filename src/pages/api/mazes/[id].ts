@@ -39,7 +39,7 @@ apiRoute.post(getFile, async (req: any, res: NextApiResponse) => {
     return;
   }
 
-  const { code } = await codeGenerator(6);
+  const { code } = codeGenerator(6);
 
   const newMaze = await insertNewMaze(
     id as string,
