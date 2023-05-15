@@ -40,8 +40,8 @@ const MazeDetail = ({
         <Image
           src={urlImage}
           alt={image}
-          width={100}
-          height={100}
+          width={700}
+          height={600}
           priority
           className={styleImg}
           onLoad={() => {
