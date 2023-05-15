@@ -1,9 +1,11 @@
 import { mazeApi as api } from "@/libs/mazeApi";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
-import multerConfig from "@/utils/multerConfig";
-import uploadToFirebase from "@/utils/uploadToFirebase";
-import removeFromFirebase from "@/utils/removeFromFirebase";
+import multerConfig from "@/libs/multerConfig";
+import {
+  uploadToFirebase,
+  removeFromFirebase,
+} from "@/hooks/useFirebaseStorage";
 import { UpdatedMaze as UpdatedMazeType } from "@/types/UpdatedMaze";
 const Generator = require("license-key-generator");
 

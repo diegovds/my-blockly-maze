@@ -1,13 +1,17 @@
-import { storage } from "./firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { url } from "inspector";
+import { storage } from "@/libs/firebase";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 
 type uploadImage = (
   imageFile: any
 ) => Promise<{ image: string; urlImage: string }>;
 
-const uploadToFirebase: uploadImage = async (imageFile) => {
+export const uploadToFirebase: uploadImage = async (imageFile) => {
   let urlImage = "";
 
   const image = imageFile;
@@ -28,4 +32,16 @@ const uploadToFirebase: uploadImage = async (imageFile) => {
   return { image: imageName, urlImage };
 };
 
-export default uploadToFirebase;
+export const removeFromFirebase = async (imageName: string) => {
+  // Create a reference to the file to delete
+  const desertRef = ref(storage, imageName);
+
+  // Delete the file
+  await deleteObject(desertRef)
+    .then(() => {
+      // File deleted successfully
+    })
+    .catch((error) => {
+      // Uh-oh, an error occurred!
+    });
+};
