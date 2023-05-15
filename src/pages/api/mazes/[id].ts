@@ -7,6 +7,8 @@ import removeFromFirebase from "@/utils/removeFromFirebase";
 import { UpdatedMaze as UpdatedMazeType } from "@/types/UpdatedMaze";
 const Generator = require("license-key-generator");
 
+const getFile = multerConfig.single("image");
+
 const apiRoute = nextConnect({
   onError(error, req: NextApiRequest, res: NextApiResponse) {
     res
@@ -18,17 +20,22 @@ const apiRoute = nextConnect({
   },
 });
 
-apiRoute.use(multerConfig.single("image"), uploadToFirebase);
-
 apiRoute.options(async (req, res: NextApiResponse) => {
   return res.status(200).json({});
 });
 
 /** Insert new maze */
-apiRoute.post(async (req: any, res: NextApiResponse) => {
+apiRoute.post(getFile, async (req: any, res: NextApiResponse) => {
   const { id } = req.query;
   const { name, levels } = req.body;
   const { insertNewMaze } = api();
+
+  const { image, urlImage } = await uploadToFirebase(req.file);
+
+  if (urlImage.length === 0) {
+    res.status(400).json({ error: "Erro ao fazer upload da imagem" });
+    return;
+  }
 
   const options = {
     type: "random", // default "random"
@@ -47,11 +54,11 @@ apiRoute.post(async (req: any, res: NextApiResponse) => {
       name,
       0,
       code,
-      req.file.key,
-      req.file.location,
+      image,
+      urlImage,
       levels
     ).catch((e) => {
-      removeFromFirebase(req.file.key);
+      removeFromFirebase(image);
       res.status(400).json({ error: e });
     });
 
@@ -94,7 +101,7 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 /** Update a maze */
-apiRoute.put(async (req: any, res: NextApiResponse) => {
+apiRoute.put(getFile, async (req: any, res: NextApiResponse) => {
   const { name, levels, executions, code, createdAt } = req.body;
   const { id } = req.query;
   const { getMaze, updateMaze } = api();
@@ -105,15 +112,21 @@ apiRoute.put(async (req: any, res: NextApiResponse) => {
   const maze = await getMaze(id as string);
 
   if (!maze) {
-    if (req.file) {
-      removeFromFirebase(req.file.key);
-    }
     res.status(404).json({ message: "Maze não encontrado" });
+    return;
   } else {
     if (req.file) {
       oldBackground = maze.image;
-      data.image = req.file.key;
-      data.urlImage = req.file.location;
+
+      const { image, urlImage } = await uploadToFirebase(req.file);
+
+      if (urlImage.length === 0) {
+        res.status(400).json({ error: "Erro ao fazer upload da imagem" });
+        return;
+      }
+
+      data.image = image;
+      data.urlImage = urlImage;
     }
 
     if (name) {
@@ -137,11 +150,11 @@ apiRoute.put(async (req: any, res: NextApiResponse) => {
     }
 
     const updatedMaze = await updateMaze(id as string, data).catch((e) => {
-      if (oldBackground) {
-        removeFromFirebase(req.file.key);
+      if (oldBackground && data.image) {
+        removeFromFirebase(data.image);
       }
 
-      res.json({ error: e.meta });
+      res.status(400).json({ error: e.meta });
     });
 
     if (updatedMaze) {

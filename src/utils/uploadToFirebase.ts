@@ -1,13 +1,16 @@
 import { storage } from "./firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { url } from "inspector";
 import { v4 as uuidv4 } from "uuid";
 
-const uploadToFirebase = async (req, res, next) => {
-  if (!req.file) {
-    return next();
-  }
+type uploadImage = (
+  imageFile: any
+) => Promise<{ image: string; urlImage: string }>;
 
-  const image = req.file;
+const uploadToFirebase: uploadImage = async (imageFile) => {
+  let urlImage = "";
+
+  const image = imageFile;
   const imageName = `${uuidv4()}.${image.originalname.split(".").pop()}`;
 
   const imageRef = ref(storage, `/${imageName}`);
@@ -18,12 +21,11 @@ const uploadToFirebase = async (req, res, next) => {
 
   await uploadBytes(imageRef, image.buffer, metadata).then(async (snaphsot) => {
     await getDownloadURL(snaphsot.ref).then((url) => {
-      req.file.key = imageName;
-      req.file.location = url;
+      urlImage = url;
     });
   });
 
-  next();
+  return { image: imageName, urlImage };
 };
 
 export default uploadToFirebase;

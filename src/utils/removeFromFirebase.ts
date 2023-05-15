@@ -1,7 +1,7 @@
 import { storage } from "./firebase";
 import { ref, deleteObject } from "firebase/storage";
 
-const removeFromFirebase = async (imageName) => {
+const removeFromFirebase = async (imageName: string) => {
   // Create a reference to the file to delete
   const desertRef = ref(storage, imageName);
 
