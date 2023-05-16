@@ -6,16 +6,16 @@ type Props = {
 
 type PropsContainer = Props & {
   positionContainer: boolean;
-  timeElapsed: number;
+  timeElapsed: boolean;
 };
 
 export const Container = styled.div<PropsContainer>`
   opacity: ${({ load }) => (load ? 0 : 1)};
   transition: all 0.3s ease;
   width: ${({ positionContainer, timeElapsed }) =>
-    positionContainer || timeElapsed > 3 ? "100%" : undefined};
+    positionContainer || timeElapsed ? "100%" : undefined};
   position: ${({ positionContainer, timeElapsed }) =>
-    positionContainer || timeElapsed > 3 ? "fixed" : undefined};
+    positionContainer || timeElapsed ? "fixed" : undefined};
 `;
 
 export const Main = styled.main<Props>`

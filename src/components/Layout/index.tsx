@@ -64,7 +64,7 @@ const Layout = ({ children }: Props) => {
     <C.Container
       positionContainer={hidden}
       load={sessionStatus === "loading" ? true : false}
-      timeElapsed={timeElapsed}
+      timeElapsed={timeElapsed > 0 ? true : false}
     >
       <header>
         <Navbar openMenu={openMenu} />
@@ -72,7 +72,7 @@ const Layout = ({ children }: Props) => {
       <C.Main load={loading && router.pathname !== "/search" ? true : false}>
         {children}
       </C.Main>
-      {timeElapsed > 3 && <Loading />}
+      {timeElapsed > 0 && <Loading />}
     </C.Container>
   );
 };
