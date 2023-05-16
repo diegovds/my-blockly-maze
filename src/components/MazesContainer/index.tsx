@@ -7,7 +7,7 @@ type Props = {
 };
 
 const MazesContainer = ({ children }: Props) => {
-  const [animationParent] = useAutoAnimate();
+  const [animationParent] = useAutoAnimate({ duration: 300 });
 
   return <C.Container ref={animationParent}>{children}</C.Container>;
 };
