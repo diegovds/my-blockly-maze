@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const MazesContainer = styled.div`
+export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(
     auto-fill,

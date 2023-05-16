@@ -4,8 +4,7 @@ import { mazeApi } from "@/libs/mazeApi";
 import { Maze } from "@/types/Maze";
 import { GetServerSideProps } from "next";
 import MazeDetail from "@/components/MazeDetail";
-import { MazesContainer } from "@/components/MazesContainer";
-import { motion } from "framer-motion";
+import MazesContainer from "@/components/MazesContainer";
 
 type Props = {
   q: string;
@@ -35,9 +34,7 @@ const SearchPage = ({ q, mazes }: Props) => {
         <>
           <MazesContainer>
             {mazes.map((maze) => (
-              <motion.div key={maze.id} layout>
-                <MazeDetail maze={maze} />
-              </motion.div>
+              <MazeDetail key={maze.id} maze={maze} />
             ))}
           </MazesContainer>
         </>

@@ -7,7 +7,7 @@ import { authOptions } from "./api/auth/[...nextauth]";
 import { userApi } from "@/libs/userApi";
 import { MazesUser } from "@/types/MazesUser";
 import DashboardHeader from "@/components/DashboardHeader";
-import { MazesContainer } from "@/components/MazesContainer";
+import MazesContainer from "@/components/MazesContainer";
 import MazeDetail from "@/components/MazeDetail";
 import { Maze } from "@/types/Maze";
 import Seo from "@/components/Seo";
@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useState } from "react";
 import DashBoardModal from "@/components/DashBoardModal";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 type Props = {
   userData: MazesUser;
@@ -99,23 +99,21 @@ const Dashboard = ({ userData }: Props) => {
         <MazesContainer>
           {mazeGames.map((maze) =>
             maze.id !== mazeDelete?.id ? (
-              <motion.div key={maze.id} layout>
-                <MazeDetail
-                  maze={maze}
-                  deleteMazeGame={deleteMazeGame}
-                  dashboard={true}
-                  disabled={mazeDelete !== undefined ? true : false}
-                />
-              </motion.div>
+              <MazeDetail
+                key={maze.id}
+                maze={maze}
+                deleteMazeGame={deleteMazeGame}
+                dashboard={true}
+                disabled={mazeDelete !== undefined ? true : false}
+              />
             ) : (
-              <motion.div key={maze.id} layout>
-                <MazeDetail
-                  maze={maze}
-                  deleteMazeGame={deleteMazeGame}
-                  dashboard={true}
-                  loading={true}
-                />
-              </motion.div>
+              <MazeDetail
+                key={maze.id}
+                maze={maze}
+                deleteMazeGame={deleteMazeGame}
+                dashboard={true}
+                loading={true}
+              />
             )
           )}
         </MazesContainer>

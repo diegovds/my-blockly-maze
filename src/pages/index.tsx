@@ -4,7 +4,7 @@ import Seo from "@/components/Seo";
 import { Maze } from "@/types/Maze";
 import { mazeApi } from "@/libs/mazeApi";
 import MazeDetail from "@/components/MazeDetail";
-import { MazesContainer } from "@/components/MazesContainer";
+import MazesContainer from "@/components/MazesContainer";
 
 import Link from "next/link";
 

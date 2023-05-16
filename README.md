@@ -36,6 +36,7 @@ Para informações mais detalhadas sobre a plataforma My BLOCKLY Maze acesse o r
 - [Copy to clipboard](https://github.com/sudodoki/copy-to-clipboard#readme)
 - [Dayjs](https://day.js.org/)
 - [Framer motion](https://www.framer.com/motion/)
+- [AutoAnimate](https://github.com/formkit/auto-animate#readme)
 - [Styled components](https://styled-components.com/)
 - [Usehooks-ts](https://usehooks-ts.com/)
 
