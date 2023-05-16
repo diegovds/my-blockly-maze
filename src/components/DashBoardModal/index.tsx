@@ -6,34 +6,12 @@ import Balance from "react-wrap-balancer";
 import { Maze } from "@/types/Maze";
 
 type Props = {
-  openModal: boolean;
   toDelete: (toDelete: boolean) => void;
   maze: Maze;
 };
 
-const DashBoardModal = ({ openModal, toDelete, maze }: Props) => {
+const DashBoardModal = ({ toDelete, maze }: Props) => {
   const overlayRef = useRef<HTMLDivElement>(null);
-
-  const dropIn = {
-    hidden: {
-      y: "-100vh",
-      opacity: 0,
-    },
-    visible: {
-      y: "0",
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-      },
-    },
-    exit: {
-      y: "100vh",
-      opacity: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
 
   useClickAnyWhere((e) => {
     if (e.target === overlayRef.current) {
@@ -44,18 +22,11 @@ const DashBoardModal = ({ openModal, toDelete, maze }: Props) => {
   return (
     <C.Overlay
       ref={overlayRef}
-      display={openModal ? "flex" : "none"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { delay: 0.2 } }}
+      exit={{ opacity: 0 }}
     >
-      <C.Content
-        onClick={(e) => e.stopPropagation()}
-        variants={dropIn}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-      >
+      <C.Content onClick={(e) => e.stopPropagation()}>
         <h3>
           <Balance>
             Deseja excluir o jogo {maze.name} (Cód. {maze.code})?

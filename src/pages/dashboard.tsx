@@ -86,12 +86,8 @@ const Dashboard = ({ userData }: Props) => {
         path="/dashboard"
       />
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
-        {mazeDelete && (
-          <DashBoardModal
-            openModal={openModal}
-            toDelete={toDelete}
-            maze={mazeDelete}
-          />
+        {mazeDelete && openModal && (
+          <DashBoardModal toDelete={toDelete} maze={mazeDelete} />
         )}
       </AnimatePresence>
       <DashboardHeader username={userData.username} amount={mazeGames.length} />

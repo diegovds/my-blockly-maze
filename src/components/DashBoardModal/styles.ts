@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-type OverlayProps = {
-  display: string;
-};
-
-export const Overlay = styled(motion.div)<OverlayProps>`
+export const Overlay = styled(motion.div)`
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
   position: fixed;
@@ -15,12 +11,12 @@ export const Overlay = styled(motion.div)<OverlayProps>`
   left: 0;
   z-index: 3;
 
-  display: ${({ display }) => display};
+  display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-export const Content = styled(motion.div)`
+export const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
