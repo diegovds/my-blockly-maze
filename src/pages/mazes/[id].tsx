@@ -5,7 +5,6 @@ import { GetServerSideProps } from "next";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, ToastOptions, toast } from "react-toastify";
 import { useState } from "react";
-import { useRouter } from "next/router";
 
 import { FullMaze } from "@/types/FullMaze";
 import Seo from "@/components/Seo";
@@ -18,11 +17,8 @@ type Props = {
   maze: FullMaze;
 };
 
-const Maze = ({
-  maze,
-  maze: { id, name, urlImage, username, createdAt, executions, levels },
-}: Props) => {
-  const router = useRouter();
+const Maze = ({ maze }: Props) => {
+  const { id, name, urlImage, username, createdAt, executions, levels } = maze;
   const [runGame, setRunGame] = useState(false);
   const [loading, setLoading] = useState(false);
   const isMobile = useMediaQuery("(max-width: 1115px)");
@@ -44,7 +40,7 @@ const Maze = ({
       await axios
         .put(`/api/mazes/${id}`, dataMaze)
         .then(() => {
-          executions += 1;
+          maze.executions += 1;
           setRunGame(true);
         })
         .catch(() => {
@@ -59,7 +55,6 @@ const Maze = ({
   const endGame = () => {
     window.scrollTo(0, 0);
     setRunGame(false);
-    router.push(`/mazes/${id}`);
   };
 
   const toastConfig: ToastOptions<{}> = {
