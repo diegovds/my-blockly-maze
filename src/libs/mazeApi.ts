@@ -28,10 +28,7 @@ export const mazeApi = () => {
 
       treatedData.push({
         id: element.id,
-        name:
-          element.name.length > 8
-            ? element.name.slice(0, 8) + "..."
-            : element.name,
+        name: element.name,
         code: element.code,
         image: element.image,
         urlImage: element.urlImage,

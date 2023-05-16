@@ -107,7 +107,11 @@ export const FlipCardBack = styled.div<FlipCardBackProps>`
   }
 
   h3 {
+    max-width: 86%;
     margin-bottom: 0.4em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   p {
