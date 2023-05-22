@@ -2,6 +2,9 @@ import { userApi as api } from "@/libs/userApi";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import multer from "multer";
+import { getToken } from "next-auth/jwt";
+
+const secret = process.env.NEXTAUTH_SECRET;
 
 const apiRoute = nextConnect({
   onError(error, req: NextApiRequest, res: NextApiResponse) {
@@ -23,6 +26,13 @@ apiRoute.options(async (req, res: NextApiResponse) => {
 /** Get a user */
 apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
+  const token = await getToken({ req, secret });
+
+  if (!token || id !== token.sub) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
+
   const { getUser } = api();
 
   const user = await getUser(id as string);
@@ -33,6 +43,13 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 /** Update a user */
 apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
+  const token = await getToken({ req, secret });
+
+  if (!token || id !== token.sub) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
+
   const { name } = req.body;
   const { updateUser } = api();
 
@@ -49,6 +66,13 @@ apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
 /** Delete a user */
 apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
+  const token = await getToken({ req, secret });
+
+  if (!token || id !== token.sub) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
+
   const { deleteUser } = api();
 
   const user = await deleteUser(id as string).catch((e) => {

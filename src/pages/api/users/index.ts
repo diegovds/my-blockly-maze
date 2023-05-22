@@ -23,6 +23,13 @@ apiRoute.options(async (req, res: NextApiResponse) => {
 
 /** Get all users */
 apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
+  const token = req.headers["myblocklymaze-admin"];
+
+  if (token !== process.env.MYBLOCKLYMAZE) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
+
   const { getAllUsers } = api();
 
   const users = await getAllUsers();
