@@ -15,9 +15,10 @@ import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
   maze: FullMaze;
+  myblocklymazeAdmin: string;
 };
 
-const Maze = ({ maze }: Props) => {
+const Maze = ({ maze, myblocklymazeAdmin }: Props) => {
   const { id, name, urlImage, username, createdAt, executions, levels } = maze;
   const [runGame, setRunGame] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -38,7 +39,9 @@ const Maze = ({ maze }: Props) => {
       setLoading(true);
 
       await axios
-        .put(`/api/mazes/${id}`, dataMaze)
+        .put(`/api/mazes/${id}`, dataMaze, {
+          headers: { "myblocklymaze-admin": myblocklymazeAdmin },
+        })
         .then(() => {
           maze.executions += 1;
           setRunGame(true);
@@ -115,6 +118,7 @@ const Maze = ({ maze }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const myblocklymazeAdmin = process.env.MYBLOCKLYMAZE!;
   const { id } = query;
   const { getMaze } = mazeApi();
 
@@ -127,6 +131,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       return {
         props: {
           maze,
+          myblocklymazeAdmin,
         },
       };
     } else {
