@@ -34,6 +34,17 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+      },
+    },
+  },
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
