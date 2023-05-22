@@ -20,9 +20,10 @@ import { AnimatePresence } from "framer-motion";
 
 type Props = {
   userData: MazesUser;
+  sessionToken: string;
 };
 
-const Dashboard = ({ userData }: Props) => {
+const Dashboard = ({ userData, sessionToken }: Props) => {
   const [mazeDelete, setMazeDelete] = useState<Maze | undefined>(undefined);
   const [mazeGames, setMazeGames] = useState<Maze[]>(userData.mazes);
   const [openModal, setOpenModal] = useState(false);
@@ -33,7 +34,11 @@ const Dashboard = ({ userData }: Props) => {
 
       await toast
         .promise(
-          axios.delete(`api/mazes/${mazeDelete.id}`),
+          axios.delete(`api/mazes/${mazeDelete.id}`, {
+            headers: {
+              Authorization: `Bearer ${sessionToken}`,
+            },
+          }),
           {
             pending: "Processando solicitação",
             success: "Jogo excluído com sucesso 👌",
@@ -125,6 +130,7 @@ const Dashboard = ({ userData }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const sessionToken = ctx.req.cookies["next-auth.session-token"];
   const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
   if (!session) {
@@ -139,6 +145,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       userData,
+      sessionToken,
     },
   };
 };
