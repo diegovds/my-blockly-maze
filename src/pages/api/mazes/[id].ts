@@ -7,7 +7,6 @@ import {
   removeFromFirebase,
 } from "@/hooks/useFirebaseStorage";
 import { UpdatedMaze as UpdatedMazeType } from "@/types/UpdatedMaze";
-import { codeGenerator } from "@/utils/codeGenerator";
 
 const getFile = multerConfig.single("image");
 
@@ -24,39 +23,6 @@ const apiRoute = nextConnect({
 
 apiRoute.options(async (req, res: NextApiResponse) => {
   return res.status(200).json({});
-});
-
-/** Insert new maze */
-apiRoute.post(getFile, async (req: any, res: NextApiResponse) => {
-  const { id } = req.query;
-  const { name, levels } = req.body;
-  const { insertNewMaze } = api();
-
-  const { image, urlImage } = await uploadToFirebase(req.file);
-
-  if (urlImage.length === 0) {
-    res.status(400).json({ error: "Erro ao fazer upload da imagem" });
-    return;
-  }
-
-  const { code } = codeGenerator(6);
-
-  const newMaze = await insertNewMaze(
-    id as string,
-    name,
-    0,
-    code,
-    image,
-    urlImage,
-    levels
-  ).catch((e) => {
-    removeFromFirebase(image);
-    res.status(400).json({ error: e });
-  });
-
-  if (newMaze) {
-    res.status(201).json({ status: true, data: newMaze });
-  }
 });
 
 /** Delete a maze */

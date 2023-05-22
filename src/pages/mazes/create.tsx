@@ -1,7 +1,4 @@
 import { GetServerSideProps } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]";
-import { User } from "@/types/User";
 import { useRouter } from "next/router";
 import Iframe from "@/components/Iframe";
 import Seo from "@/components/Seo";
@@ -12,10 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, ToastOptions, toast } from "react-toastify";
 
 type Props = {
-  user: User;
+  token: string;
 };
 
-const Create = ({ user: { id } }: Props) => {
+const Create = ({ token }: Props) => {
   const router = useRouter();
   const [mobile, setMobile] = useState(false);
   const isMobile = useMediaQuery("(max-width: 1115px)");
@@ -62,7 +59,7 @@ const Create = ({ user: { id } }: Props) => {
       <>
         <C.Container hidden={mobile}>
           <Iframe
-            link={`https://maze-game-builder-v2.vercel.app/index.html?userId=${id}`}
+            link={`https://maze-game-builder-v2.vercel.app/index.html?token=${token}`}
             redirect={redirect}
           />
         </C.Container>
@@ -73,9 +70,9 @@ const Create = ({ user: { id } }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+  const sessionToken = ctx.req.cookies["next-auth.session-token"];
 
-  if (!session) {
+  if (!sessionToken) {
     return {
       redirect: { destination: "/login", permanent: true },
     };
@@ -83,7 +80,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      user: session.user,
+      token: sessionToken,
     },
   };
 };
