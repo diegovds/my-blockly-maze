@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import * as C from "./styles";
+import Loading from "../Loading";
 
 type Props = {
   link: string;
@@ -7,6 +8,7 @@ type Props = {
 };
 
 const Iframe = ({ link, redirect }: Props) => {
+  const [loading, setLoading] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const handleMessage = useCallback(
@@ -38,16 +40,22 @@ const Iframe = ({ link, redirect }: Props) => {
   }, [handleMessage]);
 
   return (
-    <C.Container>
-      <C.Iframe
-        src={link}
-        title="iframeLink"
-        frameBorder="0"
-        allowFullScreen={true}
-        ref={iframeRef}
-        onLoad={() => iframeRef.current?.scrollIntoView()}
-      />
-    </C.Container>
+    <>
+      <C.Container>
+        <C.Iframe
+          src={link}
+          title="iframeLink"
+          frameBorder="0"
+          allowFullScreen={true}
+          ref={iframeRef}
+          onLoad={() => {
+            iframeRef.current?.scrollIntoView();
+            setLoading(false);
+          }}
+        />
+      </C.Container>
+      {loading && <Loading />}
+    </>
   );
 };
 
