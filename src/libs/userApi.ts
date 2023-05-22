@@ -91,11 +91,7 @@ export const userApi = () => {
         const element = dataUser.mazes[index];
 
         treatedMaze.push({
-          id: element.id,
-          name: element.name,
-          code: element.code,
-          image: element.image,
-          urlImage: element.urlImage,
+          ...element,
           createdAt: dayjs(element.createdAt)
             .locale("pt-br")
             .format("DD/MM/YYYY"),
