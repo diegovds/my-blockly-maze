@@ -27,7 +27,11 @@ export const mazeApi = () => {
       const element = mazes[index];
 
       treatedData.push({
-        ...element,
+        id: element.id,
+        name: element.name,
+        code: element.code,
+        image: element.image,
+        urlImage: element.urlImage,
         createdAt: dayjs(element.createdAt)
           .locale("pt-br")
           .format("DD/MM/YYYY"),
@@ -114,8 +118,13 @@ export const mazeApi = () => {
     });
 
     let treatedData: FullMaze = {
-      ...maze,
+      id: maze.id,
+      name: maze.name,
+      code: maze.code,
       levels: JSON.parse(JSON.stringify(maze.levels)),
+      image: maze.image,
+      urlImage: maze.urlImage,
+      executions: maze.executions,
       createdAt: dayjs(maze.createdAt).locale("pt-br").format("DD/MM/YYYY"),
       username: maze.user.name,
     };
