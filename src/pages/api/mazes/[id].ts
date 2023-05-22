@@ -7,8 +7,10 @@ import {
   removeFromFirebase,
 } from "@/hooks/useFirebaseStorage";
 import { UpdatedMaze as UpdatedMazeType } from "@/types/UpdatedMaze";
+import { getToken } from "next-auth/jwt";
 
 const getFile = multerConfig.single("image");
+const secret = process.env.NEXTAUTH_SECRET;
 
 const apiRoute = nextConnect({
   onError(error, req: NextApiRequest, res: NextApiResponse) {
@@ -27,8 +29,22 @@ apiRoute.options(async (req, res: NextApiResponse) => {
 
 /** Delete a maze */
 apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
+  const token = await getToken({ req, secret });
+
+  if (!token) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
+
   const { id } = req.query;
-  const { deleteMaze } = api();
+  const { getMaze, deleteMaze } = api();
+
+  const maze = await getMaze(id as string, true);
+
+  if (maze?.userId !== token.sub) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
 
   const deletedMaze = await deleteMaze(id as string).catch((e) => {
     res.status(400).json({ e });
@@ -59,6 +75,8 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
 /** Update a maze */
 apiRoute.put(getFile, async (req: any, res: NextApiResponse) => {
+  const header = req.headers["myblocklymaze-admin"];
+  const token = await getToken({ req, secret });
   const { name, levels, executions, code, createdAt } = req.body;
   const { id } = req.query;
   const { getMaze, updateMaze } = api();
@@ -66,7 +84,12 @@ apiRoute.put(getFile, async (req: any, res: NextApiResponse) => {
 
   let data: UpdatedMazeType = {};
 
-  const maze = await getMaze(id as string);
+  const maze = await getMaze(id as string, true);
+
+  if (header !== process.env.MYBLOCKLYMAZE && token?.sub !== maze?.userId) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
 
   if (!maze) {
     res.status(404).json({ message: "Maze não encontrado" });

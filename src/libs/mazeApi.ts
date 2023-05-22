@@ -99,7 +99,7 @@ export const mazeApi = () => {
     });
   };
 
-  const getMaze = async (id: string) => {
+  const getMaze = async (id: string, showUserId?: boolean) => {
     const maze = await prisma.maze.findUniqueOrThrow({
       where: {
         id: parseInt(id as string),
@@ -113,6 +113,7 @@ export const mazeApi = () => {
         urlImage: true,
         executions: true,
         createdAt: true,
+        userId: showUserId === true ? true : false,
         user: { select: { name: true } },
       },
     });
@@ -127,6 +128,7 @@ export const mazeApi = () => {
       executions: maze.executions,
       createdAt: dayjs(maze.createdAt).locale("pt-br").format("DD/MM/YYYY"),
       username: maze.user.name,
+      userId: showUserId === true ? maze.userId : null,
     };
 
     if (maze) {

@@ -5,4 +5,5 @@ export type FullMaze = Maze & {
   username: string;
   levels: string;
   executions: number;
+  userId: string | null;
 };
