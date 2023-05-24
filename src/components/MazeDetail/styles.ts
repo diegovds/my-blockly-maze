@@ -62,23 +62,20 @@ type FlipCardBackProps = {
   inView: boolean;
 };
 
-export const FlipCardBack = styled.div<FlipCardBackProps>`
+export const FlipCardBack = styled(motion.div)<FlipCardBackProps>`
   /*
   position: absolute;
   width: 100%;
+  */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  */
   width: 9.5rem;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-top: 0.7rem;
-  padding-bottom: 0.7rem;
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
+  padding: 0.7rem 0.3rem;
   background-color: #fff;
   box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
   word-wrap: break-word; /* com isso o conteúdo não vai vazar da div */
@@ -98,14 +95,6 @@ export const FlipCardBack = styled.div<FlipCardBackProps>`
     margin-bottom: 0.4em;
   }
 
-  span {
-    width: 90%;
-    aspect-ratio: 7/6;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 0.4em;
-  }
-
   h3 {
     max-width: 86%;
     margin-bottom: 0.4em;
@@ -114,7 +103,7 @@ export const FlipCardBack = styled.div<FlipCardBackProps>`
     text-overflow: ellipsis;
   }
 
-  p {
+  time {
     font-style: italic;
     font-size: small;
     margin-bottom: 1.5em;
@@ -132,7 +121,7 @@ export const FlipCardBack = styled.div<FlipCardBackProps>`
 
   @media (max-width: 800px) {
     a,
-    p,
+    time,
     button {
       font-size: 0.8rem;
     }

@@ -5,8 +5,7 @@ import Image from "next/image";
 import copy from "copy-to-clipboard";
 import { FaRegCopy } from "react-icons/fa";
 import { useState } from "react";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton from "../Skeleton";
 import CountUp from "react-countup";
 import Balance from "react-wrap-balancer";
 import { useSession } from "next-auth/react";
@@ -69,7 +68,7 @@ const MazePage = ({
             ...VisibleItemVariant,
           }}
         >
-          {showSkeleton && <Skeleton width={`100%`} />}
+          {showSkeleton && <Skeleton skeletonWidth="87%" />}
           <Image
             src={urlImage}
             alt={image}
@@ -95,8 +94,10 @@ const MazePage = ({
             </Balance>
           </h2>
           <p className="p_data">
-            Criado por <strong>{username}</strong> em{" "}
-            <strong>{createdAt}</strong>
+            <Balance>
+              Criado por <strong>{username}</strong> em{" "}
+              <strong>{createdAt}</strong>
+            </Balance>
           </p>
           <p className="p_data">
             Quantidade de níveis: <strong>{JSON.parse(levels).length}</strong>

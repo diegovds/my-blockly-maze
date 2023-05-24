@@ -1,13 +1,13 @@
 import * as C from "./styles";
-import "react-loading-skeleton/dist/skeleton.css";
 
 import { Maze } from "@/types/Maze";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import Skeleton from "react-loading-skeleton";
 import { useInView } from "framer-motion";
+import Balance from "react-wrap-balancer";
+import Skeleton from "../Skeleton";
 
 type Props = {
   maze: Maze;
@@ -35,8 +35,11 @@ const MazeDetail = ({
       <C.FlipCardBack
         ref={refFlipCardBack}
         inView={isInView && sessionStatus !== "loading" ? true : false}
+        whileHover={{ y: -7.5 }}
       >
-        {showSkeleton && <Skeleton width={`100%`} />}
+        {showSkeleton && (
+          <Skeleton skeletonWidth="90%" skeletonMarginBottom={true} />
+        )}
         <Image
           src={urlImage}
           alt={image}
@@ -50,11 +53,9 @@ const MazeDetail = ({
           }}
         />
         <h3>{name}</h3>
-        <p id="date">
-          Criado em:
-          <br />
-          {createdAt}
-        </p>
+        <time>
+          <Balance>Criado em {createdAt}</Balance>
+        </time>
         <Link
           href={`/mazes/${id}`}
           className="btn"

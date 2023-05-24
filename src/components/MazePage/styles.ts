@@ -41,13 +41,6 @@ export const Img = styled(motion.div)`
     aspect-ratio: 7/6;
   }
 
-  span {
-    width: 87%;
-    aspect-ratio: 7/6;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
   @media (max-width: 800px) and (orientation: portrait) {
     width: 100%;
     min-height: fit-content;
