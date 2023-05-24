@@ -1,7 +1,7 @@
 import { Maze } from "@/types/Maze";
 import prisma from "./prisma";
 import bcrypt from "bcrypt";
-import dayjs from "dayjs";
+import { dateFormatting } from "./dayjs";
 import { MazesUser } from "@/types/MazesUser";
 
 export const userApi = () => {
@@ -96,9 +96,7 @@ export const userApi = () => {
           code: element.code,
           image: element.image,
           urlImage: element.urlImage,
-          createdAt: dayjs(element.createdAt)
-            .locale("pt-br")
-            .format("DD/MM/YYYY"),
+          createdAt: dateFormatting(element.createdAt),
         });
       }
     }
