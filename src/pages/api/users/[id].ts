@@ -41,7 +41,7 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 /** Update a user */
-apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
+apiRoute.patch(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const token = await getToken({ req, secret });
 

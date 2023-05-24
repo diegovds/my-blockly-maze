@@ -74,7 +74,7 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 /** Update a maze */
-apiRoute.put(getFile, async (req: any, res: NextApiResponse) => {
+apiRoute.patch(getFile, async (req: any, res: NextApiResponse) => {
   const header = req.headers["myblocklymaze-admin"];
   const token = await getToken({ req, secret });
   const { name, levels, executions, code, createdAt } = req.body;

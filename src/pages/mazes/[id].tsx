@@ -39,7 +39,7 @@ const Maze = ({ maze, myblocklymazeAdmin }: Props) => {
       setLoading(true);
 
       await axios
-        .put(`/api/mazes/${id}`, dataMaze, {
+        .patch(`/api/mazes/${id}`, dataMaze, {
           headers: { "myblocklymaze-admin": myblocklymazeAdmin },
         })
         .then(() => {
