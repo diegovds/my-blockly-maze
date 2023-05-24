@@ -15,6 +15,8 @@ export default createGlobalStyle`
     background-color: #eceeed;
     margin: 0 auto;
     max-width: 1440px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   html {
