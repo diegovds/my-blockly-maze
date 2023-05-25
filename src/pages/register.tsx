@@ -28,7 +28,7 @@ const Register = () => {
 
   const watchPassword = watch("password");
 
-  const [hasError, setHasError] = useState<string | boolean>(false);
+  const [hasError, setHasError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -41,7 +41,7 @@ const Register = () => {
     userData.append("email", email);
     userData.append("password", password);
 
-    setHasError(false);
+    setHasError(undefined);
     setLoading(true);
 
     const user = await axios.post("/api/users", userData).catch((e) => {
@@ -59,11 +59,12 @@ const Register = () => {
         password,
       });
 
-      setLoading(false);
-
-      request && request.ok
-        ? router.push("/dashboard")
-        : setHasError("Ocorreu um erro, por favor tente mais tarde.");
+      if (request && request.ok) {
+        router.push("/dashboard");
+      } else {
+        setLoading(false);
+        setHasError("Ocorreu um erro, por favor tente mais tarde.");
+      }
     } else {
       setLoading(false);
     }
@@ -80,7 +81,10 @@ const Register = () => {
         <h2>Cadastrar</h2>
         <p>Insira seus dados</p>
 
-        <C.Form onSubmit={handleSubmit(submit)}>
+        <C.Form
+          onSubmit={handleSubmit(submit)}
+          onChange={() => setHasError(undefined)}
+        >
           <input
             type="text"
             placeholder="Nome"
