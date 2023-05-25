@@ -67,7 +67,7 @@ export const Informations = styled(motion.div)`
 
   h2,
   p {
-    max-width: 80%;
+    max-width: 87%;
     text-align: center;
   }
 
