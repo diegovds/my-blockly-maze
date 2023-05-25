@@ -18,8 +18,14 @@ export const ToastOptions: DefaultToastOptions = {
   },
   loading: {
     style: {
+      background: "#fdfbfc",
+      color: "#000",
       minWidth: isMobileOnly ? "100%" : 375,
       fontSize: isMobileOnly ? "0.8rem" : 16,
+    },
+    iconTheme: {
+      primary: "#000",
+      secondary: "#c0c0c0",
     },
     position: isMobileOnly ? "top-center" : "top-left",
   },
