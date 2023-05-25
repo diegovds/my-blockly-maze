@@ -5,7 +5,7 @@ import Seo from "@/components/Seo";
 import { useIsFirstRender, useMediaQuery } from "usehooks-ts";
 import * as C from "@/styles/Create.styles";
 import { useState, useEffect } from "react";
-import { ToastOptions } from "@/components/toastOptions";
+import { ToastOptions } from "@/components/ToastOptions";
 import { toast, Toaster } from "react-hot-toast";
 
 type Props = {

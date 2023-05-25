@@ -2,7 +2,7 @@ import * as C from "@/styles/Maze.styles";
 
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import { ToastOptions } from "@/components/toastOptions";
+import { ToastOptions } from "@/components/ToastOptions";
 import { toast, Toaster } from "react-hot-toast";
 import { useState } from "react";
 

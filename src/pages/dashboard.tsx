@@ -12,7 +12,7 @@ import MazeDetail from "@/components/MazeDetail";
 import { Maze } from "@/types/Maze";
 import Seo from "@/components/Seo";
 import { toast, Toaster } from "react-hot-toast";
-import { ToastOptions } from "@/components/toastOptions";
+import { ToastOptions } from "@/components/ToastOptions";
 import axios from "axios";
 import { useState } from "react";
 import DashBoardModal from "@/components/DashBoardModal";
