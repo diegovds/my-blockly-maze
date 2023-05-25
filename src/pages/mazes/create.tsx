@@ -5,8 +5,8 @@ import Seo from "@/components/Seo";
 import { useIsFirstRender, useMediaQuery } from "usehooks-ts";
 import * as C from "@/styles/Create.styles";
 import { useState, useEffect } from "react";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, ToastOptions, toast } from "react-toastify";
+import { ToastOptions } from "@/components/toastOptions";
+import { toast, Toaster } from "react-hot-toast";
 
 type Props = {
   token: string;
@@ -19,26 +19,13 @@ const Create = ({ token }: Props) => {
   const isFirst = useIsFirstRender();
 
   useEffect(() => {
-    const toastConfig: ToastOptions<{}> = {
-      position: "top-left",
-      closeButton: false,
-      hideProgressBar: true,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      theme: "colored",
-    };
-
     const notify = (message: string) => {
-      toast.error(message, {
-        autoClose: 3000,
-        ...toastConfig,
-      });
+      toast.error(message);
     };
 
     if (isMobile && !isFirst) {
       notify(
-        "A execução do jogo não está disponível para essa largura de tela."
+        "A criação de novo jogo não está disponível para essa largura de tela."
       );
     }
 
@@ -63,7 +50,7 @@ const Create = ({ token }: Props) => {
             redirect={redirect}
           />
         </C.Container>
-        <ToastContainer />
+        <Toaster toastOptions={ToastOptions} />
       </>
     </>
   );

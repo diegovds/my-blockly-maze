@@ -2,8 +2,8 @@ import * as C from "@/styles/Maze.styles";
 
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, ToastOptions, toast } from "react-toastify";
+import { ToastOptions } from "@/components/toastOptions";
+import { toast, Toaster } from "react-hot-toast";
 import { useState } from "react";
 
 import { FullMaze } from "@/types/FullMaze";
@@ -60,26 +60,10 @@ const Maze = ({ maze, myblocklymazeAdmin }: Props) => {
     setRunGame(false);
   };
 
-  const toastConfig: ToastOptions<{}> = {
-    position: "top-left",
-    closeButton: false,
-    hideProgressBar: true,
-    closeOnClick: false,
-    pauseOnHover: false,
-    draggable: false,
-    theme: "colored",
-  };
-
   const notify = (status: string, message?: string) => {
     status === "copy"
-      ? toast.success("Link copiado com sucesso!", {
-          autoClose: 2000,
-          ...toastConfig,
-        })
-      : toast.error(message, {
-          autoClose: 3000,
-          ...toastConfig,
-        });
+      ? toast.success("Link copiado com sucesso!")
+      : toast.error(message!);
   };
 
   return (
@@ -104,7 +88,7 @@ const Maze = ({ maze, myblocklymazeAdmin }: Props) => {
             loadGame={loadGame}
             loading={loading}
           />
-          <ToastContainer />
+          <Toaster toastOptions={ToastOptions} />
         </>
       )}
       {runGame && (

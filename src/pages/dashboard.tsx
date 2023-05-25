@@ -11,8 +11,8 @@ import MazesContainer from "@/components/MazesContainer";
 import MazeDetail from "@/components/MazeDetail";
 import { Maze } from "@/types/Maze";
 import Seo from "@/components/Seo";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast, Toaster } from "react-hot-toast";
+import { ToastOptions } from "@/components/toastOptions";
 import axios from "axios";
 import { useState } from "react";
 import DashBoardModal from "@/components/DashBoardModal";
@@ -40,19 +40,9 @@ const Dashboard = ({ userData, sessionToken }: Props) => {
             },
           }),
           {
-            pending: "Processando solicitação",
+            loading: "Processando solicitação",
             success: "Jogo excluído com sucesso 👌",
             error: "Ocorreu um erro ao tentar excluir o jogo 🤯",
-          },
-          {
-            position: "top-left",
-            autoClose: 2000,
-            closeButton: false,
-            hideProgressBar: true,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "colored",
           }
         )
         .then(() => {
@@ -124,7 +114,7 @@ const Dashboard = ({ userData, sessionToken }: Props) => {
           <p>Não foram encontrados jogos criados por você 😢</p>
         </C.NoMazes>
       )}
-      <ToastContainer />
+      <Toaster toastOptions={ToastOptions} />
     </>
   );
 };

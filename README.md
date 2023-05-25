@@ -22,7 +22,7 @@ Para informações mais detalhadas sobre a plataforma My BLOCKLY Maze acesse o r
 - [React ga4](https://github.com/codler/react-ga4)
 - [React hook form](https://react-hook-form.com/)
 - [React icons](https://react-icons.github.io/react-icons/)
-- [React toastify](https://fkhadra.github.io/react-toastify/introduction)
+- [Teact hot toast](https://github.com/timolins/react-hot-toast#readme)
 - [React wrap balancer](https://react-wrap-balancer.vercel.app/)
 - [Firebase](https://firebase.google.com/)
 - [Prisma](https://www.prisma.io/)
