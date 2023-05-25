@@ -31,7 +31,7 @@ export const SectionContainer = styled(motion.div)`
 `;
 
 export const Section = styled(motion.section)`
-  width: 20rem;
+  width: 25%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,8 +42,8 @@ export const Section = styled(motion.section)`
 
   p {
     margin-top: 0.8rem;
-    line-height: 160%; /** para títulos o recomendado é 120% */
-    letter-spacing: -0.75px;
+    line-height: 160%; /** para títulos o recomendado é 120%
+    letter-spacing: -0.75px; */
     text-align: justify;
   }
 
@@ -51,7 +51,7 @@ export const Section = styled(motion.section)`
     width: 95%;
   }
 
-  @media (max-width: 800px) and (min-width: 600px) {
+  @media (max-width: 950px) and (min-width: 600px) {
     width: 80%;
   }
 
