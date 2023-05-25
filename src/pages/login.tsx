@@ -22,15 +22,16 @@ const Register = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const [hasError, setHasError] = useState(false);
+  const [hasError, setHasError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
   const submit: SubmitHandler<FormValues> = async (data) => {
     const { email, password } = data;
+    let errorMessage: string | undefined = undefined;
 
-    setHasError(false);
+    setHasError(undefined);
     setLoading(true);
 
     const request = await signIn("credentials", {
@@ -39,9 +40,23 @@ const Register = () => {
       password,
     });
 
-    setLoading(false);
+    if (request && request?.error) {
+      if (request.error.includes("No User found")) {
+        errorMessage = "Usuário não encontrado.";
+      }
 
-    request && request.ok ? router.push("/dashboard") : setHasError(true);
+      if (request.error.includes("CredentialsSignin")) {
+        errorMessage = "Senha incorreta.";
+      }
+
+      if (request.error && !errorMessage) {
+        errorMessage = "Ocorreu um erro, por favor tente mais tarde.";
+      }
+
+      setHasError(errorMessage);
+    }
+
+    request && request.ok ? router.push("/dashboard") : setLoading(false);
   };
 
   return (
@@ -55,7 +70,10 @@ const Register = () => {
         <h2>Entrar</h2>
         <p>Insira suas credenciais</p>
 
-        <C.Form onSubmit={handleSubmit(submit)}>
+        <C.Form
+          onSubmit={handleSubmit(submit)}
+          onChange={() => setHasError(undefined)}
+        >
           <input
             type="text"
             placeholder="E-mail"
@@ -90,7 +108,7 @@ const Register = () => {
               Aguarde...
             </button>
           )}
-          {hasError && <p className="error">Credenciais inválidas</p>}
+          {hasError && <p className="error">{hasError}</p>}
         </C.Form>
       </C.Register>
     </C.Container>

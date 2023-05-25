@@ -114,7 +114,7 @@ export const userApi = () => {
     email: string,
     password: string
   ) => {
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUniqueOrThrow({
       where: {
         email,
       },
