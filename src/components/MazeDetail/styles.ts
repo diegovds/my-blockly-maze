@@ -59,7 +59,7 @@ const flipInY = keyframes`
 `;
 
 type FlipCardBackProps = {
-  inView: boolean;
+  $inView: boolean;
 };
 
 export const FlipCardBack = styled(motion.div)<FlipCardBackProps>`
@@ -83,8 +83,8 @@ export const FlipCardBack = styled(motion.div)<FlipCardBackProps>`
   /*
   transform: rotateY(180deg);
   */
-  visibility: ${({ inView }) => (inView ? "visible" : "hidden")};
-  animation: ${({ inView }) => (inView ? flipInY : undefined)} 1s;
+  visibility: ${({ $inView }) => ($inView ? "visible" : "hidden")};
+  animation: ${({ $inView }) => ($inView ? flipInY : undefined)} 1s;
   animation-delay: 0.3s;
   animation-fill-mode: both;
 

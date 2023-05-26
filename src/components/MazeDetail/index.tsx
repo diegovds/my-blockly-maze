@@ -34,7 +34,7 @@ const MazeDetail = ({
     <C.FlipCard>
       <C.FlipCardBack
         ref={refFlipCardBack}
-        inView={isInView && sessionStatus !== "loading" ? true : false}
+        $inView={isInView && sessionStatus !== "loading" ? true : false}
         whileHover={{ y: -7.5 }}
       >
         {showSkeleton && (
