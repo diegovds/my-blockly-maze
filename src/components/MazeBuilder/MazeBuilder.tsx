@@ -41,6 +41,7 @@ const levelHeight = Math.floor(dimensions.height / squareSize);
 
 const MazeBuilder = () => {
   const [levels, setLevels] = useState<any[]>([]);
+  const [currentLevel, setCurrentLevel] = useState(0);
   const markerImg = useRef<HTMLImageElement>(null);
   const pegmanImg = useRef<HTMLImageElement>(null);
   const tilesImg = useRef<HTMLImageElement>(null);
@@ -51,95 +52,90 @@ const MazeBuilder = () => {
     console.log(levels);
   }, [levels]);
 
-  /*const normalize = useCallback(
-    (x: number, y: number) => {
-      //let matrix = levels[currentLevel - 1];
-      let matrix = levels[0];
-      if (x < 0 || x >= levelWidth || y < 0 || y >= levelHeight) {
-        return "0";
-      }
-      return matrix[y][x] === 0 ? "0" : "1";
-    },
-    [levels]
-  );
+  /*const normalize = (x: number, y: number) => {
+    let matrix = levels[currentLevel];
 
-  const drawTiles = useCallback(
-    (mainCanvasCtx: CanvasRenderingContext2D | null | undefined) => {
-      //let matrix = levels[currentLevel - 1];
-      let matrix = levels[0];
+    if (x < 0 || x >= levelWidth || y < 0 || y >= levelHeight) {
+      return "0";
+    }
+    return matrix[y][x] === 0 ? "0" : "1";
+  };
 
-      if (
-        mainCanvasCtx &&
-        tilesImg.current &&
-        pegmanImg.current &&
-        markerImg.current
-      ) {
-        for (let x = 0; x < levelWidth; x++) {
-          for (let y = 0; y < levelHeight; y++) {
-            let tileShape =
-              normalize(x, y) +
-              normalize(x, y - 1) + // North.
-              normalize(x - 1, y) + // West.
-              normalize(x, y + 1) + // South.
-              normalize(x + 1, y); // East.
+  const drawTiles = (
+    mainCanvasCtx: CanvasRenderingContext2D | null | undefined
+  ) => {
+    let matrix = levels[currentLevel];
 
-            if (tileShape === "10000") tileShape = "11111"; // Draw cross if there's no adjacent path;
+    if (
+      mainCanvasCtx &&
+      tilesImg.current &&
+      pegmanImg.current &&
+      markerImg.current
+    ) {
+      for (let x = 0; x < levelWidth; x++) {
+        for (let y = 0; y < levelHeight; y++) {
+          let tileShape =
+            normalize(x, y) +
+            normalize(x, y - 1) + // North.
+            normalize(x - 1, y) + // West.
+            normalize(x, y + 1) + // South.
+            normalize(x + 1, y); // East.
 
-            if (!shapes[tileShape as keyof typeof shapes]) {
-              if (tileShape === "00000" && Math.random() > 0.3) {
-                tileShape = "null0";
-              } else {
-                tileShape = "null" + Math.floor(1 + Math.random() * 4);
-              }
+          if (tileShape === "10000") tileShape = "11111"; // Draw cross if there's no adjacent path;
+
+          if (!shapes[tileShape as keyof typeof shapes]) {
+            if (tileShape === "00000" && Math.random() > 0.3) {
+              tileShape = "null0";
+            } else {
+              tileShape = "null" + Math.floor(1 + Math.random() * 4);
             }
+          }
 
-            let left = shapes[tileShape as keyof typeof shapes][0];
-            let top = shapes[tileShape as keyof typeof shapes][1];
+          let left = shapes[tileShape as keyof typeof shapes][0];
+          let top = shapes[tileShape as keyof typeof shapes][1];
 
+          mainCanvasCtx.drawImage(
+            tilesImg.current,
+            left * squareSize,
+            top * squareSize,
+            squareSize,
+            squareSize,
+            x * squareSize,
+            y * squareSize,
+            squareSize,
+            squareSize
+          );
+
+          if (matrix[y][x] === 2) {
             mainCanvasCtx.drawImage(
-              tilesImg.current,
-              left * squareSize,
-              top * squareSize,
-              squareSize,
-              squareSize,
-              x * squareSize,
-              y * squareSize,
-              squareSize,
-              squareSize
+              pegmanImg.current,
+              0,
+              0,
+              50,
+              50,
+              x * squareSize + 1.5,
+              y * squareSize - 8,
+              50,
+              50
             );
-
-            if (matrix[y][x] === 2) {
-              mainCanvasCtx.drawImage(
-                pegmanImg.current,
-                0,
-                0,
-                50,
-                50,
-                x * squareSize + 1.5,
-                y * squareSize - 8,
-                50,
-                50
-              );
-            }
-            if (matrix[y][x] == 3) {
-              mainCanvasCtx.drawImage(
-                markerImg.current,
-                0,
-                0,
-                20,
-                34,
-                x * squareSize + 15,
-                y * squareSize - 8,
-                20,
-                34
-              );
-            }
+          }
+          if (matrix[y][x] == 3) {
+            mainCanvasCtx.drawImage(
+              markerImg.current,
+              0,
+              0,
+              20,
+              34,
+              x * squareSize + 15,
+              y * squareSize - 8,
+              20,
+              34
+            );
           }
         }
       }
-    },
-    [levels, normalize]
-  );*/
+    }
+  };*/
 
   const initLevels = () => {
     let newLevels = [...levels];
@@ -170,6 +166,7 @@ const MazeBuilder = () => {
       }
       newLevels.push(matrix);
       setLevels(newLevels);
+      setCurrentLevel(newLevels.length - 1)
     }
   };
 
@@ -179,6 +176,7 @@ const MazeBuilder = () => {
 
       removeLevel.pop();
       setLevels(removeLevel);
+      setCurrentLevel(removeLevel.length - 1)
     } else {
       alert("Não é possível excluir o primeriro nível.");
     }
@@ -240,7 +238,12 @@ const MazeBuilder = () => {
           {mainCanvas.current && (
             <>
               {levels.map((level, index) => (
-                <button key={index} className="btn">
+                <button
+                  key={index}
+                  className="btn"
+                  onClick={() => setCurrentLevel(index)}
+                  style={{backgroundColor: currentLevel === index ? '#000' : undefined}}
+                >
                   {index + 1}
                 </button>
               ))}
