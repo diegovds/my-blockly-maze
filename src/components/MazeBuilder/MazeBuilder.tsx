@@ -156,17 +156,32 @@ const MazeBuilder = () => {
   };
 
   const clickAddLevel = () => {
-    let newLevels = [...levels];
-    let matrix = [];
-    let row = [];
-    for (let i = 0; i < levelWidth; i++) {
-      row.push(0);
+    if (levels.length >= 10) {
+      alert("Máximo de níveis");
+    } else {
+      let newLevels = [...levels];
+      let matrix = [];
+      let row = [];
+      for (let i = 0; i < levelWidth; i++) {
+        row.push(0);
+      }
+      for (let j = 0; j < levelHeight; j++) {
+        matrix.push(row.concat());
+      }
+      newLevels.push(matrix);
+      setLevels(newLevels);
     }
-    for (let j = 0; j < levelHeight; j++) {
-      matrix.push(row.concat());
+  };
+
+  const clickRemoveLevel = () => {
+    if (levels.length > 1) {
+      let removeLevel = [...levels];
+
+      removeLevel.pop();
+      setLevels(removeLevel);
+    } else {
+      alert("Não é possível excluir o primeriro nível.");
     }
-    newLevels.push(matrix);
-    setLevels(newLevels);
   };
 
   const drawGrid = (
@@ -223,9 +238,19 @@ const MazeBuilder = () => {
       <C.Container>
         <C.Toolbar>
           {mainCanvas.current && (
-            <button className="btn" onClick={() => clickAddLevel()}>
-              +
-            </button>
+            <>
+              {levels.map((level, index) => (
+                <button key={index} className="btn">
+                  {index + 1}
+                </button>
+              ))}
+              <button className="btn" onClick={() => clickAddLevel()}>
+                +
+              </button>
+              <button className="btn" onClick={() => clickRemoveLevel()}>
+                -
+              </button>
+            </>
           )}
         </C.Toolbar>
         <C.Editor>
