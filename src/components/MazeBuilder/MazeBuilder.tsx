@@ -166,7 +166,7 @@ const MazeBuilder = () => {
       }
       newLevels.push(matrix);
       setLevels(newLevels);
-      setCurrentLevel(newLevels.length - 1)
+      setCurrentLevel(newLevels.length - 1);
     }
   };
 
@@ -176,7 +176,7 @@ const MazeBuilder = () => {
 
       removeLevel.pop();
       setLevels(removeLevel);
-      setCurrentLevel(removeLevel.length - 1)
+      setCurrentLevel(removeLevel.length - 1);
     } else {
       alert("Não é possível excluir o primeriro nível.");
     }
@@ -242,7 +242,10 @@ const MazeBuilder = () => {
                   key={index}
                   className="btn"
                   onClick={() => setCurrentLevel(index)}
-                  style={{backgroundColor: currentLevel === index ? '#000' : undefined}}
+                  style={{
+                    backgroundColor:
+                      currentLevel === index ? "#000" : undefined,
+                  }}
                 >
                   {index + 1}
                 </button>
