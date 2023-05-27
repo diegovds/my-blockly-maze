@@ -1,6 +1,6 @@
 import * as C from "./styles";
 
-import { useRef, useState, ChangeEvent } from "react";
+import { useRef, useState, ChangeEvent, useEffect } from "react";
 
 const shapes = {
   10010: [4, 0], // Dead ends
@@ -40,12 +40,16 @@ const levelWidth = Math.floor(dimensions.width / squareSize);
 const levelHeight = Math.floor(dimensions.height / squareSize);
 
 const MazeBuilder = () => {
-  const [levels, setLevels] = useState<number[][]>([]);
+  const [levels, setLevels] = useState<any[]>([]);
   const markerImg = useRef<HTMLImageElement>(null);
   const pegmanImg = useRef<HTMLImageElement>(null);
   const tilesImg = useRef<HTMLImageElement>(null);
   const bgCanvas = useRef<HTMLCanvasElement>(null);
   const mainCanvas = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    console.log(levels);
+  }, [levels]);
 
   /*const normalize = useCallback(
     (x: number, y: number) => {
@@ -135,20 +139,35 @@ const MazeBuilder = () => {
       }
     },
     [levels, normalize]
-  );
+  );*/
 
-  const initLevels = useCallback(() => {
-    let matrix: number[][] = [];
-    let row: number[] = [];
+  const initLevels = () => {
+    let newLevels = [...levels];
+    let matrix = [];
+    let row = [];
     for (let i = 0; i < levelWidth; i++) {
       row.push(0);
     }
     for (let j = 0; j < levelHeight; j++) {
       matrix.push(row.concat());
     }
+    newLevels.push(matrix);
+    setLevels(newLevels);
+  };
 
-    setLevels(matrix);
-  }, []);*/
+  const clickAddLevel = () => {
+    let newLevels = [...levels];
+    let matrix = [];
+    let row = [];
+    for (let i = 0; i < levelWidth; i++) {
+      row.push(0);
+    }
+    for (let j = 0; j < levelHeight; j++) {
+      matrix.push(row.concat());
+    }
+    newLevels.push(matrix);
+    setLevels(newLevels);
+  };
 
   const drawGrid = (
     mainCanvasCtx: CanvasRenderingContext2D | null | undefined
@@ -194,6 +213,7 @@ const MazeBuilder = () => {
         mainContext.imageSmoothingEnabled = false;
       }
 
+      initLevels();
       drawGrid(mainContext);
     }
   };
@@ -201,7 +221,13 @@ const MazeBuilder = () => {
   return (
     <>
       <C.Container>
-        <C.Toolbar></C.Toolbar>
+        <C.Toolbar>
+          {mainCanvas.current && (
+            <button className="btn" onClick={() => clickAddLevel()}>
+              +
+            </button>
+          )}
+        </C.Toolbar>
         <C.Editor>
           <C.CanvasWrapper>
             <C.BgCanvas
