@@ -1,6 +1,6 @@
 import * as C from "./styles";
 
-import { useRef, useState, ChangeEvent, useEffect } from "react";
+import { useRef, useState, ChangeEvent, useEffect, useCallback } from "react";
 
 const shapes = {
   10010: [4, 0], // Dead ends
@@ -39,110 +39,165 @@ const squareSize = 50;
 const levelWidth = Math.floor(dimensions.width / squareSize);
 const levelHeight = Math.floor(dimensions.height / squareSize);
 
+const initialState: any[] = [];
+
 const MazeBuilder = () => {
-  const [levels, setLevels] = useState<any[]>([]);
+  const [levels, setLevels] = useState<any[]>(initialState);
   const [currentLevel, setCurrentLevel] = useState(0);
+  const [bgImage, setBgImage] = useState("");
   const markerImg = useRef<HTMLImageElement>(null);
   const pegmanImg = useRef<HTMLImageElement>(null);
   const tilesImg = useRef<HTMLImageElement>(null);
   const bgCanvas = useRef<HTMLCanvasElement>(null);
   const mainCanvas = useRef<HTMLCanvasElement>(null);
 
+  const bgContext = bgCanvas?.current?.getContext("2d");
+  const mainContext = mainCanvas?.current?.getContext("2d");
+
   useEffect(() => {
-    console.log(levels);
-  }, [levels]);
+    const normalize = (x: number, y: number) => {
+      let matrix = levels[currentLevel];
 
-  /*const normalize = (x: number, y: number) => {
-    let matrix = levels[currentLevel];
+      if (x < 0 || x >= levelWidth || y < 0 || y >= levelHeight) {
+        return "0";
+      }
+      return matrix[y][x] === 0 ? "0" : "1";
+    };
 
-    if (x < 0 || x >= levelWidth || y < 0 || y >= levelHeight) {
-      return "0";
-    }
-    return matrix[y][x] === 0 ? "0" : "1";
-  };
+    const drawTiles = () => {
+      let matrix = levels[currentLevel];
 
-  const drawTiles = (
-    mainCanvasCtx: CanvasRenderingContext2D | null | undefined
-  ) => {
-    let matrix = levels[currentLevel];
+      if (
+        mainContext &&
+        tilesImg.current &&
+        pegmanImg.current &&
+        markerImg.current
+      ) {
+        for (let x = 0; x < levelWidth; x++) {
+          for (let y = 0; y < levelHeight; y++) {
+            let tileShape =
+              normalize(x, y) +
+              normalize(x, y - 1) + // North.
+              normalize(x - 1, y) + // West.
+              normalize(x, y + 1) + // South.
+              normalize(x + 1, y); // East.
 
-    if (
-      mainCanvasCtx &&
-      tilesImg.current &&
-      pegmanImg.current &&
-      markerImg.current
-    ) {
-      for (let x = 0; x < levelWidth; x++) {
-        for (let y = 0; y < levelHeight; y++) {
-          let tileShape =
-            normalize(x, y) +
-            normalize(x, y - 1) + // North.
-            normalize(x - 1, y) + // West.
-            normalize(x, y + 1) + // South.
-            normalize(x + 1, y); // East.
+            if (tileShape === "10000") tileShape = "11111"; // Draw cross if there's no adjacent path;
 
-          if (tileShape === "10000") tileShape = "11111"; // Draw cross if there's no adjacent path;
-
-          if (!shapes[tileShape as keyof typeof shapes]) {
-            if (tileShape === "00000" && Math.random() > 0.3) {
-              tileShape = "null0";
-            } else {
-              tileShape = "null" + Math.floor(1 + Math.random() * 4);
+            if (!shapes[tileShape as keyof typeof shapes]) {
+              if (tileShape === "00000" && Math.random() > 0.3) {
+                tileShape = "null0";
+              } else {
+                tileShape = "null" + Math.floor(1 + Math.random() * 4);
+              }
             }
-          }
 
-          let left = shapes[tileShape as keyof typeof shapes][0];
-          let top = shapes[tileShape as keyof typeof shapes][1];
+            let left = shapes[tileShape as keyof typeof shapes][0];
+            let top = shapes[tileShape as keyof typeof shapes][1];
 
-          mainCanvasCtx.drawImage(
-            tilesImg.current,
-            left * squareSize,
-            top * squareSize,
-            squareSize,
-            squareSize,
-            x * squareSize,
-            y * squareSize,
-            squareSize,
-            squareSize
-          );
-
-          if (matrix[y][x] === 2) {
-            mainCanvasCtx.drawImage(
-              pegmanImg.current,
-              0,
-              0,
-              50,
-              50,
-              x * squareSize + 1.5,
-              y * squareSize - 8,
-              50,
-              50
+            mainContext.drawImage(
+              tilesImg.current,
+              left * squareSize,
+              top * squareSize,
+              squareSize,
+              squareSize,
+              x * squareSize,
+              y * squareSize,
+              squareSize,
+              squareSize
             );
-          }
-          if (matrix[y][x] == 3) {
-            mainCanvasCtx.drawImage(
-              markerImg.current,
-              0,
-              0,
-              20,
-              34,
-              x * squareSize + 15,
-              y * squareSize - 8,
-              20,
-              34
-            );
+
+            if (matrix[y][x] === 2) {
+              mainContext.drawImage(
+                pegmanImg.current,
+                0,
+                0,
+                50,
+                50,
+                x * squareSize + 1.5,
+                y * squareSize - 8,
+                50,
+                50
+              );
+            }
+            if (matrix[y][x] == 3) {
+              mainContext.drawImage(
+                markerImg.current,
+                0,
+                0,
+                20,
+                34,
+                x * squareSize + 15,
+                y * squareSize - 8,
+                20,
+                34
+              );
+            }
           }
         }
       }
+    };
+
+    if (levels.length !== 0) {
+      drawTiles();
     }
-  };*/
+  }, [levels, currentLevel, mainContext]);
+
+  const drawGrid = useCallback(() => {
+    let i = 0;
+
+    if (mainContext) {
+      mainContext.translate(0.5, 0.5);
+      mainContext.lineWidth = 1;
+      mainContext.strokeStyle = "#f00";
+      mainContext.beginPath();
+      for (i = squareSize; i <= dimensions.width; i += squareSize) {
+        mainContext.moveTo(i, 0);
+        mainContext.lineTo(i, dimensions.height);
+      }
+      for (i = squareSize; i <= dimensions.height; i += squareSize) {
+        mainContext.moveTo(0, i);
+        mainContext.lineTo(dimensions.width, i);
+      }
+      mainContext.stroke();
+
+      mainContext.translate(-0.5, -0.5);
+    }
+  }, [mainContext]);
+
+  useEffect(() => {
+    const image = new Image();
+    image.src = bgImage;
+    image.onload = () => {
+      bgContext?.drawImage(image, 0, 0, dimensions.width, dimensions.height);
+    };
+    if (bgContext) {
+      bgContext.imageSmoothingEnabled = false;
+    }
+
+    if (mainContext) {
+      mainContext.imageSmoothingEnabled = false;
+    }
+
+    if (bgImage.length > 0) {
+      drawGrid();
+    }
+  }, [bgContext, mainContext, bgImage, drawGrid]);
+
+  const refreshMainCanvas = () => {
+    if (mainContext) {
+      mainContext.clearRect(0, 0, dimensions.width, dimensions.height);
+      drawGrid();
+    }
+  };
 
   const initLevels = () => {
+    setCurrentLevel(0);
     let newLevels = [...levels];
     let matrix = [];
     let row = [];
     for (let i = 0; i < levelWidth; i++) {
-      row.push(0);
+      row.push(1);
     }
     for (let j = 0; j < levelHeight; j++) {
       matrix.push(row.concat());
@@ -159,7 +214,11 @@ const MazeBuilder = () => {
       let matrix = [];
       let row = [];
       for (let i = 0; i < levelWidth; i++) {
-        row.push(0);
+        if (newLevels.length === 2) {
+          row.push(2);
+        } else {
+          row.push(3);
+        }
       }
       for (let j = 0; j < levelHeight; j++) {
         matrix.push(row.concat());
@@ -167,6 +226,7 @@ const MazeBuilder = () => {
       newLevels.push(matrix);
       setLevels(newLevels);
       setCurrentLevel(newLevels.length - 1);
+      refreshMainCanvas();
     }
   };
 
@@ -177,57 +237,23 @@ const MazeBuilder = () => {
       removeLevel.pop();
       setLevels(removeLevel);
       setCurrentLevel(removeLevel.length - 1);
+      refreshMainCanvas();
     } else {
       alert("Não é possível excluir o primeriro nível.");
     }
   };
 
-  const drawGrid = (
-    mainCanvasCtx: CanvasRenderingContext2D | null | undefined
-  ) => {
-    let i = 0;
-
-    if (mainCanvasCtx) {
-      mainCanvasCtx.translate(0.5, 0.5);
-      mainCanvasCtx.lineWidth = 1;
-      mainCanvasCtx.strokeStyle = "#f00";
-      mainCanvasCtx.beginPath();
-      for (i = squareSize; i <= dimensions.width; i += squareSize) {
-        mainCanvasCtx.moveTo(i, 0);
-        mainCanvasCtx.lineTo(i, dimensions.height);
-      }
-      for (i = squareSize; i <= dimensions.height; i += squareSize) {
-        mainCanvasCtx.moveTo(0, i);
-        mainCanvasCtx.lineTo(dimensions.width, i);
-      }
-      mainCanvasCtx.stroke();
-
-      mainCanvasCtx.translate(-0.5, -0.5);
-    }
-  };
-
   const initCanvas = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      let bgImage: string = URL.createObjectURL(e.target.files[0]);
+      setBgImage(URL.createObjectURL(e.target.files[0]));
 
-      const bgContext = bgCanvas?.current?.getContext("2d");
-      const image = new Image();
-      image.src = bgImage;
-      image.onload = () => {
-        bgContext?.drawImage(image, 0, 0, dimensions.width, dimensions.height);
-      };
-      if (bgContext) {
-        bgContext.imageSmoothingEnabled = false;
+      if (levels.length === 0) {
+        initLevels();
+      } else {
+        setLevels([]);
+        refreshMainCanvas();
+        //initLevels(); problema ao atualizar o state em sequencia
       }
-
-      const mainContext = mainCanvas?.current?.getContext("2d");
-
-      if (mainContext) {
-        mainContext.imageSmoothingEnabled = false;
-      }
-
-      initLevels();
-      drawGrid(mainContext);
     }
   };
 
@@ -241,7 +267,10 @@ const MazeBuilder = () => {
                 <button
                   key={index}
                   className="btn"
-                  onClick={() => setCurrentLevel(index)}
+                  onClick={() => {
+                    setCurrentLevel(index);
+                    refreshMainCanvas();
+                  }}
                   style={{
                     backgroundColor:
                       currentLevel === index ? "#000" : undefined,
