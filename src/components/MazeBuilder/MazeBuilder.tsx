@@ -261,15 +261,17 @@ const MazeBuilder = () => {
     <>
       <C.Container>
         <C.Toolbar>
-          {mainCanvas.current && (
+          {mainCanvas.current && levels.length > 0 && (
             <>
               {levels.map((level, index) => (
                 <button
                   key={index}
                   className="btn"
                   onClick={() => {
-                    setCurrentLevel(index);
-                    refreshMainCanvas();
+                    if (currentLevel !== index) {
+                      setCurrentLevel(index);
+                      refreshMainCanvas();
+                    }
                   }}
                   style={{
                     backgroundColor:
