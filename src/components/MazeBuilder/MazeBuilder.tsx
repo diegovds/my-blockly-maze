@@ -265,7 +265,7 @@ const MazeBuilder = () => {
   };
 
   const initCanvas = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+    if (e.target.files?.length && e.target.files.length > 0) {
       setBgImage(URL.createObjectURL(e.target.files[0]));
 
       if (levels.length === 0) {
