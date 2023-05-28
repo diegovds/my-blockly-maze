@@ -206,6 +206,29 @@ const MazeBuilder = () => {
     setLevels(newLevels);
   };
 
+  const resetLevels = () => {
+    setCurrentLevel(0);
+    let resetLevels = [...levels];
+    let matrix = [];
+    let row = [];
+
+    for (let i = resetLevels.length - 1; i > 0; i--) {
+      resetLevels.pop();
+    }
+
+    for (let i = 0; i < levelWidth; i++) {
+      row.push(0);
+    }
+    for (let j = 0; j < levelHeight; j++) {
+      matrix.push(row.concat());
+    }
+    resetLevels.push(matrix);
+
+    resetLevels.splice(0, 1);
+
+    setLevels(resetLevels);
+  };
+
   const clickAddLevel = () => {
     if (levels.length >= 10) {
       alert("Máximo de níveis");
@@ -250,9 +273,8 @@ const MazeBuilder = () => {
       if (levels.length === 0) {
         initLevels();
       } else {
-        setLevels([]);
+        resetLevels();
         refreshMainCanvas();
-        //initLevels(); problema ao atualizar o state em sequencia
       }
     }
   };
