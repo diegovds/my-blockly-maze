@@ -39,10 +39,8 @@ const squareSize = 50;
 const levelWidth = Math.floor(dimensions.width / squareSize);
 const levelHeight = Math.floor(dimensions.height / squareSize);
 
-const initialState: any[] = [];
-
 const MazeBuilder = () => {
-  const [levels, setLevels] = useState<any[]>(initialState);
+  const [levels, setLevels] = useState<any[]>([]);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [bgImage, setBgImage] = useState("");
   const markerImg = useRef<HTMLImageElement>(null);
