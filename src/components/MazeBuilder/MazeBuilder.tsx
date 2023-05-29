@@ -43,6 +43,7 @@ const MazeBuilder = () => {
   const [levels, setLevels] = useState<any[]>([]);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [bgImage, setBgImage] = useState("");
+  const [gameName, setGameName] = useState<string | undefined>(undefined);
   const markerImg = useRef<HTMLImageElement>(null);
   const pegmanImg = useRef<HTMLImageElement>(null);
   const tilesImg = useRef<HTMLImageElement>(null);
@@ -54,7 +55,8 @@ const MazeBuilder = () => {
 
   useEffect(() => {
     console.log(levels);
-  }, [levels]);
+    console.log(gameName);
+  }, [levels, gameName]);
 
   useEffect(() => {
     const normalize = (x: number, y: number) => {
@@ -362,13 +364,20 @@ const MazeBuilder = () => {
             <label htmlFor="nameGame">Nome do jogo:</label>
             <input
               type="text"
+              id="nameGame"
               name="nameGame"
               placeholder="Digite o nome do jogo"
+              onChange={(e) => setGameName(e.target.value)}
             />
             <label htmlFor="bgFile" className="btn">
               Adicionar imagem de fundo
             </label>
-            <input type="file" id="bgFile" onChange={initCanvas} />
+            <input
+              type="file"
+              id="bgFile"
+              name="bgFile"
+              onChange={initCanvas}
+            />
           </C.Toolbox>
         </C.Editor>
       </C.Container>
