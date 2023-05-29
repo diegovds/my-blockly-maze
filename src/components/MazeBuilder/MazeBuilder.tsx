@@ -356,6 +356,7 @@ const MazeBuilder = () => {
               ref={bgCanvas}
               width={dimensions.width}
               height={dimensions.height}
+              $bgImage={bgImage.length === 0 ? false : true}
             ></C.BgCanvas>
             <C.MainCanvas
               ref={mainCanvas}

@@ -58,9 +58,14 @@ export const CanvasWrapper = styled.div<CanvasWrapperProps>`
   cursor: ${({ $pointer }) => ($pointer ? "pointer" : "auto")};
 `;
 
-export const BgCanvas = styled.canvas`
+type BgCanvasProps = {
+  $bgImage: boolean;
+};
+
+export const BgCanvas = styled.canvas<BgCanvasProps>`
   position: absolute;
   border-radius: 20px;
+  border: ${({ $bgImage }) => ($bgImage ? "1px solid #f00" : "none")};
 `;
 
 export const MainCanvas = styled.canvas`
