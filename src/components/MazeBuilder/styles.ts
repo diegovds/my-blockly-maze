@@ -1,8 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 1050px;
+  width: fit-content;
   margin: 2rem auto;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
 `;
 
 export const Toolbar = styled.div`
@@ -11,6 +14,9 @@ export const Toolbar = styled.div`
 
   display: flex;
   justify-content: space-between;
+
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 `;
 
 type LevelsProps = {
@@ -35,7 +41,10 @@ export const Actions = styled.div`
 
 export const Editor = styled.div`
   display: flex;
-  min-height: 600px;
+  padding: 1rem;
+  gap: 1rem;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 `;
 
 type CanvasWrapperProps = {
@@ -44,6 +53,7 @@ type CanvasWrapperProps = {
 
 export const CanvasWrapper = styled.div<CanvasWrapperProps>`
   width: 700px;
+  min-height: 600px;
   position: relative;
   cursor: ${({ $pointer }) => ($pointer ? "pointer" : "auto")};
 `;
@@ -57,8 +67,7 @@ export const MainCanvas = styled.canvas`
 `;
 
 export const Toolbox = styled.div`
-  width: 350px;
-  padding: 0 2rem;
+  width: 390px;
   display: flex;
   flex-direction: column;
 
@@ -68,15 +77,17 @@ export const Toolbox = styled.div`
     width: fit-content;
   }
 
-  input {
+  input[type="text"] {
     padding: 0.2em 0.3em;
-    border: 2px solid #ccc;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 1rem;
 
     background-color: transparent;
     border-radius: 0%;
   }
 
-  input:focus {
+  input[type="text"]:focus {
     outline: none;
   }
 
@@ -87,7 +98,7 @@ export const Toolbox = styled.div`
   }
 
   & div:nth-child(1) {
-    margin: 2rem 0 1rem 0;
+    margin-bottom: 2rem;
     align-self: center;
     display: flex;
     align-items: center;
@@ -95,7 +106,6 @@ export const Toolbox = styled.div`
   }
 
   & div:nth-child(2) {
-    margin: 1rem 0;
     align-self: center;
   }
 `;

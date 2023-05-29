@@ -1,6 +1,7 @@
 import * as C from "./styles";
 
 import { useRef, useState, ChangeEvent, useEffect, useCallback } from "react";
+import Skeleton from "../Skeleton";
 
 const shapes = {
   10010: [4, 0], // Dead ends
@@ -361,6 +362,7 @@ const MazeBuilder = () => {
               width={dimensions.width}
               height={dimensions.height}
             ></C.MainCanvas>
+            {bgImage.length === 0 && <Skeleton skeletonWidth="700px" />}
           </C.CanvasWrapper>
           <C.Toolbox>
             <div className="input">
@@ -369,6 +371,7 @@ const MazeBuilder = () => {
                 type="text"
                 id="nameGame"
                 name="nameGame"
+                maxLength={24}
                 placeholder="Digite o nome do jogo"
                 onChange={(e) => setGameName(e.target.value)}
               />
