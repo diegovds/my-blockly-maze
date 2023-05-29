@@ -60,6 +60,7 @@ export const CanvasWrapper = styled.div<CanvasWrapperProps>`
 
 export const BgCanvas = styled.canvas`
   position: absolute;
+  border-radius: 20px;
 `;
 
 export const MainCanvas = styled.canvas`
