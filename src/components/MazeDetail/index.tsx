@@ -6,8 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
-import Balance from "react-wrap-balancer";
 import Skeleton from "../Skeleton";
+import { IoCalendarOutline } from "react-icons/io5";
 
 type Props = {
   maze: Maze;
@@ -54,7 +54,7 @@ const MazeDetail = ({
         />
         <h3>{name}</h3>
         <time>
-          <Balance>Criado em {createdAt}</Balance>
+          <IoCalendarOutline />{createdAt}
         </time>
         <Link
           href={`/mazes/${id}`}

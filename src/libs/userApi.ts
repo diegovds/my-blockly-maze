@@ -1,7 +1,7 @@
 import { Maze } from "@/types/Maze";
 import prisma from "./prisma";
 import bcrypt from "bcrypt";
-import { dateFormatting } from "./dayjs";
+import { compactDateFormatting } from "./dayjs";
 import { MazesUser } from "@/types/MazesUser";
 
 export const userApi = () => {
@@ -96,7 +96,7 @@ export const userApi = () => {
           code: element.code,
           image: element.image,
           urlImage: element.urlImage,
-          createdAt: dateFormatting(element.createdAt),
+          createdAt: compactDateFormatting(element.createdAt),
         });
       }
     }

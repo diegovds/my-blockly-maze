@@ -2,7 +2,7 @@ import { FullMaze } from "@/types/FullMaze";
 import { Maze } from "@/types/Maze";
 
 import prisma from "./prisma";
-import { dateFormatting } from "./dayjs";
+import { compactDateFormatting, fullDateFormatting } from "./dayjs";
 import { UpdatedMaze } from "@/types/UpdatedMaze";
 
 export const mazeApi = () => {
@@ -32,7 +32,7 @@ export const mazeApi = () => {
         code: element.code,
         image: element.image,
         urlImage: element.urlImage,
-        createdAt: dateFormatting(element.createdAt),
+        createdAt: compactDateFormatting(element.createdAt),
       });
     }
 
@@ -124,7 +124,7 @@ export const mazeApi = () => {
       image: maze.image,
       urlImage: maze.urlImage,
       executions: maze.executions,
-      createdAt: dateFormatting(maze.createdAt),
+      createdAt: fullDateFormatting(maze.createdAt),
       username: maze.user.name,
       userId: showUserId === true ? maze.userId : null,
     };

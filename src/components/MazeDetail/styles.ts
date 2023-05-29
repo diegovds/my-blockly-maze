@@ -107,6 +107,15 @@ export const FlipCardBack = styled(motion.div)<FlipCardBackProps>`
     font-style: italic;
     font-size: small;
     margin-bottom: 1.5em;
+
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  svg {
+    font-size: 1.25rem;
+    color: #000;
   }
 
   a,
