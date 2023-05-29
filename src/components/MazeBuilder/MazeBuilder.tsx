@@ -318,7 +318,7 @@ const MazeBuilder = () => {
       <C.Container>
         <C.Toolbar>
           <C.Levels
-            visibility={mainCanvas.current && levels.length > 0 ? true : false}
+            $visibility={mainCanvas.current && levels.length > 0 ? true : false}
           >
             {levels.map((level, index) => (
               <button
@@ -350,7 +350,7 @@ const MazeBuilder = () => {
           </C.Actions>
         </C.Toolbar>
         <C.Editor>
-          <C.CanvasWrapper>
+          <C.CanvasWrapper $pointer={bgImage.length > 0 ? true : false}>
             <C.BgCanvas
               ref={bgCanvas}
               width={dimensions.width}
@@ -381,6 +381,7 @@ const MazeBuilder = () => {
                 type="file"
                 id="bgFile"
                 name="bgFile"
+                accept="image/*"
                 onChange={initCanvas}
               />
             </div>

@@ -14,14 +14,14 @@ export const Toolbar = styled.div`
 `;
 
 type LevelsProps = {
-  visibility: boolean;
+  $visibility: boolean;
 };
 
 export const Levels = styled.div<LevelsProps>`
   display: flex;
   gap: 0.5rem;
 
-  visibility: ${({ visibility }) => (visibility ? "visible" : "hidden")};
+  visibility: ${({ $visibility }) => ($visibility ? "visible" : "hidden")};
 `;
 
 export const Actions = styled.div`
@@ -38,9 +38,14 @@ export const Editor = styled.div`
   min-height: 600px;
 `;
 
-export const CanvasWrapper = styled.div`
+type CanvasWrapperProps = {
+  $pointer: boolean;
+};
+
+export const CanvasWrapper = styled.div<CanvasWrapperProps>`
   width: 700px;
   position: relative;
+  cursor: ${({ $pointer }) => ($pointer ? "pointer" : "auto")};
 `;
 
 export const BgCanvas = styled.canvas`
