@@ -53,6 +53,10 @@ const MazeBuilder = () => {
   const mainContext = mainCanvas?.current?.getContext("2d");
 
   useEffect(() => {
+    console.log(levels);
+  }, [levels]);
+
+  useEffect(() => {
     const normalize = (x: number, y: number) => {
       let matrix = levels[currentLevel];
 
@@ -182,12 +186,12 @@ const MazeBuilder = () => {
     }
   }, [bgContext, mainContext, bgImage, drawGrid]);
 
-  const refreshMainCanvas = () => {
+  const refreshMainCanvas = useCallback(() => {
     if (mainContext) {
       mainContext.clearRect(0, 0, dimensions.width, dimensions.height);
       drawGrid();
     }
-  };
+  }, [drawGrid, mainContext]);
 
   const initLevels = () => {
     setCurrentLevel(0);
@@ -195,7 +199,7 @@ const MazeBuilder = () => {
     let matrix = [];
     let row = [];
     for (let i = 0; i < levelWidth; i++) {
-      row.push(1);
+      row.push(0);
     }
     for (let j = 0; j < levelHeight; j++) {
       matrix.push(row.concat());
@@ -235,11 +239,7 @@ const MazeBuilder = () => {
       let matrix = [];
       let row = [];
       for (let i = 0; i < levelWidth; i++) {
-        if (newLevels.length === 2) {
-          row.push(2);
-        } else {
-          row.push(3);
-        }
+        row.push(0);
       }
       for (let j = 0; j < levelHeight; j++) {
         matrix.push(row.concat());
@@ -263,6 +263,41 @@ const MazeBuilder = () => {
       alert("Não é possível excluir o primeriro nível.");
     }
   };
+
+  useEffect(() => {
+    const clickChangeTile = (event: MouseEvent) => {
+      if (
+        mainCanvas.current &&
+        mainCanvas.current === event.target &&
+        levels.length > 0
+      ) {
+        let newLevels = [...levels];
+        let matrix = levels[currentLevel];
+
+        let rect = mainCanvas.current.getBoundingClientRect();
+        let x = Math.floor((event.clientX - rect.left) / 50);
+        let y = Math.floor((event.clientY - rect.top) / 50);
+
+        let right = 2;
+        if (event.button === right) {
+          matrix[y][x] -= 1;
+          if (matrix[y][x] < 0) matrix[y][x] = 3;
+        } else {
+          matrix[y][x] += 1;
+          if (matrix[y][x] > 3) matrix[y][x] = 0;
+        }
+
+        newLevels[currentLevel] = matrix;
+        setLevels(newLevels);
+        refreshMainCanvas();
+      }
+    };
+
+    window.addEventListener("mouseup", clickChangeTile);
+    return () => {
+      window.removeEventListener("mouseup", clickChangeTile);
+    };
+  }, [currentLevel, levels, refreshMainCanvas]);
 
   const initCanvas = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length && e.target.files.length > 0) {
