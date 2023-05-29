@@ -55,8 +55,7 @@ const MazeBuilder = () => {
 
   useEffect(() => {
     console.log(levels);
-    console.log(gameName);
-  }, [levels, gameName]);
+  }, [levels]);
 
   useEffect(() => {
     const normalize = (x: number, y: number) => {
@@ -318,34 +317,37 @@ const MazeBuilder = () => {
     <>
       <C.Container>
         <C.Toolbar>
-          {mainCanvas.current && levels.length > 0 && (
-            <>
-              {levels.map((level, index) => (
-                <button
-                  key={index}
-                  className="btn"
-                  onClick={() => {
-                    if (currentLevel !== index) {
-                      setCurrentLevel(index);
-                      refreshMainCanvas();
-                    }
-                  }}
-                  style={{
-                    backgroundColor:
-                      currentLevel === index ? "#000" : undefined,
-                  }}
-                >
-                  {index + 1}
-                </button>
-              ))}
-              <button className="btn" onClick={() => clickAddLevel()}>
-                +
+          <C.Levels
+            visibility={mainCanvas.current && levels.length > 0 ? true : false}
+          >
+            {levels.map((level, index) => (
+              <button
+                key={index}
+                className="btn"
+                onClick={() => {
+                  if (currentLevel !== index) {
+                    setCurrentLevel(index);
+                    refreshMainCanvas();
+                  }
+                }}
+                style={{
+                  backgroundColor: currentLevel === index ? "#000" : undefined,
+                }}
+              >
+                {index + 1}
               </button>
-              <button className="btn" onClick={() => clickRemoveLevel()}>
-                -
-              </button>
-            </>
-          )}
+            ))}
+            <button className="btn" onClick={() => clickAddLevel()}>
+              +
+            </button>
+            <button className="btn" onClick={() => clickRemoveLevel()}>
+              -
+            </button>
+          </C.Levels>
+          <C.Actions>
+            <button className="btn">Ajuda</button>
+            <button className="btn">Salvar</button>
+          </C.Actions>
         </C.Toolbar>
         <C.Editor>
           <C.CanvasWrapper>
@@ -361,23 +363,27 @@ const MazeBuilder = () => {
             ></C.MainCanvas>
           </C.CanvasWrapper>
           <C.Toolbox>
-            <label htmlFor="nameGame">Nome do jogo:</label>
-            <input
-              type="text"
-              id="nameGame"
-              name="nameGame"
-              placeholder="Digite o nome do jogo"
-              onChange={(e) => setGameName(e.target.value)}
-            />
-            <label htmlFor="bgFile" className="btn">
-              Adicionar imagem de fundo
-            </label>
-            <input
-              type="file"
-              id="bgFile"
-              name="bgFile"
-              onChange={initCanvas}
-            />
+            <div className="input">
+              <label htmlFor="nameGame">Nome do jogo:</label>
+              <input
+                type="text"
+                id="nameGame"
+                name="nameGame"
+                placeholder="Digite o nome do jogo"
+                onChange={(e) => setGameName(e.target.value)}
+              />
+            </div>
+            <div className="input">
+              <label htmlFor="bgFile" className="btn">
+                Adicionar imagem de fundo
+              </label>
+              <input
+                type="file"
+                id="bgFile"
+                name="bgFile"
+                onChange={initCanvas}
+              />
+            </div>
           </C.Toolbox>
         </C.Editor>
       </C.Container>
