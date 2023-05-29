@@ -1,7 +1,7 @@
-import { Varela_Round } from "next/font/google";
+import { Rubik } from "next/font/google";
 import { createGlobalStyle } from "styled-components";
 
-const varelaRound = Varela_Round({
+const rubik = Rubik({
   weight: "400",
   subsets: ["latin"],
   display: "swap",
@@ -12,7 +12,7 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: ${varelaRound.style.fontFamily};
+    font-family: ${rubik.style.fontFamily};
   }
 
   body {
