@@ -62,7 +62,7 @@ type FlipCardBackProps = {
   $inView: boolean;
 };
 
-export const FlipCardBack = styled(motion.div)<FlipCardBackProps>`
+export const FlipCardBack = styled.div<FlipCardBackProps>`
   /*
   position: absolute;
   width: 100%;
@@ -136,6 +136,10 @@ export const FlipCardBack = styled(motion.div)<FlipCardBackProps>`
     }
 
     h3 {
+      font-size: 1rem;
+    }
+
+    svg {
       font-size: 1rem;
     }
   }

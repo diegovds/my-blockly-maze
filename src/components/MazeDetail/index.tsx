@@ -35,7 +35,6 @@ const MazeDetail = ({
       <C.FlipCardBack
         ref={refFlipCardBack}
         $inView={isInView && sessionStatus !== "loading" ? true : false}
-        whileHover={{ y: -7.5 }}
       >
         {showSkeleton && (
           <Skeleton skeletonWidth="90%" skeletonMarginBottom={true} />
@@ -54,7 +53,8 @@ const MazeDetail = ({
         />
         <h3>{name}</h3>
         <time>
-          <IoCalendarOutline />{createdAt}
+          <IoCalendarOutline />
+          {createdAt}
         </time>
         <Link
           href={`/mazes/${id}`}
