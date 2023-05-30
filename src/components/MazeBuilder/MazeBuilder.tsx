@@ -305,18 +305,33 @@ const MazeBuilder = ({ insertMaze }: Props) => {
     };
   }, [currentLevel, levels, refreshMainCanvas]);
 
+  const imageFileVerification = (fileType: string) => {
+    const typeRegex = /^(image)\/[a-zA-Z]+/;
+    let isValidFileFormat = typeRegex.test(fileType);
+
+    if (!isValidFileFormat) {
+      return false;
+    }
+
+    return true;
+  };
+
   const initCanvas = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length && e.target.files.length > 0) {
-      setBgImage({
-        imageName: e.target.files[0].name,
-        imageUrl: URL.createObjectURL(e.target.files[0]),
-      });
+      if (imageFileVerification(e.target.files[0].type)) {
+        setBgImage({
+          imageName: e.target.files[0].name,
+          imageUrl: URL.createObjectURL(e.target.files[0]),
+        });
 
-      if (levels.length === 0) {
-        initLevels();
+        if (levels.length === 0) {
+          initLevels();
+        } else {
+          resetLevels();
+          refreshMainCanvas();
+        }
       } else {
-        resetLevels();
-        refreshMainCanvas();
+        alert("Formato de arquivo não aceito");
       }
     }
   };
@@ -401,11 +416,6 @@ const MazeBuilder = ({ insertMaze }: Props) => {
       console.log("Erro nos níveis: ", levelsError);
     }
   };
-
-  /**
-   * verificar se a imagem foi inserida
-   * verificar o formato do arquivo inserido
-   */
 
   return (
     <>
