@@ -20,11 +20,26 @@ type Props = {
   insertMaze: (gameName: string, imageFile: File, levels: any[]) => void;
 };
 
+type fileError = {
+  type: "notFound" | "format" | undefined;
+};
+
+type gameNameError = {
+  type: "notFound" | "startSpace" | undefined;
+};
+
 const MazeBuilder = ({ insertMaze }: Props) => {
   const [levels, setLevels] = useState<any[]>([]);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [bgImage, setBgImage] = useState({ imageName: "", imageUrl: "" });
   const [gameName, setGameName] = useState<string | undefined>(undefined);
+  const [gameNameError, setGameNameError] = useState<gameNameError>({
+    type: undefined,
+  });
+  const [bgImageError, setBgImageError] = useState<fileError>({
+    type: undefined,
+  });
+
   const markerImg = useRef<HTMLImageElement>(null);
   const pegmanImg = useRef<HTMLImageElement>(null);
   const tilesImg = useRef<HTMLImageElement>(null);
@@ -278,6 +293,7 @@ const MazeBuilder = ({ insertMaze }: Props) => {
   }, [currentLevel, levels, refreshMainCanvas]);
 
   const initCanvas = (e: ChangeEvent<HTMLInputElement>) => {
+    setBgImageError({ type: undefined });
     if (e.target.files?.length && e.target.files.length > 0) {
       if (imageFileVerification(e.target.files[0].type)) {
         setBgImage({
@@ -292,7 +308,7 @@ const MazeBuilder = ({ insertMaze }: Props) => {
           refreshMainCanvas();
         }
       } else {
-        alert("Formato de arquivo não aceito");
+        setBgImageError({ type: "format" });
       }
     }
   };
@@ -300,7 +316,31 @@ const MazeBuilder = ({ insertMaze }: Props) => {
   const clickSave = () => {
     let levelsError = levelCheck([...levels]);
 
+    let levelsErrorStatus = false;
+    let gameNameStatus = false;
+    let bgImageStatus = false;
+
     if (levelsError.length === 0) {
+      levelsErrorStatus = true;
+    } else {
+      console.log("Erro nos níveis: ", levelsError);
+    }
+
+    if (gameName && gameName[0] !== " ") {
+      gameNameStatus = true;
+    } else if (gameName && gameName[0] === " ") {
+      setGameNameError({ type: "startSpace" });
+    } else {
+      setGameNameError({ type: "notFound" });
+    }
+
+    if (bgImage.imageUrl.length > 0) {
+      bgImageStatus = true;
+    } else {
+      setBgImageError({ type: "notFound" });
+    }
+
+    if (gameName && levelsErrorStatus && gameNameStatus && bgImageStatus) {
       let imageFile: File | undefined = undefined;
 
       if (bgCanvas.current) {
@@ -313,13 +353,11 @@ const MazeBuilder = ({ insertMaze }: Props) => {
         imageFile = file;
       }
 
-      if (levels.length > 0 && imageFile && gameName) {
+      if (imageFile) {
         insertMaze(gameName, imageFile, levels);
       } else {
-        alert("Verifique os dados");
+        alert("Erro de manipulação do novo aquivo de imagem");
       }
-    } else {
-      console.log("Erro nos níveis: ", levelsError);
     }
   };
 
@@ -381,29 +419,54 @@ const MazeBuilder = ({ insertMaze }: Props) => {
             )}
           </C.CanvasWrapper>
           <C.Toolbox>
-            <div className="input">
-              <label htmlFor="nameGame">Nome do jogo:</label>
-              <input
-                type="text"
-                id="nameGame"
-                name="nameGame"
-                maxLength={24}
-                placeholder="Digite o nome do jogo"
-                onChange={(e) => setGameName(e.target.value)}
-              />
-            </div>
-            <div className="input">
-              <label htmlFor="bgFile" className="btn">
-                Adicionar imagem de fundo
-              </label>
-              <input
-                type="file"
-                id="bgFile"
-                name="bgFile"
-                accept="image/*"
-                onChange={initCanvas}
-              />
-            </div>
+            <C.InputData>
+              <div>
+                <label htmlFor="nameGame">Nome do jogo:</label>
+                <input
+                  type="text"
+                  id="nameGame"
+                  name="nameGame"
+                  maxLength={24}
+                  placeholder="Digite o nome do jogo"
+                  onChange={(e) => {
+                    setGameName(e.target.value);
+                    setGameNameError({ type: undefined });
+                  }}
+                />
+              </div>
+              <div>
+                {gameNameError.type === "notFound" && (
+                  <p className="inputError">Nome do jogo não informado</p>
+                )}
+                {gameNameError.type === "startSpace" && (
+                  <p className="inputError">
+                    O nome do jogo não pode iniciar com espaço
+                  </p>
+                )}
+              </div>
+            </C.InputData>
+            <C.InputData>
+              <div>
+                <label htmlFor="bgFile" className="btn">
+                  Adicionar imagem de fundo
+                </label>
+                <input
+                  type="file"
+                  id="bgFile"
+                  name="bgFile"
+                  accept="image/*"
+                  onChange={initCanvas}
+                />
+              </div>
+              <div>
+                {bgImageError.type === "notFound" && (
+                  <p className="inputError">Imagem não adicionada</p>
+                )}
+                {bgImageError.type === "format" && (
+                  <p className="inputError">Formato de arquivo não aceito</p>
+                )}
+              </div>
+            </C.InputData>
           </C.Toolbox>
         </C.Editor>
       </C.Container>

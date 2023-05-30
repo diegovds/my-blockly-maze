@@ -78,6 +78,21 @@ export const Toolbox = styled.div`
   flex-direction: column;
 
   background-color: #fff;
+`;
+
+export const InputData = styled.div`
+  margin-bottom: 2rem;
+  align-self: center;
+
+  & div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  & div:nth-child(2) {
+    margin: 0.5rem 0;
+  }
 
   label {
     width: fit-content;
@@ -103,15 +118,10 @@ export const Toolbox = styled.div`
     height: 0;
   }
 
-  & div:nth-child(1) {
-    margin-bottom: 2rem;
-    align-self: center;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  & div:nth-child(2) {
-    align-self: center;
+  .inputError {
+    text-align: center;
+    font-size: smaller;
+    color: #f00;
+    font-weight: bold;
   }
 `;
