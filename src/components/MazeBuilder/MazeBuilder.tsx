@@ -40,10 +40,14 @@ const squareSize = 50;
 const levelWidth = Math.floor(dimensions.width / squareSize);
 const levelHeight = Math.floor(dimensions.height / squareSize);
 
-const MazeBuilder = () => {
+type Props = {
+  insertMaze: (gameName: string, imageFile: File, levels: any[]) => void;
+};
+
+const MazeBuilder = ({ insertMaze }: Props) => {
   const [levels, setLevels] = useState<any[]>([]);
   const [currentLevel, setCurrentLevel] = useState(0);
-  const [bgImage, setBgImage] = useState("");
+  const [bgImage, setBgImage] = useState({ imageName: "", imageUrl: "" });
   const [gameName, setGameName] = useState<string | undefined>(undefined);
   const markerImg = useRef<HTMLImageElement>(null);
   const pegmanImg = useRef<HTMLImageElement>(null);
@@ -171,7 +175,7 @@ const MazeBuilder = () => {
 
   useEffect(() => {
     const image = new Image();
-    image.src = bgImage;
+    image.src = bgImage.imageUrl;
     image.onload = () => {
       bgContext?.drawImage(image, 0, 0, dimensions.width, dimensions.height);
     };
@@ -183,7 +187,7 @@ const MazeBuilder = () => {
       mainContext.imageSmoothingEnabled = false;
     }
 
-    if (bgImage.length > 0) {
+    if (bgImage.imageUrl.length > 0) {
       drawGrid();
     }
   }, [bgContext, mainContext, bgImage, drawGrid]);
@@ -303,7 +307,10 @@ const MazeBuilder = () => {
 
   const initCanvas = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length && e.target.files.length > 0) {
-      setBgImage(URL.createObjectURL(e.target.files[0]));
+      setBgImage({
+        imageName: e.target.files[0].name,
+        imageUrl: URL.createObjectURL(e.target.files[0]),
+      });
 
       if (levels.length === 0) {
         initLevels();
@@ -313,6 +320,53 @@ const MazeBuilder = () => {
       }
     }
   };
+
+  const dataURLToBlob = (dataUrl: string) => {
+    let BASE64_MARKER = ";base64,";
+    if (dataUrl.indexOf(BASE64_MARKER) == -1) {
+      let parts = dataUrl.split(",");
+      let contentType = parts[0].split(":")[1];
+      let raw = decodeURIComponent(parts[1]);
+      return new Blob([raw], { type: contentType });
+    }
+    let parts = dataUrl.split(BASE64_MARKER);
+    let contentType = parts[0].split(":")[1];
+    let raw = window.atob(parts[1]);
+    let rawLength = raw.length;
+    let uInt8Array = new Uint8Array(rawLength);
+    for (let i = 0; i < rawLength; ++i) {
+      uInt8Array[i] = raw.charCodeAt(i);
+    }
+    return new Blob([uInt8Array], { type: contentType });
+  };
+
+  const clickSave = () => {
+    let imageFile: File | undefined = undefined;
+
+    if (bgCanvas.current) {
+      let dataUrl = bgCanvas.current.toDataURL();
+
+      let blob = dataURLToBlob(dataUrl);
+
+      let file = new File([blob], bgImage.imageName);
+
+      imageFile = file;
+    }
+
+    if (levels.length > 0 && imageFile && gameName) {
+      insertMaze(gameName, imageFile, levels);
+    } else {
+      alert("Verifique os dados");
+    }
+  };
+
+  /**
+   * redimensionar o arquivo de imagem para mandar na requisição
+   * verificar os níveis possuem início, caminho e fim
+   * verificar se a imagem foi inserida
+   * verificar o formato do arquivo inserido
+   * verificar se foi digitadoum nome
+   */
 
   return (
     <>
@@ -347,23 +401,29 @@ const MazeBuilder = () => {
           </C.Levels>
           <C.Actions>
             <button className="btn">Ajuda</button>
-            <button className="btn">Salvar</button>
+            <button className="btn" onClick={() => clickSave()}>
+              Salvar
+            </button>
           </C.Actions>
         </C.Toolbar>
         <C.Editor>
-          <C.CanvasWrapper $pointer={bgImage.length > 0 ? true : false}>
+          <C.CanvasWrapper
+            $pointer={bgImage.imageUrl.length > 0 ? true : false}
+          >
             <C.BgCanvas
               ref={bgCanvas}
               width={dimensions.width}
               height={dimensions.height}
-              $bgImage={bgImage.length === 0 ? false : true}
+              $bgImage={bgImage.imageUrl.length === 0 ? false : true}
             ></C.BgCanvas>
             <C.MainCanvas
               ref={mainCanvas}
               width={dimensions.width}
               height={dimensions.height}
             ></C.MainCanvas>
-            {bgImage.length === 0 && <Skeleton skeletonWidth="700px" />}
+            {bgImage.imageUrl.length === 0 && (
+              <Skeleton skeletonWidth="700px" />
+            )}
           </C.CanvasWrapper>
           <C.Toolbox>
             <div className="input">
