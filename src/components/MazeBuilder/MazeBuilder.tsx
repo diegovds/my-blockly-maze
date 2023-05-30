@@ -340,32 +340,71 @@ const MazeBuilder = ({ insertMaze }: Props) => {
     return new Blob([uInt8Array], { type: contentType });
   };
 
-  const clickSave = () => {
-    let imageFile: File | undefined = undefined;
+  const levelCheck = () => {
+    let levelsCopy = [...levels];
+    let levelsError: number[] = [];
+    let route = 0;
+    let start = 0;
+    let end = 0;
 
-    if (bgCanvas.current) {
-      let dataUrl = bgCanvas.current.toDataURL();
+    for (let i = 0; i < levelsCopy.length; i++) {
+      const level = levelsCopy[i];
 
-      let blob = dataURLToBlob(dataUrl);
+      route = 0;
+      start = 0;
+      end = 0;
 
-      let file = new File([blob], bgImage.imageName);
+      for (let x = 0; x < levelWidth; x++) {
+        for (let y = 0; y < levelHeight; y++) {
+          if (level[y][x] === 1) {
+            route++;
+          }
+          if (level[y][x] === 2) {
+            start++;
+          }
+          if (level[y][x] === 3) {
+            end++;
+          }
+        }
+      }
 
-      imageFile = file;
+      if (start !== 1 || end !== 1 || route < 1) {
+        levelsError.push(i + 1);
+      }
     }
 
-    if (levels.length > 0 && imageFile && gameName) {
-      insertMaze(gameName, imageFile, levels);
+    return levelsError;
+  };
+
+  const clickSave = () => {
+    let levelsError = levelCheck();
+
+    if (levelsError.length === 0) {
+      let imageFile: File | undefined = undefined;
+
+      if (bgCanvas.current) {
+        let dataUrl = bgCanvas.current.toDataURL();
+
+        let blob = dataURLToBlob(dataUrl);
+
+        let file = new File([blob], bgImage.imageName);
+
+        imageFile = file;
+      }
+
+      if (levels.length > 0 && imageFile && gameName) {
+        insertMaze(gameName, imageFile, levels);
+      } else {
+        alert("Verifique os dados");
+      }
     } else {
-      alert("Verifique os dados");
+      console.log("Erro nos níveis: ", levelsError);
     }
   };
 
   /**
-   * redimensionar o arquivo de imagem para mandar na requisição
-   * verificar os níveis possuem início, caminho e fim
    * verificar se a imagem foi inserida
    * verificar o formato do arquivo inserido
-   * verificar se foi digitadoum nome
    */
 
   return (
