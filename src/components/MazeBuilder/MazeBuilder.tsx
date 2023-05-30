@@ -1,5 +1,6 @@
 import * as C from "./styles";
 
+import { action } from "@/types/action";
 import {
   dataURLToBlob,
   dimensions,
@@ -18,6 +19,7 @@ import Skeleton from "../Skeleton";
 
 type Props = {
   insertMaze: (gameName: string, imageFile: File, levels: any[]) => void;
+  actionNotification: (type: action, levelsError?: any[]) => void;
 };
 
 type fileError = {
@@ -28,7 +30,7 @@ type gameNameError = {
   type: "notFound" | "startSpace" | undefined;
 };
 
-const MazeBuilder = ({ insertMaze }: Props) => {
+const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
   const [levels, setLevels] = useState<any[]>([]);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [bgImage, setBgImage] = useState({ imageName: "", imageUrl: "" });
@@ -226,7 +228,7 @@ const MazeBuilder = ({ insertMaze }: Props) => {
 
   const clickAddLevel = () => {
     if (levels.length >= 10) {
-      alert("Máximo de níveis");
+      actionNotification("maxLevel");
     } else {
       let newLevels = [...levels];
       let matrix = [];
@@ -253,7 +255,7 @@ const MazeBuilder = ({ insertMaze }: Props) => {
       setCurrentLevel(removeLevel.length - 1);
       refreshMainCanvas();
     } else {
-      alert("Não é possível excluir o primeriro nível.");
+      actionNotification("firstLevel");
     }
   };
 
@@ -323,7 +325,7 @@ const MazeBuilder = ({ insertMaze }: Props) => {
     if (levelsError.length === 0) {
       levelsErrorStatus = true;
     } else {
-      console.log("Erro nos níveis: ", levelsError);
+      actionNotification("levelsError", levelsError);
     }
 
     if (gameName && gameName[0] !== " ") {
@@ -356,7 +358,7 @@ const MazeBuilder = ({ insertMaze }: Props) => {
       if (imageFile) {
         insertMaze(gameName, imageFile, levels);
       } else {
-        alert("Erro de manipulação do novo aquivo de imagem");
+        actionNotification("imageManipulation");
       }
     }
   };
