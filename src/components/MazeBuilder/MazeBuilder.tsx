@@ -1,44 +1,20 @@
 import * as C from "./styles";
 
-import { useRef, useState, ChangeEvent, useEffect, useCallback } from "react";
+import {
+  dataURLToBlob,
+  dimensions,
+  imageFileVerification,
+  levelCheck,
+  levelHeight,
+  levelWidth,
+  markerSrc,
+  pegmanSrc,
+  shapes,
+  squareSize,
+  tilesSrc,
+} from "@/utils/mazeBuilderUtilities";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import Skeleton from "../Skeleton";
-
-const shapes = {
-  10010: [4, 0], // Dead ends
-  10100: [3, 3],
-  11000: [0, 1],
-  10001: [0, 2],
-  11010: [4, 1], // Vertical
-  10101: [3, 2], // Horizontal
-  10011: [0, 0], // Elbows
-  10110: [2, 0],
-  11100: [4, 2],
-  11001: [2, 3],
-  11011: [1, 1], // Junctions
-  10111: [1, 0],
-  11110: [2, 1],
-  11101: [1, 2],
-  11111: [2, 2], // Cross
-  null0: [4, 3], // Empty
-  null1: [3, 0],
-  null2: [3, 1],
-  null3: [0, 3],
-  null4: [1, 3],
-};
-
-const tilesSrc = "/tiles.png";
-const pegmanSrc = "/pegman.png";
-const markerSrc = "/marker.png";
-
-const dimensions = {
-  width: 700,
-  height: 600,
-};
-
-const squareSize = 50;
-
-const levelWidth = Math.floor(dimensions.width / squareSize);
-const levelHeight = Math.floor(dimensions.height / squareSize);
 
 type Props = {
   insertMaze: (gameName: string, imageFile: File, levels: any[]) => void;
@@ -57,10 +33,6 @@ const MazeBuilder = ({ insertMaze }: Props) => {
 
   const bgContext = bgCanvas?.current?.getContext("2d");
   const mainContext = mainCanvas?.current?.getContext("2d");
-
-  useEffect(() => {
-    console.log(levels);
-  }, [levels]);
 
   const drawTiles = useCallback(() => {
     const normalize = (x: number, y: number) => {
@@ -305,17 +277,6 @@ const MazeBuilder = ({ insertMaze }: Props) => {
     };
   }, [currentLevel, levels, refreshMainCanvas]);
 
-  const imageFileVerification = (fileType: string) => {
-    const typeRegex = /^(image)\/[a-zA-Z]+/;
-    let isValidFileFormat = typeRegex.test(fileType);
-
-    if (!isValidFileFormat) {
-      return false;
-    }
-
-    return true;
-  };
-
   const initCanvas = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length && e.target.files.length > 0) {
       if (imageFileVerification(e.target.files[0].type)) {
@@ -336,63 +297,8 @@ const MazeBuilder = ({ insertMaze }: Props) => {
     }
   };
 
-  const dataURLToBlob = (dataUrl: string) => {
-    let BASE64_MARKER = ";base64,";
-    if (dataUrl.indexOf(BASE64_MARKER) == -1) {
-      let parts = dataUrl.split(",");
-      let contentType = parts[0].split(":")[1];
-      let raw = decodeURIComponent(parts[1]);
-      return new Blob([raw], { type: contentType });
-    }
-    let parts = dataUrl.split(BASE64_MARKER);
-    let contentType = parts[0].split(":")[1];
-    let raw = window.atob(parts[1]);
-    let rawLength = raw.length;
-    let uInt8Array = new Uint8Array(rawLength);
-    for (let i = 0; i < rawLength; ++i) {
-      uInt8Array[i] = raw.charCodeAt(i);
-    }
-    return new Blob([uInt8Array], { type: contentType });
-  };
-
-  const levelCheck = () => {
-    let levelsCopy = [...levels];
-    let levelsError: number[] = [];
-    let route = 0;
-    let start = 0;
-    let end = 0;
-
-    for (let i = 0; i < levelsCopy.length; i++) {
-      const level = levelsCopy[i];
-
-      route = 0;
-      start = 0;
-      end = 0;
-
-      for (let x = 0; x < levelWidth; x++) {
-        for (let y = 0; y < levelHeight; y++) {
-          if (level[y][x] === 1) {
-            route++;
-          }
-          if (level[y][x] === 2) {
-            start++;
-          }
-          if (level[y][x] === 3) {
-            end++;
-          }
-        }
-      }
-
-      if (start !== 1 || end !== 1 || route < 1) {
-        levelsError.push(i + 1);
-      }
-    }
-
-    return levelsError;
-  };
-
   const clickSave = () => {
-    let levelsError = levelCheck();
+    let levelsError = levelCheck([...levels]);
 
     if (levelsError.length === 0) {
       let imageFile: File | undefined = undefined;
