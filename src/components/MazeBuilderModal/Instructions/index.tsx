@@ -28,6 +28,10 @@ const Instructions = ({ closeModal }: Props) => {
         <C.Li>
           Por fim, o jogo pode ser salvo ao clicar no botão &quot;Salvar&quot;.
         </C.Li>
+        <p>
+          Você pode rever as instruções clicando no botão &quot;Ajuda&quot; no
+          lado superior direito.
+        </p>
       </C.Ol>
       <C.DivBtn>
         <button className="btn" onClick={() => closeModal(false)}>
