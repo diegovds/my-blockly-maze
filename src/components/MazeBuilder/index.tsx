@@ -14,6 +14,7 @@ import {
   squareSize,
   tilesSrc,
 } from "@/utils/mazeBuilderUtilities";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import Skeleton from "../Skeleton";
 
@@ -26,6 +27,8 @@ type fileError = "notFound" | "format" | undefined;
 type gameNameError = "notFound" | "startSpace" | undefined;
 
 const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
+  const [animationParent] = useAutoAnimate({ duration: 300 });
+
   const [levels, setLevels] = useState<any[]>([]);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [bgImage, setBgImage] = useState({ imageName: "", imageUrl: "" });
@@ -360,6 +363,7 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
         <C.Toolbar>
           <C.Levels
             $visibility={mainCanvas.current && levels.length > 0 ? true : false}
+            ref={animationParent}
           >
             {levels.map((level, index) => (
               <button
