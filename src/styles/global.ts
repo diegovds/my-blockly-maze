@@ -1,7 +1,7 @@
-import { Rubik } from "next/font/google";
+import { Outfit } from "next/font/google";
 import { createGlobalStyle } from "styled-components";
 
-const rubik = Rubik({
+const outfit = Outfit({
   weight: "400",
   subsets: ["latin"],
   display: "swap",
@@ -12,7 +12,7 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: ${rubik.style.fontFamily};
+    font-family: ${outfit.style.fontFamily};
   }
 
   body {
