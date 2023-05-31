@@ -22,25 +22,16 @@ type Props = {
   actionNotification: (type: action, levelsError?: any[]) => void;
 };
 
-type fileError = {
-  type: "notFound" | "format" | undefined;
-};
-
-type gameNameError = {
-  type: "notFound" | "startSpace" | undefined;
-};
+type fileError = "notFound" | "format" | undefined;
+type gameNameError = "notFound" | "startSpace" | undefined;
 
 const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
   const [levels, setLevels] = useState<any[]>([]);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [bgImage, setBgImage] = useState({ imageName: "", imageUrl: "" });
   const [gameName, setGameName] = useState<string | undefined>(undefined);
-  const [gameNameError, setGameNameError] = useState<gameNameError>({
-    type: undefined,
-  });
-  const [bgImageError, setBgImageError] = useState<fileError>({
-    type: undefined,
-  });
+  const [gameNameError, setGameNameError] = useState<gameNameError>(undefined);
+  const [bgImageError, setBgImageError] = useState<fileError>(undefined);
 
   const markerImg = useRef<HTMLImageElement>(null);
   const pegmanImg = useRef<HTMLImageElement>(null);
@@ -295,7 +286,7 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
   }, [currentLevel, levels, refreshMainCanvas]);
 
   const initCanvas = (e: ChangeEvent<HTMLInputElement>) => {
-    setBgImageError({ type: undefined });
+    setBgImageError(undefined);
     if (e.target.files?.length && e.target.files.length > 0) {
       if (imageFileVerification(e.target.files[0].type)) {
         setBgImage({
@@ -310,7 +301,7 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
           refreshMainCanvas();
         }
       } else {
-        setBgImageError({ type: "format" });
+        setBgImageError("format");
       }
     }
   };
@@ -331,15 +322,15 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
     if (gameName && gameName[0] !== " ") {
       gameNameStatus = true;
     } else if (gameName && gameName[0] === " ") {
-      setGameNameError({ type: "startSpace" });
+      setGameNameError("startSpace");
     } else {
-      setGameNameError({ type: "notFound" });
+      setGameNameError("notFound");
     }
 
     if (bgImage.imageUrl.length > 0) {
       bgImageStatus = true;
     } else {
-      setBgImageError({ type: "notFound" });
+      setBgImageError("notFound");
     }
 
     if (gameName && levelsErrorStatus && gameNameStatus && bgImageStatus) {
@@ -432,15 +423,15 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
                   placeholder="Digite o nome do jogo"
                   onChange={(e) => {
                     setGameName(e.target.value);
-                    setGameNameError({ type: undefined });
+                    setGameNameError(undefined);
                   }}
                 />
               </div>
               <div>
-                {gameNameError.type === "notFound" && (
+                {gameNameError === "notFound" && (
                   <p className="inputError">Nome do jogo não informado</p>
                 )}
-                {gameNameError.type === "startSpace" && (
+                {gameNameError === "startSpace" && (
                   <p className="inputError">
                     O nome do jogo não pode iniciar com espaço
                   </p>
@@ -461,10 +452,10 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
                 />
               </div>
               <div>
-                {bgImageError.type === "notFound" && (
+                {bgImageError === "notFound" && (
                   <p className="inputError">Imagem não adicionada</p>
                 )}
-                {bgImageError.type === "format" && (
+                {bgImageError === "format" && (
                   <p className="inputError">Formato de arquivo não aceito</p>
                 )}
               </div>
