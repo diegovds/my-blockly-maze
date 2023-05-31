@@ -1,3 +1,4 @@
+import { CloseModalFunction } from "@/types/CloseModalFunction";
 import * as C from "./styles";
 
 import { useRef } from "react";
@@ -6,7 +7,7 @@ import { useOnClickOutside } from "usehooks-ts";
 
 type Props = {
   children: React.ReactNode;
-  closeModal: (status: boolean) => void;
+  closeModal: CloseModalFunction;
 };
 
 const MazeBuilderModal = ({ children, closeModal }: Props) => {

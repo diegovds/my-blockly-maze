@@ -1,7 +1,8 @@
+import { CloseModalFunction } from "@/types/CloseModalFunction";
 import * as C from "./styles";
 
 type Props = {
-  closeModal: (status: boolean) => void;
+  closeModal: CloseModalFunction;
 };
 
 const Instructions = ({ closeModal }: Props) => {
