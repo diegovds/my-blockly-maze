@@ -1,6 +1,7 @@
 import * as C from "./styles";
 
-import { action } from "@/types/action";
+import { ActionsNotification } from "@/types/ActionsNotification";
+import { CloseModalFunction } from "@/types/CloseModalFunction";
 import {
   dataURLToBlob,
   dimensions,
@@ -15,12 +16,16 @@ import {
   tilesSrc,
 } from "@/utils/mazeBuilderUtilities";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { AnimatePresence } from "framer-motion";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import MazeBuilderModal from "../MazeBuilderModal";
+import Instructions from "../MazeBuilderModal/Instructions";
+import RemoveLevel from "../MazeBuilderModal/RemoveLevel";
 import Skeleton from "../Skeleton";
 
 type Props = {
   insertMaze: (gameName: string, imageFile: File, levels: any[]) => void;
-  actionNotification: (type: action, levelsError?: any[]) => void;
+  actionNotification: (type: ActionsNotification, levelsError?: any[]) => void;
 };
 
 type fileError = "notFound" | "format" | undefined;
@@ -35,6 +40,11 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
   const [gameName, setGameName] = useState<string | undefined>(undefined);
   const [gameNameError, setGameNameError] = useState<gameNameError>(undefined);
   const [bgImageError, setBgImageError] = useState<fileError>(undefined);
+  const [openModalInstructions, setOpenModalInstructions] =
+    useState<boolean>(false);
+  const [openModalRemoveLevel, setOpenModalRemoveLevel] =
+    useState<boolean>(false);
+  //const [openModal, setOpenModal] = useState<boolean>(false);
 
   const markerImg = useRef<HTMLImageElement>(null);
   const pegmanImg = useRef<HTMLImageElement>(null);
@@ -319,7 +329,7 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
     if (levelsError.length === 0) {
       levelsErrorStatus = true;
     } else {
-      actionNotification("levelsError", levelsError);
+      // erro nos niveis actionNotification("levelsError", levelsError);
     }
 
     if (gameName && gameName[0] !== " ") {
@@ -357,6 +367,19 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
     }
   };
 
+  const closeModal: CloseModalFunction = (status, removeLevel) => {
+    if (openModalInstructions) {
+      setOpenModalInstructions(status);
+    }
+    if (openModalRemoveLevel) {
+      setOpenModalRemoveLevel(false);
+
+      if (removeLevel === true) {
+        clickRemoveLevel();
+      }
+    }
+  };
+
   return (
     <>
       <C.Container>
@@ -385,12 +408,22 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
             <button className="btn" onClick={() => clickAddLevel()}>
               +
             </button>
-            <button className="btn" onClick={() => clickRemoveLevel()}>
+            <button
+              className="btn"
+              onClick={() => setOpenModalRemoveLevel(true)}
+            >
               -
             </button>
           </C.Levels>
           <C.Actions>
-            <button className="btn">Ajuda</button>
+            <button
+              className="btn"
+              onClick={() => {
+                setOpenModalInstructions(true);
+              }}
+            >
+              Ajuda
+            </button>
             <button className="btn" onClick={() => clickSave()}>
               Salvar
             </button>
@@ -467,6 +500,18 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
           </C.Toolbox>
         </C.Editor>
       </C.Container>
+      <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
+        {openModalRemoveLevel && (
+          <MazeBuilderModal closeModal={closeModal}>
+            <RemoveLevel closeModal={closeModal} />
+          </MazeBuilderModal>
+        )}
+        {openModalInstructions && (
+          <MazeBuilderModal closeModal={closeModal}>
+            <Instructions closeModal={closeModal} />
+          </MazeBuilderModal>
+        )}
+      </AnimatePresence>
       {
         // eslint-disable-next-line
         <img ref={tilesImg} src={tilesSrc} alt="" style={{ display: "none" }} />
