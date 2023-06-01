@@ -49,6 +49,7 @@ export const Editor = styled.div`
 
 type CanvasWrapperProps = {
   $pointer: boolean;
+  $saving: boolean;
 };
 
 export const CanvasWrapper = styled.div<CanvasWrapperProps>`
@@ -56,6 +57,7 @@ export const CanvasWrapper = styled.div<CanvasWrapperProps>`
   min-height: 600px;
   position: relative;
   cursor: ${({ $pointer }) => ($pointer ? "pointer" : "auto")};
+  pointer-events: ${({ $saving }) => ($saving ? "none" : "auto")};
 `;
 
 type BgCanvasProps = {

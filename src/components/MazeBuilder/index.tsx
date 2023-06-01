@@ -27,6 +27,7 @@ import Skeleton from "../Skeleton";
 type Props = {
   insertMaze: (gameName: string, imageFile: File, levels: any[]) => void;
   actionNotification: (type: ActionsNotification, levelsError?: any[]) => void;
+  saving: boolean;
 };
 
 type fileError = "notFound" | "format" | undefined;
@@ -36,7 +37,7 @@ type modalError = {
   LevelsError: number[];
 };
 
-const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
+const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
   const [animationParent] = useAutoAnimate({ duration: 300 });
 
   const [levels, setLevels] = useState<any[]>([]);
@@ -401,6 +402,7 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
           >
             {levels.map((level, index) => (
               <button
+                disabled={saving}
                 key={index}
                 className="btn"
                 onClick={() => {
@@ -410,17 +412,23 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
                   }
                 }}
                 style={{
-                  backgroundColor: currentLevel === index ? "#000" : undefined,
+                  backgroundColor:
+                    currentLevel === index && !saving ? "#000" : undefined,
                 }}
               >
                 {index + 1}
               </button>
             ))}
-            <button className="btn" onClick={() => clickAddLevel()}>
+            <button
+              className="btn"
+              disabled={saving}
+              onClick={() => clickAddLevel()}
+            >
               +
             </button>
             <button
               className="btn"
+              disabled={saving}
               onClick={() => setOpenModalRemoveLevel(true)}
             >
               -
@@ -429,20 +437,26 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
           <C.Actions>
             <button
               className="btn"
+              disabled={saving}
               onClick={() => {
                 setOpenModalInstructions(true);
               }}
             >
               Ajuda
             </button>
-            <button className="btn" onClick={() => clickSave()}>
-              Salvar
+            <button
+              className="btn"
+              disabled={saving}
+              onClick={() => clickSave()}
+            >
+              {!saving ? "Salvar" : "Aguarde"}
             </button>
           </C.Actions>
         </C.Toolbar>
         <C.Editor>
           <C.CanvasWrapper
             $pointer={bgImage.imageUrl.length > 0 ? true : false}
+            $saving={saving}
           >
             <C.BgCanvas
               ref={bgCanvas}
@@ -464,6 +478,7 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
               <div>
                 <label htmlFor="nameGame">Nome do jogo:</label>
                 <input
+                  disabled={saving}
                   type="text"
                   id="nameGame"
                   name="nameGame"
@@ -488,10 +503,17 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
             </C.InputData>
             <C.InputData>
               <div>
-                <label htmlFor="bgFile" className="btn">
-                  Adicionar imagem de fundo
-                </label>
+                {!saving ? (
+                  <label htmlFor="bgFile" className="btn">
+                    Adicionar imagem de fundo
+                  </label>
+                ) : (
+                  <button className="btn" disabled>
+                    Adicionar imagem de fundo
+                  </button>
+                )}
                 <input
+                  disabled={saving}
                   type="file"
                   id="bgFile"
                   name="bgFile"
