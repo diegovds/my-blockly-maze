@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import * as C from "./styles";
 
-import { useClickAnyWhere } from "usehooks-ts";
-import Balance from "react-wrap-balancer";
 import { Maze } from "@/types/Maze";
+import Balance from "react-wrap-balancer";
+import { useOnClickOutside } from "usehooks-ts";
 
 type Props = {
   toDelete: (toDelete: boolean) => void;
@@ -11,22 +11,21 @@ type Props = {
 };
 
 const DashBoardModal = ({ toDelete, maze }: Props) => {
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  useClickAnyWhere((e) => {
-    if (e.target === overlayRef.current) {
-      toDelete(false);
-    }
-  });
+  const handleClickOutside = () => {
+    toDelete(false);
+  };
+
+  useOnClickOutside(contentRef, handleClickOutside);
 
   return (
     <C.Overlay
-      ref={overlayRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <C.Content onClick={(e) => e.stopPropagation()}>
+      <C.Content ref={contentRef}>
         <h3>
           <Balance>
             Deseja excluir o jogo {maze.name} (Cód. {maze.code})?
