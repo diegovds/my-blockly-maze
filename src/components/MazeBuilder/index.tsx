@@ -17,7 +17,6 @@ import {
 } from "@/utils/mazeBuilderUtilities";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { AnimatePresence } from "framer-motion";
-import { useSession } from "next-auth/react";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import MazeBuilderModal from "../MazeBuilderModal";
 import Instructions from "../MazeBuilderModal/Instructions";
@@ -27,7 +26,7 @@ import Skeleton from "../Skeleton";
 
 type Props = {
   insertMaze: (gameName: string, imageFile: File, levels: any[]) => void;
-  actionNotification: (type: ActionsNotification, levelsError?: any[]) => void;
+  actionNotification: (type: ActionsNotification) => void;
   saving: boolean;
 };
 
@@ -40,7 +39,6 @@ type modalError = {
 
 const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
   const [animationParent] = useAutoAnimate({ duration: 300 });
-  const { status: sessionStatus } = useSession();
 
   const [levels, setLevels] = useState<any[]>([]);
   const [currentLevel, setCurrentLevel] = useState(0);
@@ -415,11 +413,7 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
 
   return (
     <>
-      <C.Container
-        variants={BuilderAnimate}
-        initial="hidden"
-        animate={sessionStatus === "loading" ? undefined : "visible"}
-      >
+      <C.Container variants={BuilderAnimate} initial="hidden" animate="visible">
         <C.Toolbar
           variants={{
             hidden: { x: 20, opacity: 0 },
@@ -459,7 +453,11 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
             <button
               className="btn"
               disabled={saving}
-              onClick={() => setOpenModalRemoveLevel(true)}
+              onClick={() =>
+                levels.length === 1
+                  ? actionNotification("firstLevel")
+                  : setOpenModalRemoveLevel(true)
+              }
             >
               -
             </button>
