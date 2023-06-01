@@ -569,22 +569,20 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
         </C.Editor>
       </C.Container>
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
-        {openModalRemoveLevel && (
+        {(openModalRemoveLevel ||
+          openModalInstructions ||
+          openModalLevelsError.status) && (
           <MazeBuilderModal closeModal={closeModal}>
-            <RemoveLevel closeModal={closeModal} />
-          </MazeBuilderModal>
-        )}
-        {openModalInstructions && (
-          <MazeBuilderModal closeModal={closeModal}>
-            <Instructions closeModal={closeModal} />
-          </MazeBuilderModal>
-        )}
-        {openModalLevelsError.status && (
-          <MazeBuilderModal closeModal={closeModal}>
-            <LevelsError
-              closeModal={closeModal}
-              levelsError={openModalLevelsError.LevelsError}
-            />
+            {openModalRemoveLevel ? (
+              <RemoveLevel closeModal={closeModal} />
+            ) : openModalInstructions ? (
+              <Instructions closeModal={closeModal} />
+            ) : (
+              <LevelsError
+                closeModal={closeModal}
+                levelsError={openModalLevelsError.LevelsError}
+              />
+            )}
           </MazeBuilderModal>
         )}
       </AnimatePresence>
