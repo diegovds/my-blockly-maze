@@ -20,6 +20,7 @@ import { AnimatePresence } from "framer-motion";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import MazeBuilderModal from "../MazeBuilderModal";
 import Instructions from "../MazeBuilderModal/Instructions";
+import LevelsError from "../MazeBuilderModal/LevelsError";
 import RemoveLevel from "../MazeBuilderModal/RemoveLevel";
 import Skeleton from "../Skeleton";
 
@@ -30,6 +31,10 @@ type Props = {
 
 type fileError = "notFound" | "format" | undefined;
 type gameNameError = "notFound" | "startSpace" | undefined;
+type modalError = {
+  status: boolean;
+  LevelsError: number[];
+};
 
 const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
   const [animationParent] = useAutoAnimate({ duration: 300 });
@@ -44,7 +49,10 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
     useState<boolean>(false);
   const [openModalRemoveLevel, setOpenModalRemoveLevel] =
     useState<boolean>(false);
-  //const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModalLevelsError, setOpenModalLevelsError] = useState<modalError>({
+    status: false,
+    LevelsError: [],
+  });
 
   const markerImg = useRef<HTMLImageElement>(null);
   const pegmanImg = useRef<HTMLImageElement>(null);
@@ -329,7 +337,7 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
     if (levelsError.length === 0) {
       levelsErrorStatus = true;
     } else {
-      // erro nos niveis actionNotification("levelsError", levelsError);
+      setOpenModalLevelsError({ status: true, LevelsError: levelsError });
     }
 
     if (gameName && gameName[0] !== " ") {
@@ -377,6 +385,9 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
       if (removeLevel === true) {
         clickRemoveLevel();
       }
+    }
+    if (openModalLevelsError.status === true) {
+      setOpenModalLevelsError({ status: false, LevelsError: [] });
     }
   };
 
@@ -509,6 +520,14 @@ const MazeBuilder = ({ insertMaze, actionNotification }: Props) => {
         {openModalInstructions && (
           <MazeBuilderModal closeModal={closeModal}>
             <Instructions closeModal={closeModal} />
+          </MazeBuilderModal>
+        )}
+        {openModalLevelsError.status && (
+          <MazeBuilderModal closeModal={closeModal}>
+            <LevelsError
+              closeModal={closeModal}
+              levelsError={openModalLevelsError.LevelsError}
+            />
           </MazeBuilderModal>
         )}
       </AnimatePresence>
