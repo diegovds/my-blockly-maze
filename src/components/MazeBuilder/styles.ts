@@ -98,8 +98,17 @@ export const InputData = styled.div`
     margin: 0.5rem 0;
   }
 
+  button,
   label {
     width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
   input[type="text"] {

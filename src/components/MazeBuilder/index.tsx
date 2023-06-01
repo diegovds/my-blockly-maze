@@ -18,6 +18,7 @@ import {
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { AnimatePresence } from "framer-motion";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { BiImageAdd } from "react-icons/bi";
 import MazeBuilderModal from "../MazeBuilderModal";
 import Instructions from "../MazeBuilderModal/Instructions";
 import LevelsError from "../MazeBuilderModal/LevelsError";
@@ -538,10 +539,12 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
               <div>
                 {!saving ? (
                   <label htmlFor="bgFile" className="btn">
+                    <BiImageAdd />
                     Adicionar imagem de fundo
                   </label>
                 ) : (
                   <button className="btn" disabled>
+                    <BiImageAdd />
                     Adicionar imagem de fundo
                   </button>
                 )}
