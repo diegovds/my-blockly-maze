@@ -17,6 +17,7 @@ import {
 } from "@/utils/mazeBuilderUtilities";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { AnimatePresence } from "framer-motion";
+import { useSession } from "next-auth/react";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import MazeBuilderModal from "../MazeBuilderModal";
 import Instructions from "../MazeBuilderModal/Instructions";
@@ -39,6 +40,7 @@ type modalError = {
 
 const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
   const [animationParent] = useAutoAnimate({ duration: 300 });
+  const { status: sessionStatus } = useSession();
 
   const [levels, setLevels] = useState<any[]>([]);
   const [currentLevel, setCurrentLevel] = useState(0);
@@ -63,6 +65,25 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
 
   const bgContext = bgCanvas?.current?.getContext("2d");
   const mainContext = mainCanvas?.current?.getContext("2d");
+
+  const BuilderAnimate = {
+    hidden: { opacity: 1, scale: 0.75 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const VisibleItemVariant = {
+    visible: {
+      x: 0,
+      opacity: 1,
+    },
+  };
 
   const drawTiles = useCallback(() => {
     const normalize = (x: number, y: number) => {
@@ -394,8 +415,17 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
 
   return (
     <>
-      <C.Container>
-        <C.Toolbar>
+      <C.Container
+        variants={BuilderAnimate}
+        initial="hidden"
+        animate={sessionStatus === "loading" ? undefined : "visible"}
+      >
+        <C.Toolbar
+          variants={{
+            hidden: { x: 20, opacity: 0 },
+            ...VisibleItemVariant,
+          }}
+        >
           <C.Levels
             $visibility={mainCanvas.current && levels.length > 0 ? true : false}
             ref={animationParent}
@@ -453,7 +483,12 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
             </button>
           </C.Actions>
         </C.Toolbar>
-        <C.Editor>
+        <C.Editor
+          variants={{
+            hidden: { x: -20, opacity: 0 },
+            ...VisibleItemVariant,
+          }}
+        >
           <C.CanvasWrapper
             $pointer={bgImage.imageUrl.length > 0 ? true : false}
             $saving={saving}

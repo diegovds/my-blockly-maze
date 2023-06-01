@@ -1,14 +1,16 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled(motion.div)`
   width: fit-content;
   margin: 2rem auto;
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
+  overflow: hidden;
 `;
 
-export const Toolbar = styled.div`
+export const Toolbar = styled(motion.div)`
   padding: 1rem;
   background-color: #add8e6;
 
@@ -39,7 +41,7 @@ export const Actions = styled.div`
   }
 `;
 
-export const Editor = styled.div`
+export const Editor = styled(motion.div)`
   display: flex;
   padding: 1rem;
   gap: 1rem;
