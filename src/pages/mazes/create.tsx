@@ -1,12 +1,14 @@
+import MazeBuilder from "@/components/MazeBuilder";
+import Seo from "@/components/Seo";
+import { ToastOptions } from "@/components/ToastOptions";
+import * as C from "@/styles/Create.styles";
+import { ActionsNotification } from "@/types/ActionsNotification";
+import axios from "axios";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import Iframe from "@/components/Iframe";
-import Seo from "@/components/Seo";
+import { useEffect, useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 import { useIsFirstRender, useMediaQuery } from "usehooks-ts";
-import * as C from "@/styles/Create.styles";
-import { useState, useEffect } from "react";
-import { ToastOptions } from "@/components/ToastOptions";
-import { toast, Toaster } from "react-hot-toast";
 
 type Props = {
   token: string;
@@ -15,6 +17,7 @@ type Props = {
 const Create = ({ token }: Props) => {
   const router = useRouter();
   const [mobile, setMobile] = useState(false);
+  const [saving, setSaving] = useState(false);
   const isMobile = useMediaQuery("(max-width: 1115px)");
   const isFirst = useIsFirstRender();
 
@@ -32,8 +35,61 @@ const Create = ({ token }: Props) => {
     setMobile(isMobile);
   }, [isMobile, isFirst]);
 
-  const redirect = (mazeId?: string) => {
+  /*const redirect = (mazeId?: string) => {
     router.push(`/mazes/${mazeId}`);
+  };*/
+
+  const insertMaze = async (
+    gameName: string,
+    imageFile: File,
+    levels: any[]
+  ) => {
+    setSaving(true);
+    const data = new FormData();
+
+    data.append("name", gameName);
+    data.append("image", imageFile);
+    data.append("levels", JSON.stringify(levels));
+
+    await toast
+      .promise(
+        axios.post("/api/mazes", data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        {
+          loading: "Salvando jogo",
+          success: "Jogo salvo com sucesso 👌",
+          error: "Ocorreu um erro ao salvar o jogo 🤯",
+        }
+      )
+      .then((response) => {
+        let mazeData = response.data.data;
+
+        const delay = setTimeout(async () => {
+          router.push(`/mazes/${mazeData.id}`);
+        }, 2000); // aguarda 2 segundos
+
+        return () => {
+          clearTimeout(delay);
+        };
+      })
+      .catch(() => setSaving(false));
+  };
+
+  const actionNotification = (type: ActionsNotification) => {
+    if (type === "firstLevel") {
+      toast.error("Não é possível excluir o primeiro nível");
+    }
+
+    if (type === "maxLevel") {
+      toast.error("Não é possível criar mais níveis");
+    }
+
+    if (type === "imageManipulation") {
+      toast.error("Erro de conversão do aquivo de imagem");
+    }
   };
 
   return (
@@ -45,9 +101,16 @@ const Create = ({ token }: Props) => {
       />
       <>
         <C.Container hidden={mobile}>
-          <Iframe
+          {/**
+            <Iframe
             link={`https://maze-game-builder-v2.vercel.app/index.html?token=${token}`}
             redirect={redirect}
+          />
+           */}
+          <MazeBuilder
+            insertMaze={insertMaze}
+            actionNotification={actionNotification}
+            saving={saving}
           />
         </C.Container>
         <Toaster toastOptions={ToastOptions} />
