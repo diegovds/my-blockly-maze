@@ -425,6 +425,7 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
             $visibility={mainCanvas.current && levels.length > 0 ? true : false}
             ref={animationParent}
           >
+            <label>{levels.length === 1 ? "Nível" : "Níveis"}:</label>
             {levels.map((level, index) => (
               <button
                 disabled={saving}
