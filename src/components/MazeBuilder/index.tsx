@@ -299,6 +299,10 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
         mainCanvas.current === event.target &&
         levels.length > 0
       ) {
+        mainCanvas.current.oncontextmenu = () => {
+          return false;
+        };
+
         let newLevels = [...levels];
         let matrix = levels[currentLevel];
 
