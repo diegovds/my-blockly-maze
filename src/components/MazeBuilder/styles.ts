@@ -109,6 +109,15 @@ export const InputData = styled.div`
     display: flex;
     align-items: center;
     gap: 0.5rem;
+
+    /**
+     As propriedades abaixo corrigem
+     o bug de movimentação do texto
+     do botão durante a animação
+    */
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-font-smoothing: subpixel-antialiased;
   }
 
   svg {
