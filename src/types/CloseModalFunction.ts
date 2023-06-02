@@ -1,4 +1,5 @@
 export type CloseModalFunction = (
   status: boolean,
-  removeLevel?: boolean
+  removeLevel?: boolean,
+  goToErrorLevel?: number
 ) => void;

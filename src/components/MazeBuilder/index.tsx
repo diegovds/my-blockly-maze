@@ -396,7 +396,11 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
     }
   };
 
-  const closeModal: CloseModalFunction = (status, removeLevel) => {
+  const closeModal: CloseModalFunction = (
+    status,
+    removeLevel,
+    goToErrorLevel
+  ) => {
     if (openModalInstructions) {
       setOpenModalInstructions(status);
     }
@@ -409,6 +413,11 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
     }
     if (openModalLevelsError.status === true) {
       setOpenModalLevelsError({ status: false, LevelsError: [] });
+
+      if (goToErrorLevel) {
+        setCurrentLevel(goToErrorLevel - 1);
+        refreshMainCanvas();
+      }
     }
   };
 

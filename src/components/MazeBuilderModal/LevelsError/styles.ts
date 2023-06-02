@@ -17,13 +17,23 @@ export const H3 = styled.h3`
 
 export const Ul = styled.ul`
   display: flex;
+  align-items: center;
 
   gap: 1rem;
   margin-bottom: 1.5rem;
+
+  label {
+    font-size: 1.17rem;
+  }
 `;
 
 export const Li = styled.li`
+  list-style: none;
   list-style-position: inside;
   color: #f00;
   font-weight: bold;
+
+  button {
+    min-width: fit-content;
+  }
 `;
