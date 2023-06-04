@@ -9,6 +9,7 @@ import {
   levelCheck,
   levelHeight,
   levelWidth,
+  levelsBackgroundColor,
   markerSrc,
   pegmanSrc,
   shapes,
@@ -400,6 +401,13 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
     }
   };
 
+  useEffect(() => {
+    setOpenModalLevelsError({
+      status: false,
+      LevelsError: levelCheck([...levels]),
+    });
+  }, [levels]);
+
   const closeModal: CloseModalFunction = (
     status,
     removeLevel,
@@ -416,7 +424,10 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
       }
     }
     if (openModalLevelsError.status === true) {
-      setOpenModalLevelsError({ status: false, LevelsError: [] });
+      setOpenModalLevelsError({
+        status: false,
+        LevelsError: [...openModalLevelsError.LevelsError],
+      });
 
       if (goToErrorLevel) {
         setCurrentLevel(goToErrorLevel - 1);
@@ -443,16 +454,17 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
               <button
                 disabled={saving}
                 key={index}
-                className="btn"
+                className={levelsBackgroundColor(
+                  currentLevel,
+                  index,
+                  saving,
+                  openModalLevelsError.LevelsError
+                )}
                 onClick={() => {
                   if (currentLevel !== index) {
                     setCurrentLevel(index);
                     refreshMainCanvas();
                   }
-                }}
-                style={{
-                  backgroundColor:
-                    currentLevel === index && !saving ? "#000" : undefined,
                 }}
               >
                 {index + 1}

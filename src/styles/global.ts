@@ -71,6 +71,14 @@ export default createGlobalStyle`
     color: #fff;
   }
 
+  .btn-black {
+    background-color: #000;
+  }
+
+  .btn-black:hover {
+    background-color: #000;
+  }
+
   .btn-danger {
     background-color: #FF0000;
 }

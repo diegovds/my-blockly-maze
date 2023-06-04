@@ -99,3 +99,16 @@ export const levelCheck = (levelsCopy: any[]) => {
 
   return levelsError;
 };
+
+export const levelsBackgroundColor = (
+  currentLevel: number,
+  index: number,
+  saving: boolean,
+  levelsError: number[]
+) => {
+  return currentLevel === index && !saving
+    ? "btn btn-black"
+    : levelsError.includes(index + 1)
+    ? "btn btn-danger"
+    : "btn";
+};
