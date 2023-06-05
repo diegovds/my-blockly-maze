@@ -52,7 +52,7 @@ const Create = ({ token }: Props) => {
 
     data.append("name", gameName);
     data.append("image", imageFile);
-    data.append("thumbnail", thumbnailFile);
+    data.append("image", thumbnailFile);
     data.append("levels", JSON.stringify(levels));
 
     await toast
