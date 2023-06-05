@@ -20,6 +20,8 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { AnimatePresence } from "framer-motion";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
+import { FaRegCopy } from "react-icons/fa";
+import { Tooltip } from "react-tooltip";
 import MazeBuilderModal from "../MazeBuilderModal";
 import Instructions from "../MazeBuilderModal/Instructions";
 import LevelsError from "../MazeBuilderModal/LevelsError";
@@ -280,20 +282,28 @@ const MazeBuilder = ({
     setLevels(resetLevels);
   };
 
-  const clickAddLevel = () => {
+  const clickAddLevel = (type: "new" | "copy") => {
     if (levels.length >= 10) {
       actionNotification("maxLevel");
     } else {
       let newLevels = [...levels];
-      let matrix = [];
-      let row = [];
-      for (let i = 0; i < levelWidth; i++) {
-        row.push(0);
+
+      if (type === "new") {
+        let matrix = [];
+        let row = [];
+        for (let i = 0; i < levelWidth; i++) {
+          row.push(0);
+        }
+        for (let j = 0; j < levelHeight; j++) {
+          matrix.push(row.concat());
+        }
+        newLevels.push(matrix);
       }
-      for (let j = 0; j < levelHeight; j++) {
-        matrix.push(row.concat());
+
+      if (type === "copy") {
+        newLevels.push(newLevels[newLevels.length - 1]);
       }
-      newLevels.push(matrix);
+
       setLevels(newLevels);
       setCurrentLevel(newLevels.length - 1);
       refreshMainCanvas();
@@ -506,13 +516,26 @@ const MazeBuilder = ({
             <button
               className="btn"
               disabled={saving}
-              onClick={() => clickAddLevel()}
+              data-tooltip-id="my-tooltip"
+              data-tooltip-content="Adiciona novo nível em branco"
+              onClick={() => clickAddLevel("new")}
             >
               +
             </button>
             <button
               className="btn"
               disabled={saving}
+              data-tooltip-id="my-tooltip"
+              data-tooltip-content="Adiciona novo nível com cópia do último nível"
+              onClick={() => clickAddLevel("copy")}
+            >
+              <FaRegCopy />
+            </button>
+            <button
+              className="btn"
+              disabled={saving}
+              data-tooltip-id="my-tooltip"
+              data-tooltip-content="Remove o último nível"
               onClick={() =>
                 levels.length === 1
                   ? actionNotification("firstLevel")
@@ -646,6 +669,7 @@ const MazeBuilder = ({
           </MazeBuilderModal>
         )}
       </AnimatePresence>
+      <Tooltip id="my-tooltip" delayShow={1000} />
       {
         // eslint-disable-next-line
         <img ref={tilesImg} src={tilesSrc} alt="" style={{ display: "none" }} />

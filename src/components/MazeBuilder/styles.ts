@@ -27,13 +27,24 @@ type LevelsProps = {
 
 export const Levels = styled.div<LevelsProps>`
   display: flex;
-  align-items: center;
   gap: 0.5rem;
 
   visibility: ${({ $visibility }) => ($visibility ? "visible" : "hidden")};
 
   label {
     font-size: 1.17rem;
+    align-self: center;
+  }
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 2.25rem;
+  }
+
+  svg {
+    font-size: 1rem;
   }
 `;
 
