@@ -85,92 +85,97 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
     },
   };
 
-  const drawTiles = useCallback(() => {
-    const normalize = (x: number, y: number) => {
-      let matrix = levels[currentLevel];
+  const drawTiles = useCallback(
+    (whichCanvas: "main" | "bg") => {
+      const normalize = (x: number, y: number) => {
+        let matrix = levels[whichCanvas === "main" ? currentLevel : 0];
 
-      if (x < 0 || x >= levelWidth || y < 0 || y >= levelHeight) {
-        return "0";
-      }
-      return matrix[y][x] === 0 ? "0" : "1";
-    };
+        if (x < 0 || x >= levelWidth || y < 0 || y >= levelHeight) {
+          return "0";
+        }
+        return matrix[y][x] === 0 ? "0" : "1";
+      };
 
-    let matrix = levels[currentLevel];
+      let canvas = whichCanvas === "main" ? mainContext : bgContext;
 
-    if (
-      mainContext &&
-      tilesImg.current &&
-      pegmanImg.current &&
-      markerImg.current
-    ) {
-      for (let x = 0; x < levelWidth; x++) {
-        for (let y = 0; y < levelHeight; y++) {
-          let tileShape =
-            normalize(x, y) +
-            normalize(x, y - 1) + // North.
-            normalize(x - 1, y) + // West.
-            normalize(x, y + 1) + // South.
-            normalize(x + 1, y); // East.
+      let matrix = levels[whichCanvas === "main" ? currentLevel : 0];
 
-          if (tileShape === "10000") tileShape = "11111"; // Draw cross if there's no adjacent path;
+      if (
+        canvas &&
+        tilesImg.current &&
+        pegmanImg.current &&
+        markerImg.current
+      ) {
+        for (let x = 0; x < levelWidth; x++) {
+          for (let y = 0; y < levelHeight; y++) {
+            let tileShape =
+              normalize(x, y) +
+              normalize(x, y - 1) + // North.
+              normalize(x - 1, y) + // West.
+              normalize(x, y + 1) + // South.
+              normalize(x + 1, y); // East.
 
-          if (!shapes[tileShape as keyof typeof shapes]) {
-            if (tileShape === "00000" && Math.random() > 0.3) {
-              tileShape = "null0";
-            } else {
-              tileShape = "null" + Math.floor(1 + Math.random() * 4);
+            if (tileShape === "10000") tileShape = "11111"; // Draw cross if there's no adjacent path;
+
+            if (!shapes[tileShape as keyof typeof shapes]) {
+              if (tileShape === "00000" && Math.random() > 0.3) {
+                tileShape = "null0";
+              } else {
+                tileShape = "null" + Math.floor(1 + Math.random() * 4);
+              }
             }
-          }
 
-          let left = shapes[tileShape as keyof typeof shapes][0];
-          let top = shapes[tileShape as keyof typeof shapes][1];
+            let left = shapes[tileShape as keyof typeof shapes][0];
+            let top = shapes[tileShape as keyof typeof shapes][1];
 
-          mainContext.drawImage(
-            tilesImg.current,
-            left * squareSize,
-            top * squareSize,
-            squareSize,
-            squareSize,
-            x * squareSize,
-            y * squareSize,
-            squareSize,
-            squareSize
-          );
-
-          if (matrix[y][x] === 2) {
-            mainContext.drawImage(
-              pegmanImg.current,
-              0,
-              0,
-              50,
-              50,
-              x * squareSize + 1.5,
-              y * squareSize - 8,
-              50,
-              50
+            canvas.drawImage(
+              tilesImg.current,
+              left * squareSize,
+              top * squareSize,
+              squareSize,
+              squareSize,
+              x * squareSize,
+              y * squareSize,
+              squareSize,
+              squareSize
             );
-          }
-          if (matrix[y][x] == 3) {
-            mainContext.drawImage(
-              markerImg.current,
-              0,
-              0,
-              20,
-              34,
-              x * squareSize + 15,
-              y * squareSize - 8,
-              20,
-              34
-            );
+
+            if (matrix[y][x] === 2) {
+              canvas.drawImage(
+                pegmanImg.current,
+                0,
+                0,
+                50,
+                50,
+                x * squareSize + 1.5,
+                y * squareSize - 8,
+                50,
+                50
+              );
+            }
+            if (matrix[y][x] == 3) {
+              canvas.drawImage(
+                markerImg.current,
+                0,
+                0,
+                20,
+                34,
+                x * squareSize + 15,
+                y * squareSize - 8,
+                20,
+                34
+              );
+            }
           }
         }
       }
-    }
-  }, [levels, currentLevel, mainContext]);
+    },
+    [levels, currentLevel, mainContext, bgContext]
+  );
 
   useEffect(() => {
     if (levels.length !== 0) {
-      drawTiles();
+      drawTiles("main");
     }
   }, [levels, drawTiles]);
 
@@ -201,6 +206,9 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
     image.src = bgImage.imageUrl;
     image.onload = () => {
       bgContext?.drawImage(image, 0, 0, dimensions.width, dimensions.height);
+      /**
+       * mexer aqui quando der erro na requisição de criação do jogo
+       */
     };
     if (bgContext) {
       bgContext.imageSmoothingEnabled = false;
