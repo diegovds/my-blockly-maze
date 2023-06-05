@@ -1,16 +1,16 @@
 import * as C from "@/styles/Maze.styles";
 
+import { ToastOptions } from "@/components/ToastOptions";
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import { ToastOptions } from "@/components/ToastOptions";
-import { toast, Toaster } from "react-hot-toast";
 import { useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 
-import { FullMaze } from "@/types/FullMaze";
-import Seo from "@/components/Seo";
-import MazePage from "@/components/MazePage";
 import Iframe from "@/components/Iframe";
+import MazePage from "@/components/MazePage";
+import Seo from "@/components/Seo";
 import { mazeApi } from "@/libs/mazeApi";
+import { FullMaze } from "@/types/FullMaze";
 import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
@@ -19,7 +19,16 @@ type Props = {
 };
 
 const Maze = ({ maze, myblocklymazeAdmin }: Props) => {
-  const { id, name, urlImage, username, createdAt, executions, levels } = maze;
+  const {
+    id,
+    name,
+    urlImage,
+    urlThumbnail,
+    username,
+    createdAt,
+    executions,
+    levels,
+  } = maze;
   const [runGame, setRunGame] = useState(false);
   const [loading, setLoading] = useState(false);
   const isMobile = useMediaQuery("(max-width: 1115px)");
@@ -77,7 +86,7 @@ const Maze = ({ maze, myblocklymazeAdmin }: Props) => {
         } e foi executado ${executions} ${
           executions > 1 || executions === 0 ? "vezes" : "vez"
         }.`}
-        image={urlImage}
+        image={urlThumbnail}
         path={`/mazes/${id}`}
       />
       {!runGame && (
