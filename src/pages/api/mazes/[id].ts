@@ -42,7 +42,7 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const maze = await getMaze(id as string, true);
 
   if (maze?.userId !== token.sub) {
-    res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: token });
     return;
   }
 
@@ -88,7 +88,7 @@ apiRoute.patch(getFile, async (req: any, res: NextApiResponse) => {
   const maze = await getMaze(id as string, true);
 
   if (header !== process.env.MYBLOCKLYMAZE && token?.sub !== maze?.userId) {
-    res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: token });
     return;
   }
 
