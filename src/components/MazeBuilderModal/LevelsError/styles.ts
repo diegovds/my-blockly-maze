@@ -34,6 +34,6 @@ export const Li = styled.li`
   font-weight: bold;
 
   button {
-    min-width: fit-content;
+    min-width: 2.25rem;
   }
 `;
