@@ -1,9 +1,9 @@
 import { FullMaze } from "@/types/FullMaze";
 import { Maze } from "@/types/Maze";
 
-import prisma from "./prisma";
-import { compactDateFormatting, fullDateFormatting } from "./dayjs";
 import { UpdatedMaze } from "@/types/UpdatedMaze";
+import { compactDateFormatting, fullDateFormatting } from "./dayjs";
+import prisma from "./prisma";
 
 export const mazeApi = () => {
   const getAllMazes = async () => {
@@ -16,6 +16,8 @@ export const mazeApi = () => {
         code: true,
         image: true,
         urlImage: true,
+        thumbnail: true,
+        urlThumbnail: true,
         createdAt: true,
       },
       orderBy: {
@@ -32,6 +34,8 @@ export const mazeApi = () => {
         code: element.code,
         image: element.image,
         urlImage: element.urlImage,
+        thumbnail: element.thumbnail,
+        urlThumbnail: element.urlThumbnail,
         createdAt: compactDateFormatting(element.createdAt),
       });
     }
@@ -46,6 +50,8 @@ export const mazeApi = () => {
     code: string,
     image: string,
     urlImage: string,
+    thumbnail: string,
+    urlThumbnail: string,
     levels: string
   ) => {
     return await prisma.maze.create({
@@ -56,6 +62,8 @@ export const mazeApi = () => {
         code,
         image,
         urlImage,
+        thumbnail,
+        urlThumbnail,
         levels,
       },
       select: {
@@ -65,6 +73,8 @@ export const mazeApi = () => {
         code: true,
         image: true,
         urlImage: true,
+        thumbnail: true,
+        urlThumbnail: true,
         levels: true,
         user: {
           select: {
@@ -78,7 +88,7 @@ export const mazeApi = () => {
   const deleteMaze = async (id: string) => {
     return await prisma.maze.delete({
       where: {
-        id: parseInt(id as string),
+        id,
       },
       select: {
         id: true,
@@ -87,6 +97,8 @@ export const mazeApi = () => {
         code: true,
         image: true,
         urlImage: true,
+        thumbnail: true,
+        urlThumbnail: true,
         levels: true,
         user: {
           select: {
@@ -100,7 +112,7 @@ export const mazeApi = () => {
   const getMaze = async (id: string, showUserId?: boolean) => {
     const maze = await prisma.maze.findUniqueOrThrow({
       where: {
-        id: parseInt(id as string),
+        id,
       },
       select: {
         id: true,
@@ -109,6 +121,8 @@ export const mazeApi = () => {
         levels: true,
         image: true,
         urlImage: true,
+        thumbnail: true,
+        urlThumbnail: true,
         executions: true,
         createdAt: true,
         userId: showUserId === true ? true : false,
@@ -123,6 +137,8 @@ export const mazeApi = () => {
       levels: JSON.parse(JSON.stringify(maze.levels)),
       image: maze.image,
       urlImage: maze.urlImage,
+      thumbnail: maze.thumbnail,
+      urlThumbnail: maze.urlThumbnail,
       executions: maze.executions,
       createdAt: fullDateFormatting(maze.createdAt),
       username: maze.user.name,
@@ -137,7 +153,7 @@ export const mazeApi = () => {
   const updateMaze = async (id: string, data: UpdatedMaze) => {
     return await prisma.maze.update({
       where: {
-        id: parseInt(id as string),
+        id,
       },
       data: {
         name: data.name,

@@ -1,13 +1,13 @@
-import { mazeApi as api } from "@/libs/mazeApi";
-import { NextApiRequest, NextApiResponse } from "next";
-import nextConnect from "next-connect";
-import multerConfig from "@/libs/multerConfig";
 import {
-  uploadToFirebase,
   removeFromFirebase,
+  uploadToFirebase,
 } from "@/hooks/useFirebaseStorage";
+import { mazeApi as api } from "@/libs/mazeApi";
+import multerConfig from "@/libs/multerConfig";
 import { UpdatedMaze as UpdatedMazeType } from "@/types/UpdatedMaze";
+import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
+import nextConnect from "next-connect";
 
 const getFile = multerConfig.single("image");
 const secret = process.env.NEXTAUTH_SECRET;
@@ -52,6 +52,7 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (deletedMaze) {
     removeFromFirebase(deletedMaze.image);
+    removeFromFirebase(deletedMaze.thumbnail);
 
     res.json({ message: "Maze deletado com sucesso", data: deletedMaze });
     return;

@@ -1,8 +1,8 @@
 import { Maze } from "@/types/Maze";
-import prisma from "./prisma";
+import { MazesUser } from "@/types/MazesUser";
 import bcrypt from "bcrypt";
 import { compactDateFormatting } from "./dayjs";
-import { MazesUser } from "@/types/MazesUser";
+import prisma from "./prisma";
 
 export const userApi = () => {
   const getAllUsers = async () => {
@@ -77,6 +77,8 @@ export const userApi = () => {
             code: true,
             image: true,
             urlImage: true,
+            thumbnail: true,
+            urlThumbnail: true,
             createdAt: true,
           },
           orderBy: {
@@ -96,6 +98,8 @@ export const userApi = () => {
           code: element.code,
           image: element.image,
           urlImage: element.urlImage,
+          thumbnail: element.thumbnail,
+          urlThumbnail: element.urlThumbnail,
           createdAt: compactDateFormatting(element.createdAt),
         });
       }

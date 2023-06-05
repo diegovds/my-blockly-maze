@@ -24,16 +24,18 @@ model User {
 }
 
 model Maze {
-  id         Int      @id @default(autoincrement())
-  name       String
-  image      String
-  levels     Json
-  userId     String
-  executions Int
-  urlImage   String
-  code       String   @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id           String   @id @default(uuid())
+  name         String
+  image        String
+  thumbnail    String
+  levels       Json
+  userId       String
+  executions   Int
+  urlImage     String
+  urlThumbnail String
+  code         String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
