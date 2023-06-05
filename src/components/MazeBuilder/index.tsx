@@ -27,9 +27,15 @@ import RemoveLevel from "../MazeBuilderModal/RemoveLevel";
 import Skeleton from "../Skeleton";
 
 type Props = {
-  insertMaze: (gameName: string, imageFile: File, levels: any[]) => void;
+  insertMaze: (
+    gameName: string,
+    imageFile: File,
+    thumbnailFile: File,
+    levels: any[]
+  ) => void;
   actionNotification: (type: ActionsNotification) => void;
   saving: boolean;
+  error: boolean;
 };
 
 type fileError = "notFound" | "format" | undefined;
@@ -39,7 +45,12 @@ type modalError = {
   LevelsError: number[];
 };
 
-const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
+const MazeBuilder = ({
+  insertMaze,
+  actionNotification,
+  saving,
+  error,
+}: Props) => {
   const [animationParent] = useAutoAnimate({ duration: 300 });
 
   const [levels, setLevels] = useState<any[]>([]);
@@ -206,9 +217,6 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
     image.src = bgImage.imageUrl;
     image.onload = () => {
       bgContext?.drawImage(image, 0, 0, dimensions.width, dimensions.height);
-      /**
-       * mexer aqui quando der erro na requisição de criação do jogo
-       */
     };
     if (bgContext) {
       bgContext.imageSmoothingEnabled = false;
@@ -221,7 +229,11 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
     if (bgImage.imageUrl.length > 0) {
       drawGrid();
     }
-  }, [bgContext, mainContext, bgImage, drawGrid]);
+
+    if (error) {
+      drawTiles("main");
+    }
+  }, [error, bgContext, mainContext, bgImage, drawGrid, drawTiles]);
 
   const refreshMainCanvas = useCallback(() => {
     if (mainContext) {
@@ -390,6 +402,7 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
 
     if (gameName && levelsErrorStatus && gameNameStatus && bgImageStatus) {
       let imageFile: File | undefined = undefined;
+      let thumbnailFile: File | undefined = undefined;
 
       if (bgCanvas.current) {
         let dataUrl = bgCanvas.current.toDataURL();
@@ -399,10 +412,22 @@ const MazeBuilder = ({ insertMaze, actionNotification, saving }: Props) => {
         let file = new File([blob], bgImage.imageName);
 
         imageFile = file;
+
+        setCurrentLevel(0);
+        refreshMainCanvas();
+        drawTiles("bg");
+
+        dataUrl = bgCanvas.current.toDataURL();
+
+        blob = dataURLToBlob(dataUrl);
+
+        file = new File([blob], bgImage.imageName);
+
+        thumbnailFile = file;
       }
 
-      if (imageFile) {
-        insertMaze(gameName, imageFile, levels);
+      if (imageFile && thumbnailFile) {
+        insertMaze(gameName, imageFile, thumbnailFile, levels);
       } else {
         actionNotification("imageManipulation");
       }

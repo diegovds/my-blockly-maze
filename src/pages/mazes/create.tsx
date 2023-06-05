@@ -18,6 +18,7 @@ const Create = ({ token }: Props) => {
   const router = useRouter();
   const [mobile, setMobile] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(false);
   const isMobile = useMediaQuery("(max-width: 1115px)");
   const isFirst = useIsFirstRender();
 
@@ -42,13 +43,16 @@ const Create = ({ token }: Props) => {
   const insertMaze = async (
     gameName: string,
     imageFile: File,
+    thumbnailFile: File,
     levels: any[]
   ) => {
     setSaving(true);
+    setError(false);
     const data = new FormData();
 
     data.append("name", gameName);
     data.append("image", imageFile);
+    data.append("thumbnail", thumbnailFile);
     data.append("levels", JSON.stringify(levels));
 
     await toast
@@ -75,7 +79,10 @@ const Create = ({ token }: Props) => {
           clearTimeout(delay);
         };
       })
-      .catch(() => setSaving(false));
+      .catch(() => {
+        setSaving(false);
+        setError(true);
+      });
   };
 
   const actionNotification = (type: ActionsNotification) => {
@@ -111,6 +118,7 @@ const Create = ({ token }: Props) => {
             insertMaze={insertMaze}
             actionNotification={actionNotification}
             saving={saving}
+            error={error}
           />
         </C.Container>
         <Toaster toastOptions={ToastOptions} />
