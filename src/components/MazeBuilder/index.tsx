@@ -301,7 +301,11 @@ const MazeBuilder = ({
       }
 
       if (type === "copy") {
-        newLevels.push(newLevels[newLevels.length - 1]);
+        newLevels.push(
+          JSON.parse(
+            JSON.stringify(newLevels[newLevels.length - 1])
+          ) /** deep copy */
+        );
       }
 
       setLevels(newLevels);
