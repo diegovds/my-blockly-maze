@@ -1,14 +1,14 @@
 import * as C from "./styles";
 
 import { FullMaze } from "@/types/FullMaze";
-import Image from "next/image";
 import copy from "copy-to-clipboard";
-import { FaRegCopy } from "react-icons/fa";
-import { useState } from "react";
-import Skeleton from "../Skeleton";
-import CountUp from "react-countup";
-import Balance from "react-wrap-balancer";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { useState } from "react";
+import CountUp from "react-countup";
+import { FaRegCopy } from "react-icons/fa";
+import Balance from "react-wrap-balancer";
+import Skeleton from "../Skeleton";
 
 type Props = {
   maze: FullMaze;
@@ -20,13 +20,13 @@ type Props = {
 const MazePage = ({
   maze: {
     name,
-    urlImage,
-    image,
     code,
     username,
     createdAt,
     executions,
     levels,
+    thumbnail,
+    urlThumbnail,
   },
   loading,
   notify,
@@ -70,8 +70,8 @@ const MazePage = ({
         >
           {showSkeleton && <Skeleton skeletonWidth="87%" />}
           <Image
-            src={urlImage}
-            alt={image}
+            src={urlThumbnail}
+            alt={thumbnail}
             width={700}
             height={600}
             priority

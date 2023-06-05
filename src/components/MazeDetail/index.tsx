@@ -1,13 +1,13 @@
 import * as C from "./styles";
 
 import { Maze } from "@/types/Maze";
+import { useInView } from "framer-motion";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { useInView } from "framer-motion";
-import Skeleton from "../Skeleton";
 import { IoCalendarOutline } from "react-icons/io5";
+import Skeleton from "../Skeleton";
 
 type Props = {
   maze: Maze;
@@ -18,7 +18,7 @@ type Props = {
 };
 
 const MazeDetail = ({
-  maze: { urlImage, image, name, createdAt, id, code },
+  maze: { urlImage, image, name, createdAt, id, code, thumbnail, urlThumbnail },
   dashboard,
   deleteMazeGame,
   loading,
@@ -40,8 +40,8 @@ const MazeDetail = ({
           <Skeleton skeletonWidth="90%" skeletonMarginBottom={true} />
         )}
         <Image
-          src={urlImage}
-          alt={image}
+          src={urlThumbnail}
+          alt={thumbnail}
           width={700}
           height={600}
           priority
@@ -67,7 +67,16 @@ const MazeDetail = ({
           <button
             className="btn btn-danger"
             onClick={() =>
-              deleteMazeGame({ urlImage, image, name, createdAt, id, code })
+              deleteMazeGame({
+                urlImage,
+                image,
+                thumbnail,
+                urlThumbnail,
+                name,
+                createdAt,
+                id,
+                code,
+              })
             }
           >
             Excluir
