@@ -80,6 +80,7 @@ apiRoute.patch(getFile, async (req: NextApiRequest, res: NextApiResponse) => {
   const file = req.file as Express.Multer.File;
   const header = req.headers["myblocklymaze-admin"];
   const token = await getToken({ req, secret });
+  const auth = req.headers.authorization;
   const { name, levels, executions, code, createdAt } = req.body;
   const { id } = req.query;
   const { getMaze, updateMaze } = api();
@@ -90,7 +91,7 @@ apiRoute.patch(getFile, async (req: NextApiRequest, res: NextApiResponse) => {
   const maze = await getMaze(id as string, true);
 
   if (header !== process.env.MYBLOCKLYMAZE && token?.sub !== maze?.userId) {
-    res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: "req.headers.authorization", auth });
     return;
   }
 
@@ -145,7 +146,7 @@ apiRoute.patch(getFile, async (req: NextApiRequest, res: NextApiResponse) => {
         removeFromFirebase(oldBackground);
       }
 
-      res.json({ message: "Maze atualizado com sucesso" });
+      res.json({ message: "req.headers.authorization", auth });
       return;
     }
   }
