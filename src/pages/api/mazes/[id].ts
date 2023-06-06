@@ -42,7 +42,7 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const maze = await getMaze(id as string, true);
 
   if (maze?.userId !== token.sub) {
-    res.status(401).json({ message: token });
+    res.status(401).json({ message: "Unauthorized" });
     return;
   }
 
@@ -77,7 +77,8 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 /** Update a maze */
 apiRoute.patch(getFile, async (req: any, res: NextApiResponse) => {
   const header = req.headers["myblocklymaze-admin"];
-  const token = await getToken({ req, secret, secureCookie: true });
+  const token = await getToken({ req, secret });
+  console.log("auth", req.headers.authorization);
   const { name, levels, executions, code, createdAt } = req.body;
   const { id } = req.query;
   const { getMaze, updateMaze } = api();
@@ -88,7 +89,7 @@ apiRoute.patch(getFile, async (req: any, res: NextApiResponse) => {
   const maze = await getMaze(id as string, true);
 
   if (header !== process.env.MYBLOCKLYMAZE && token?.sub !== maze?.userId) {
-    res.status(401).json({ message: token });
+    res.status(401).json({ message: "Unauthorized" });
     return;
   }
 
