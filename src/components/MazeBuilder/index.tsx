@@ -479,7 +479,6 @@ const MazeBuilder = ({
       if (goToErrorLevel) {
         setCurrentLevel(goToErrorLevel - 1);
         refreshMainCanvas();
-        drawTiles("main");
       }
     }
   };
