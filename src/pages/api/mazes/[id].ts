@@ -75,7 +75,9 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 /** Update a maze */
-apiRoute.patch(getFile, async (req: any, res: NextApiResponse) => {
+apiRoute.patch(getFile, async (req: NextApiRequest, res: NextApiResponse) => {
+  // @ts-expect-error
+  const file = req.file as Express.Multer.File;
   const header = req.headers["myblocklymaze-admin"];
   const token = await getToken({ req, secret });
   const { name, levels, executions, code, createdAt } = req.body;
@@ -96,10 +98,10 @@ apiRoute.patch(getFile, async (req: any, res: NextApiResponse) => {
     res.status(404).json({ message: "Maze não encontrado" });
     return;
   } else {
-    if (req.file) {
+    if (file) {
       oldBackground = maze.image;
 
-      const { image, urlImage } = await uploadToFirebase(req.file);
+      const { image, urlImage } = await uploadToFirebase(file);
 
       if (urlImage.length === 0) {
         res.status(400).json({ error: "Erro ao fazer upload da imagem" });

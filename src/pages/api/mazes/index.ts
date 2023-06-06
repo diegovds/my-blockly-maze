@@ -38,8 +38,10 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 /** Insert new maze */
-apiRoute.post(getFile, async (req: any, res: NextApiResponse) => {
+apiRoute.post(getFile, async (req: NextApiRequest, res: NextApiResponse) => {
   const token = await getToken({ req, secret });
+  // @ts-expect-error
+  const files = req.files as Express.Multer.File[];
 
   if (!token) {
     res.status(401).json({ message: "Unauthorized" });
@@ -49,9 +51,9 @@ apiRoute.post(getFile, async (req: any, res: NextApiResponse) => {
   const { name, levels } = req.body;
   const { insertNewMaze } = api();
 
-  const { image, urlImage } = await uploadToFirebase(req.files[0]);
+  const { image, urlImage } = await uploadToFirebase(files[0]);
   const { image: thumbnail, urlImage: urlThumbnail } = await uploadToFirebase(
-    req.files[1]
+    files[1]
   );
 
   if (urlImage.length === 0 && urlThumbnail.length === 0) {
