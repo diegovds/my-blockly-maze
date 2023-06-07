@@ -21,10 +21,10 @@ export const Container = styled.div`
   }
 `;
 
-export const H2 = styled.h2`
+export const H3 = styled.h3`
   margin-bottom: 30px;
 
   @media (max-width: 800px) {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 `;

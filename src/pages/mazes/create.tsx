@@ -114,10 +114,10 @@ const Create = ({ token }: Props) => {
         ) : (
           <C.Container>
             <Balance>
-              <C.H2>
+              <C.H3>
                 Ops, a criação de novo jogo não está disponível para essa
                 largura de tela
-              </C.H2>
+              </C.H3>
             </Balance>
             <Link href="/" className="btn">
               Voltar para a página inicial
