@@ -476,7 +476,7 @@ const MazeBuilder = ({
         LevelsError: [...openModalLevelsError.LevelsError],
       });
 
-      if (goToErrorLevel) {
+      if (goToErrorLevel && goToErrorLevel - 1 !== currentLevel) {
         setCurrentLevel(goToErrorLevel - 1);
         refreshMainCanvas();
       }
