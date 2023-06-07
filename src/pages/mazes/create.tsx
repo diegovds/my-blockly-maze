@@ -5,10 +5,12 @@ import * as C from "@/styles/Create.styles";
 import { ActionsNotification } from "@/types/ActionsNotification";
 import axios from "axios";
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import { useIsFirstRender, useMediaQuery } from "usehooks-ts";
+import Balance from "react-wrap-balancer";
+import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
   token: string;
@@ -20,21 +22,10 @@ const Create = ({ token }: Props) => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
   const isMobile = useMediaQuery("(max-width: 1115px)");
-  const isFirst = useIsFirstRender();
 
   useEffect(() => {
-    const notify = (message: string) => {
-      toast.error(message);
-    };
-
-    if (isMobile && !isFirst) {
-      notify(
-        "A criação de novo jogo não está disponível para essa largura de tela."
-      );
-    }
-
     setMobile(isMobile);
-  }, [isMobile, isFirst]);
+  }, [isMobile]);
 
   /*const redirect = (mazeId?: string) => {
     router.push(`/mazes/${mazeId}`);
@@ -107,20 +98,32 @@ const Create = ({ token }: Props) => {
         path="/mazes/create"
       />
       <>
-        <C.Container hidden={mobile}>
-          {/**
+        {/**
             <Iframe
             link={`https://maze-game-builder-v2.vercel.app/index.html?token=${token}`}
             redirect={redirect}
           />
-           */}
+        */}
+        {!mobile ? (
           <MazeBuilder
             insertMaze={insertMaze}
             actionNotification={actionNotification}
             saving={saving}
             error={error}
           />
-        </C.Container>
+        ) : (
+          <C.Container>
+            <Balance>
+              <C.H2>
+                Ops, a criação de novo jogo não está disponível para essa
+                largura de tela
+              </C.H2>
+            </Balance>
+            <Link href="/" className="btn">
+              Voltar para a página inicial
+            </Link>
+          </C.Container>
+        )}
         <Toaster toastOptions={ToastOptions} />
       </>
     </>
