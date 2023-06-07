@@ -62,14 +62,14 @@ apiRoute.post(getFile, async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (urlImage.length === 0 && urlThumbnail.length !== 0) {
-    removeFromFirebase(thumbnail);
+    await removeFromFirebase(thumbnail);
 
     res.status(400).json({ error: "Erro ao fazer upload da imagem" });
     return;
   }
 
   if (urlImage.length !== 0 && urlThumbnail.length === 0) {
-    removeFromFirebase(image);
+    await removeFromFirebase(image);
 
     res.status(400).json({ error: "Erro ao fazer upload da imagem" });
     return;
@@ -87,9 +87,9 @@ apiRoute.post(getFile, async (req: NextApiRequest, res: NextApiResponse) => {
     thumbnail,
     urlThumbnail,
     levels
-  ).catch((e) => {
-    removeFromFirebase(image);
-    removeFromFirebase(thumbnail);
+  ).catch(async (e) => {
+    await removeFromFirebase(image);
+    await removeFromFirebase(thumbnail);
     res.status(400).json({ error: e });
   });
 

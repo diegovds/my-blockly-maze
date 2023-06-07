@@ -1,14 +1,14 @@
 import { storage } from "@/libs/firebase";
 import {
+  deleteObject,
+  getDownloadURL,
   ref,
   uploadBytes,
-  getDownloadURL,
-  deleteObject,
 } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 
 type uploadImage = (
-  imageFile: any
+  imageFile: Express.Multer.File
 ) => Promise<{ image: string; urlImage: string }>;
 
 export const uploadToFirebase: uploadImage = async (imageFile) => {

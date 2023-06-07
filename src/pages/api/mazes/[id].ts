@@ -51,8 +51,8 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   if (deletedMaze) {
-    removeFromFirebase(deletedMaze.image);
-    removeFromFirebase(deletedMaze.thumbnail);
+    await removeFromFirebase(deletedMaze.image);
+    await removeFromFirebase(deletedMaze.thumbnail);
 
     res.json({ message: "Maze deletado com sucesso", data: deletedMaze });
     return;
@@ -132,17 +132,19 @@ apiRoute.patch(getFile, async (req: NextApiRequest, res: NextApiResponse) => {
       data.createdAt = createdAt;
     }
 
-    const updatedMaze = await updateMaze(id as string, data).catch((e) => {
-      if (oldBackground && data.image) {
-        removeFromFirebase(data.image);
-      }
+    const updatedMaze = await updateMaze(id as string, data).catch(
+      async (e) => {
+        if (oldBackground && data.image) {
+          await removeFromFirebase(data.image);
+        }
 
-      res.status(400).json({ error: e.meta });
-    });
+        res.status(400).json({ error: e.meta });
+      }
+    );
 
     if (updatedMaze) {
       if (oldBackground) {
-        removeFromFirebase(oldBackground);
+        await removeFromFirebase(oldBackground);
       }
 
       res.json({ message: "Maze atualizado com sucesso" });
