@@ -5,6 +5,7 @@ import * as C from "@/styles/Create.styles";
 import { ActionsNotification } from "@/types/ActionsNotification";
 import axios from "axios";
 import { GetServerSideProps } from "next";
+import { getToken } from "next-auth/jwt";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -131,7 +132,8 @@ const Create = ({ token }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const sessionToken = ctx.req.cookies["next-auth.session-token"];
+  const secret = process.env.NEXTAUTH_SECRET;
+  const sessionToken = await getToken({ req: ctx.req, secret, raw: true });
 
   if (!sessionToken) {
     return {

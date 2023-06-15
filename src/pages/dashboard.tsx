@@ -1,8 +1,6 @@
 import * as C from "../styles/Dashboard.styles";
 
 import { GetServerSideProps } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
 
 import { userApi } from "@/libs/userApi";
 import { MazesUser } from "@/types/MazesUser";
@@ -17,6 +15,7 @@ import axios from "axios";
 import { useState } from "react";
 import DashBoardModal from "@/components/DashBoardModal";
 import { AnimatePresence } from "framer-motion";
+import { getToken } from "next-auth/jwt";
 
 type Props = {
   userData: MazesUser;
@@ -120,17 +119,18 @@ const Dashboard = ({ userData, sessionToken }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const sessionToken = ctx.req.cookies["next-auth.session-token"];
-  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+  const secret = process.env.NEXTAUTH_SECRET;
+  const session = await getToken({ req: ctx.req, secret });
+  const sessionToken = await getToken({ req: ctx.req, secret, raw: true });
 
-  if (!session) {
+  if (!session?.sub) {
     return {
       redirect: { destination: "/login", permanent: true },
     };
   }
 
   const { getUser } = userApi();
-  const userData: MazesUser = await getUser(session.user.id);
+  const userData: MazesUser = await getUser(session.sub);
 
   return {
     props: {
