@@ -6,16 +6,20 @@ import prisma from "./prisma";
 
 export const userApi = () => {
   const getAllUsers = async () => {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const users = await prisma.user
+      .findMany({
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
 
     return users;
   };
@@ -27,18 +31,22 @@ export const userApi = () => {
   ) => {
     const hash = await bcrypt.hash(password, 10);
 
-    return await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hash,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-      },
-    });
+    return await prisma.user
+      .create({
+        data: {
+          name,
+          email,
+          password: hash,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
   };
 
   const updateUser = async (id: string, name?: string) => {
@@ -51,42 +59,50 @@ export const userApi = () => {
       data.name = name;
     }
 
-    return await prisma.user.update({
-      where: {
-        id,
-      },
-      data,
-      select: { id: true, name: true, email: true },
-    });
+    return await prisma.user
+      .update({
+        where: {
+          id,
+        },
+        data,
+        select: { id: true, name: true, email: true },
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
   };
 
   const getUser = async (id: string) => {
     let treatedMaze: Maze[] = [];
 
-    const dataUser = await prisma.user.findUniqueOrThrow({
-      where: {
-        id,
-      },
-      select: {
-        id: true,
-        name: true,
-        mazes: {
-          select: {
-            id: true,
-            name: true,
-            code: true,
-            image: true,
-            urlImage: true,
-            thumbnail: true,
-            urlThumbnail: true,
-            createdAt: true,
-          },
-          orderBy: {
-            createdAt: "desc",
+    const dataUser = await prisma.user
+      .findUniqueOrThrow({
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+          name: true,
+          mazes: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+              image: true,
+              urlImage: true,
+              thumbnail: true,
+              urlThumbnail: true,
+              createdAt: true,
+            },
+            orderBy: {
+              createdAt: "desc",
+            },
           },
         },
-      },
-    });
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
 
     if (dataUser.mazes.length !== undefined) {
       for (let index = 0; index < dataUser.mazes.length; index++) {
@@ -118,11 +134,15 @@ export const userApi = () => {
     email: string,
     password: string
   ) => {
-    const user = await prisma.user.findUniqueOrThrow({
-      where: {
-        email,
-      },
-    });
+    const user = await prisma.user
+      .findUniqueOrThrow({
+        where: {
+          email,
+        },
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
 
     if (user) {
       if (await bcrypt.compare(password, user.password)) {
@@ -134,16 +154,20 @@ export const userApi = () => {
   };
 
   const deleteUser = async (id: string) => {
-    return await prisma.user.delete({
-      where: {
-        id,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-      },
-    });
+    return await prisma.user
+      .delete({
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
   };
 
   return {

@@ -9,21 +9,25 @@ export const mazeApi = () => {
   const getAllMazes = async () => {
     let treatedData: Maze[] = [];
 
-    const mazes = await prisma.maze.findMany({
-      select: {
-        id: true,
-        name: true,
-        code: true,
-        image: true,
-        urlImage: true,
-        thumbnail: true,
-        urlThumbnail: true,
-        createdAt: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const mazes = await prisma.maze
+      .findMany({
+        select: {
+          id: true,
+          name: true,
+          code: true,
+          image: true,
+          urlImage: true,
+          thumbnail: true,
+          urlThumbnail: true,
+          createdAt: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
 
     for (let index = 0; index < mazes.length; index++) {
       const element = mazes[index];
@@ -54,81 +58,93 @@ export const mazeApi = () => {
     urlThumbnail: string,
     levels: string
   ) => {
-    return await prisma.maze.create({
-      data: {
-        userId,
-        name,
-        executions,
-        code,
-        image,
-        urlImage,
-        thumbnail,
-        urlThumbnail,
-        levels,
-      },
-      select: {
-        id: true,
-        name: true,
-        executions: true,
-        code: true,
-        image: true,
-        urlImage: true,
-        thumbnail: true,
-        urlThumbnail: true,
-        levels: true,
-        user: {
-          select: {
-            name: true,
+    return await prisma.maze
+      .create({
+        data: {
+          userId,
+          name,
+          executions,
+          code,
+          image,
+          urlImage,
+          thumbnail,
+          urlThumbnail,
+          levels,
+        },
+        select: {
+          id: true,
+          name: true,
+          executions: true,
+          code: true,
+          image: true,
+          urlImage: true,
+          thumbnail: true,
+          urlThumbnail: true,
+          levels: true,
+          user: {
+            select: {
+              name: true,
+            },
           },
         },
-      },
-    });
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
   };
 
   const deleteMaze = async (id: string) => {
-    return await prisma.maze.delete({
-      where: {
-        id,
-      },
-      select: {
-        id: true,
-        name: true,
-        executions: true,
-        code: true,
-        image: true,
-        urlImage: true,
-        thumbnail: true,
-        urlThumbnail: true,
-        levels: true,
-        user: {
-          select: {
-            name: true,
+    return await prisma.maze
+      .delete({
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+          name: true,
+          executions: true,
+          code: true,
+          image: true,
+          urlImage: true,
+          thumbnail: true,
+          urlThumbnail: true,
+          levels: true,
+          user: {
+            select: {
+              name: true,
+            },
           },
         },
-      },
-    });
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
   };
 
   const getMaze = async (id: string, showUserId?: boolean) => {
-    const maze = await prisma.maze.findUniqueOrThrow({
-      where: {
-        id,
-      },
-      select: {
-        id: true,
-        name: true,
-        code: true,
-        levels: true,
-        image: true,
-        urlImage: true,
-        thumbnail: true,
-        urlThumbnail: true,
-        executions: true,
-        createdAt: true,
-        userId: showUserId === true ? true : false,
-        user: { select: { name: true } },
-      },
-    });
+    const maze = await prisma.maze
+      .findUniqueOrThrow({
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+          name: true,
+          code: true,
+          levels: true,
+          image: true,
+          urlImage: true,
+          thumbnail: true,
+          urlThumbnail: true,
+          executions: true,
+          createdAt: true,
+          userId: showUserId === true ? true : false,
+          user: { select: { name: true } },
+        },
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
 
     let treatedData: FullMaze = {
       id: maze.id,
@@ -151,20 +167,24 @@ export const mazeApi = () => {
   };
 
   const updateMaze = async (id: string, data: UpdatedMaze) => {
-    return await prisma.maze.update({
-      where: {
-        id,
-      },
-      data: {
-        name: data.name,
-        image: data.image,
-        urlImage: data.urlImage,
-        createdAt: data.createdAt,
-        code: data.code,
-        executions: data.executions,
-        levels: JSON.stringify(data.levels),
-      },
-    });
+    return await prisma.maze
+      .update({
+        where: {
+          id,
+        },
+        data: {
+          name: data.name,
+          image: data.image,
+          urlImage: data.urlImage,
+          createdAt: data.createdAt,
+          code: data.code,
+          executions: data.executions,
+          levels: JSON.stringify(data.levels),
+        },
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
   };
 
   return {
