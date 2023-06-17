@@ -45,7 +45,8 @@ const Maze = ({ maze, myblocklymazeAdmin }: Props) => {
 
       dataMaze.append("executions", execs);
 
-      setLoading(true);
+      //setLoading(true);
+      setRunGame(true);
 
       await axios
         .patch(`/api/mazes/${id}`, dataMaze, {
@@ -53,10 +54,10 @@ const Maze = ({ maze, myblocklymazeAdmin }: Props) => {
         })
         .then(() => {
           maze.executions += 1;
-          setRunGame(true);
+          //setRunGame(true);
         })
         .catch(() => {
-          notify("erro", "Ocorreu um erro ao tentar executar o jogo.");
+          //notify("erro", "Ocorreu um erro ao tentar executar o jogo.");
         })
         .finally(() => {
           setLoading(false);
