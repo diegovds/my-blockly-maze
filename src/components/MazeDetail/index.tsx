@@ -5,8 +5,10 @@ import { useInView } from "framer-motion";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
+import { MdDelete, MdEdit } from "react-icons/md";
 import Skeleton from "../Skeleton";
 
 type Props = {
@@ -29,6 +31,7 @@ const MazeDetail = ({
   const isInView = useInView(refFlipCardBack, { once: true });
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [styleImg, setStyleImg] = useState("img_loading");
+  const router = useRouter();
 
   return (
     <C.FlipCard>
@@ -59,41 +62,47 @@ const MazeDetail = ({
         <Link
           href={`/mazes/${id}`}
           className="btn"
-          style={loading || disabled ? { pointerEvents: "none" } : {}}
+          style={{ pointerEvents: `${loading || disabled ? "none" : "auto"}` }}
         >
           Detalhes
         </Link>
-        {dashboard && deleteMazeGame && !loading && !disabled && (
-          <button
-            className="btn btn-danger"
-            onClick={() =>
-              deleteMazeGame({
-                urlImage,
-                image,
-                thumbnail,
-                urlThumbnail,
-                name,
-                createdAt,
-                id,
-                code,
-              })
-            }
-          >
-            Excluir
-          </button>
-        )}
+        <div id="actions">
+          {dashboard && deleteMazeGame && (
+            <button
+              disabled={disabled || loading}
+              className="btn btn-danger"
+              style={disabled ? { backgroundColor: "#f00" } : {}}
+              onClick={() =>
+                deleteMazeGame({
+                  urlImage,
+                  image,
+                  thumbnail,
+                  urlThumbnail,
+                  name,
+                  createdAt,
+                  id,
+                  code,
+                })
+              }
+            >
+              {loading ? "Aguarde..." : <MdDelete />}
+            </button>
+          )}
 
-        {dashboard && deleteMazeGame && loading && (
-          <button className="btn" disabled>
-            Aguarde...
-          </button>
-        )}
-
-        {dashboard && deleteMazeGame && disabled && (
-          <button className="btn" style={{ backgroundColor: "#f00" }} disabled>
-            Excluir
-          </button>
-        )}
+          {dashboard && deleteMazeGame && (
+            <button
+              className="btn"
+              onClick={() => {
+                //router.push(`/mazes/edit/${id}`);
+              }}
+              style={{
+                pointerEvents: `${loading || disabled ? "none" : "auto"}`,
+              }}
+            >
+              <MdEdit />
+            </button>
+          )}
+        </div>
       </C.FlipCardBack>
     </C.FlipCard>
   );
