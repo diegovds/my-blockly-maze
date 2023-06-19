@@ -29,7 +29,7 @@ import RemoveLevel from "../MazeBuilderModal/RemoveLevel";
 import Skeleton from "../Skeleton";
 
 type Props = {
-  insertMaze: (
+  mazeManipulation: (
     gameName: string,
     imageFile: File,
     thumbnailFile: File,
@@ -48,7 +48,7 @@ type modalError = {
 };
 
 const MazeBuilder = ({
-  insertMaze,
+  mazeManipulation,
   actionNotification,
   saving,
   error,
@@ -441,7 +441,7 @@ const MazeBuilder = ({
       }
 
       if (imageFile && thumbnailFile) {
-        insertMaze(gameName, imageFile, thumbnailFile, levels);
+        mazeManipulation(gameName, imageFile, thumbnailFile, levels);
       } else {
         actionNotification("imageManipulation");
       }
