@@ -8,7 +8,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
-import { MdDelete, MdEdit } from "react-icons/md";
 import Skeleton from "../Skeleton";
 
 type Props = {
@@ -85,15 +84,16 @@ const MazeDetail = ({
                 })
               }
             >
-              {loading ? "Aguarde..." : <MdDelete />}
+              {/*loading ? "Aguarde..." : <MdDelete />*/}
+              {loading ? "Aguarde..." : "Excluir"}
             </button>
           )}
 
-          {dashboard && deleteMazeGame && (
+          {/*dashboard && deleteMazeGame && (
             <button
               className="btn"
               onClick={() => {
-                //router.push(`/mazes/edit/${id}`);
+                router.push(`/mazes/edit/${id}`);
               }}
               style={{
                 pointerEvents: `${loading || disabled ? "none" : "auto"}`,
@@ -101,7 +101,7 @@ const MazeDetail = ({
             >
               <MdEdit />
             </button>
-          )}
+            )*/}
         </div>
       </C.FlipCardBack>
     </C.FlipCard>
