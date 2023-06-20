@@ -63,9 +63,11 @@ const MazeDetail = ({
         >
           Detalhes
         </Link>
-        {dashboard && deleteMazeGame && !loading && !disabled && (
+        {dashboard && deleteMazeGame && (
           <button
+            disabled={disabled || loading}
             className="btn btn-danger"
+            style={disabled ? { backgroundColor: "#f00" } : {}}
             onClick={() =>
               deleteMazeGame({
                 urlImage,
@@ -79,19 +81,7 @@ const MazeDetail = ({
               })
             }
           >
-            Excluir
-          </button>
-        )}
-
-        {dashboard && deleteMazeGame && loading && (
-          <button className="btn" disabled>
-            Aguarde...
-          </button>
-        )}
-
-        {dashboard && deleteMazeGame && disabled && (
-          <button className="btn" style={{ backgroundColor: "#f00" }} disabled>
-            Excluir
+            {loading ? "Aguarde..." : "Excluir"}
           </button>
         )}
       </C.FlipCardBack>
