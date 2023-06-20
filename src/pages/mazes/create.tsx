@@ -107,7 +107,7 @@ const Create = ({ token }: Props) => {
         */}
         {!mobile ? (
           <MazeBuilder
-            mazeManipulation={insertMaze}
+            insertMaze={insertMaze}
             actionNotification={actionNotification}
             saving={saving}
             error={error}
