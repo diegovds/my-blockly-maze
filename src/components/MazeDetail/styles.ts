@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import styled, { keyframes } from "styled-components";
+import { motion } from "framer-motion";
 
 type Props = {
   height?: number;
@@ -119,34 +119,19 @@ export const FlipCardBack = styled.div<FlipCardBackProps>`
   }
 
   a,
-  #actions {
+  button {
     width: 90%;
     font-size: 0.9em;
   }
 
-  #actions {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  #actions button {
-    flex: 1;
+  button {
     margin-top: 0.5em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #actions button svg {
-    width: 0.9em;
-    height: 0.9em;
-    color: #fff;
   }
 
   @media (max-width: 800px) {
     a,
     time,
-    #actions {
+    button {
       font-size: 0.8rem;
     }
 
@@ -156,11 +141,6 @@ export const FlipCardBack = styled.div<FlipCardBackProps>`
 
     svg {
       font-size: 1rem;
-    }
-
-    #actions button svg {
-      width: inherit;
-      height: inherit;
     }
   }
 `;
