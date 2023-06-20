@@ -1,37 +1,8 @@
 import styled, { keyframes } from "styled-components";
-import { motion } from "framer-motion";
 
-type Props = {
-  height?: number;
-};
-
-export const FlipCard = styled.div<Props>`
-  /*
-  width: 9.5rem;
-  height: ${({ height }) => height + "px"};
-  */
+export const MazeDetailContainer = styled.div`
   background-color: transparent;
   perspective: 1000px;
-`;
-
-export const FlipCardInner = styled(motion.div)`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 1s;
-  transform-style: preserve-3d;
-`;
-
-export const FlipCardFront = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  border-radius: 15px;
-  background-color: #fff;
-  box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
 `;
 
 const flipInY = keyframes`
@@ -58,15 +29,11 @@ const flipInY = keyframes`
   100% { }
 `;
 
-type FlipCardBackProps = {
+type MazeDetailProps = {
   $inView: boolean;
 };
 
-export const FlipCardBack = styled.div<FlipCardBackProps>`
-  /*
-  position: absolute;
-  width: 100%;
-  */
+export const MazeDetail = styled.div<MazeDetailProps>`
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   width: 9.5rem;
@@ -80,13 +47,16 @@ export const FlipCardBack = styled.div<FlipCardBackProps>`
   box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
   word-wrap: break-word; /* com isso o conteúdo não vai vazar da div */
   box-sizing: border-box;
-  /*
-  transform: rotateY(180deg);
-  */
   visibility: ${({ $inView }) => ($inView ? "visible" : "hidden")};
   animation: ${({ $inView }) => ($inView ? flipInY : undefined)} 1s;
   animation-delay: 0.3s;
   animation-fill-mode: both;
+`;
+
+export const ImgDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 
   img {
     width: 90%;
@@ -94,6 +64,14 @@ export const FlipCardBack = styled.div<FlipCardBackProps>`
     aspect-ratio: 7/6;
     margin-bottom: 0.4em;
   }
+`;
+
+export const InfoDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 
   h3 {
     max-width: 86%;
