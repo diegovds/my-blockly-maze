@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -11,4 +12,20 @@ export const Container = styled.div`
   justify-content: space-evenly;
   gap: 3rem 3.47rem;
   margin-bottom: 3rem;
+`;
+
+export const BtnDiv = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+
+  button {
+    min-width: 17rem;
+  }
+
+  @media (max-width: 800px) {
+    button {
+      font-size: 0.8rem;
+    }
+  }
 `;
