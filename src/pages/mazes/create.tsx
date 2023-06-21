@@ -36,10 +36,6 @@ const Create = ({ token }: Props) => {
     setMobile(isMobile);
   }, [isMobile]);
 
-  /*const redirect = (mazeId?: string) => {
-    router.push(`/mazes/${mazeId}`);
-  };*/
-
   const insertMaze = async (
     gameName: string,
     imageFile: File,
@@ -49,51 +45,41 @@ const Create = ({ token }: Props) => {
     setSaving(true);
     setError(false);
 
+    const toastLoading = toast.loading("Salvando jogo");
+
     const imageData = new FormData();
 
     imageData.append("image", imageFile);
 
-    await toast
-      .promise(
-        axios.post<ImageProps>("/api/upload", imageData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }),
-        {
-          loading: "Salvando imagem",
-          success: "Imagem salva com sucesso 👌",
-          error: "Ocorreu um erro ao salvar a imagem 🤯",
-        }
-      )
+    await axios
+      .post<ImageProps>("/api/upload", imageData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         let data = response.data;
         image.image = data.image;
         image.urlImage = data.urlImage;
-      });
+      })
+      .catch(() => {});
 
     const thumbnailData = new FormData();
 
     thumbnailData.append("image", thumbnailFile);
 
-    await toast
-      .promise(
-        axios.post<ImageProps>("/api/upload", thumbnailData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }),
-        {
-          loading: "Salvando thumbnail",
-          success: "Thumbnail salva com sucesso 👌",
-          error: "Ocorreu um erro ao salvar a thumbnail 🤯",
-        }
-      )
+    await axios
+      .post<ImageProps>("/api/upload", thumbnailData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         let data = response.data;
         thumbnail.image = data.image;
         thumbnail.urlImage = data.urlImage;
-      });
+      })
+      .catch(() => {});
 
     const data = new FormData();
 
@@ -104,21 +90,17 @@ const Create = ({ token }: Props) => {
     data.append("urlThumbnail", thumbnail.urlImage);
     data.append("levels", JSON.stringify(levels));
 
-    await toast
-      .promise(
-        axios.post("/api/mazes", data, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }),
-        {
-          loading: "Salvando jogo",
-          success: "Jogo salvo com sucesso 👌",
-          error: "Ocorreu um erro ao salvar o jogo 🤯",
-        }
-      )
+    await axios
+      .post("/api/mazes", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         let mazeData = response.data.data;
+
+        toast.dismiss(toastLoading);
+        toast.success("Jogo salvo com sucesso 👌");
 
         const delay = setTimeout(async () => {
           router.push(`/mazes/${mazeData.id}`);
@@ -129,6 +111,8 @@ const Create = ({ token }: Props) => {
         };
       })
       .catch(() => {
+        toast.dismiss(toastLoading);
+        toast.error("Ocorreu um erro ao salvar o jogo 🤯");
         setSaving(false);
         setError(true);
       });
@@ -156,12 +140,6 @@ const Create = ({ token }: Props) => {
         path="/mazes/create"
       />
       <>
-        {/**
-            <Iframe
-            link={`https://maze-game-builder-v2.vercel.app/index.html?token=${token}`}
-            redirect={redirect}
-          />
-        */}
         {!mobile ? (
           <MazeBuilder
             insertMaze={insertMaze}
