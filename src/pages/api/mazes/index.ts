@@ -28,9 +28,15 @@ apiRoute.options(async (req, res: NextApiResponse) => {
 
 /** Get all mazes */
 apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
+  const { page } = req.query;
   const { getAllMazes } = api();
 
-  const mazes = await getAllMazes();
+  if (!page) {
+    res.status(404).json({ message: "Page not found" });
+    return;
+  }
+
+  const mazes = await getAllMazes(parseInt(page as string));
 
   res.status(200).json({ data: mazes });
 });
