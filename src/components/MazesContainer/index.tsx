@@ -4,9 +4,9 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 type Props = {
   children: React.ReactNode;
-  btnText: string;
-  disabled: boolean;
-  handleLoadMore: () => void;
+  btnText?: string;
+  disabled?: boolean;
+  handleLoadMore?: () => void;
 };
 
 const MazesContainer = ({
@@ -20,19 +20,21 @@ const MazesContainer = ({
   return (
     <>
       <C.Container ref={animationParent}>{children}</C.Container>
-      <C.BtnDiv
-        initial={{ opacity: 0 }}
-        transition={{ delay: 0.3 }}
-        whileInView={{ opacity: 1 }}
-      >
-        <button
-          className="btn"
-          disabled={disabled}
-          onClick={() => handleLoadMore()}
+      {handleLoadMore && btnText?.length !== 0 && disabled !== undefined && (
+        <C.BtnDiv
+          initial={{ opacity: 0 }}
+          transition={{ delay: 0.3 }}
+          whileInView={{ opacity: 1 }}
         >
-          {btnText}
-        </button>
-      </C.BtnDiv>
+          <button
+            className="btn"
+            disabled={disabled}
+            onClick={() => handleLoadMore()}
+          >
+            {btnText}
+          </button>
+        </C.BtnDiv>
+      )}
     </>
   );
 };
