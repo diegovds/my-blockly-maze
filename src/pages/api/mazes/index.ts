@@ -1,16 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 
-import {
-  removeFromFirebase,
-  uploadToFirebase,
-} from "@/hooks/useFirebaseStorage";
-import multerConfig from "@/libs/multerConfig";
+import { removeFromFirebase } from "@/hooks/useFirebaseStorage";
 import { codeGenerator } from "@/utils/codeGenerator";
+import multer from "multer";
 import { getToken } from "next-auth/jwt";
 import { mazeApi as api } from "../../../libs/mazeApi";
 
-const getFile = multerConfig.array("image", 2);
 const secret = process.env.NEXTAUTH_SECRET;
 
 const apiRoute = nextConnect({
@@ -23,6 +19,8 @@ const apiRoute = nextConnect({
     res.status(405).json({ error: `Method "${req.method}" Not Allowed` });
   },
 });
+
+apiRoute.use(multer().any());
 
 apiRoute.options(async (req, res: NextApiResponse) => {
   return res.status(200).json({});
@@ -38,26 +36,19 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 /** Insert new maze */
-apiRoute.post(getFile, async (req: NextApiRequest, res: NextApiResponse) => {
+apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
   const token = await getToken({ req, secret });
-  // @ts-expect-error
-  const files = req.files as Express.Multer.File[];
 
   if (!token) {
     res.status(401).json({ message: "Unauthorized" });
     return;
   }
 
-  const { name, levels } = req.body;
+  const { name, levels, image, urlImage, thumbnail, urlThumbnail } = req.body;
   const { insertNewMaze } = api();
 
-  const { image, urlImage } = await uploadToFirebase(files[0]);
-  const { image: thumbnail, urlImage: urlThumbnail } = await uploadToFirebase(
-    files[1]
-  );
-
   if (urlImage.length === 0 && urlThumbnail.length === 0) {
-    res.status(400).json({ error: "Erro ao fazer upload da imagem" });
+    res.status(400).json({ error: "Erro ao fazer upload das imagens" });
     return;
   }
 
@@ -71,7 +62,7 @@ apiRoute.post(getFile, async (req: NextApiRequest, res: NextApiResponse) => {
   if (urlImage.length !== 0 && urlThumbnail.length === 0) {
     await removeFromFirebase(image);
 
-    res.status(400).json({ error: "Erro ao fazer upload da imagem" });
+    res.status(400).json({ error: "Erro ao fazer upload da thumbnail" });
     return;
   }
 

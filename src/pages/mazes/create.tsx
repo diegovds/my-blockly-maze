@@ -17,12 +17,20 @@ type Props = {
   token: string;
 };
 
+type ImageProps = {
+  image: string;
+  urlImage: string;
+};
+
 const Create = ({ token }: Props) => {
   const router = useRouter();
   const [mobile, setMobile] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
   const isMobile = useMediaQuery("(max-width: 1115px)");
+
+  let image: ImageProps = { image: "", urlImage: "" };
+  let thumbnail: ImageProps = { image: "", urlImage: "" };
 
   useEffect(() => {
     setMobile(isMobile);
@@ -40,11 +48,60 @@ const Create = ({ token }: Props) => {
   ) => {
     setSaving(true);
     setError(false);
+
+    const imageData = new FormData();
+
+    imageData.append("image", imageFile);
+
+    await toast
+      .promise(
+        axios.post<ImageProps>("/api/upload", imageData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        {
+          loading: "Salvando imagem",
+          success: "Imagem salva com sucesso 👌",
+          error: "Ocorreu um erro ao salvar a imagem 🤯",
+        }
+      )
+      .then((response) => {
+        let data = response.data;
+        image.image = data.image;
+        image.urlImage = data.urlImage;
+      });
+
+    const thumbnailData = new FormData();
+
+    thumbnailData.append("image", thumbnailFile);
+
+    await toast
+      .promise(
+        axios.post<ImageProps>("/api/upload", thumbnailData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        {
+          loading: "Salvando thumbnail",
+          success: "Thumbnail salva com sucesso 👌",
+          error: "Ocorreu um erro ao salvar a thumbnail 🤯",
+        }
+      )
+      .then((response) => {
+        let data = response.data;
+        thumbnail.image = data.image;
+        thumbnail.urlImage = data.urlImage;
+      });
+
     const data = new FormData();
 
     data.append("name", gameName);
-    data.append("image", imageFile);
-    data.append("image", thumbnailFile);
+    data.append("image", image.image);
+    data.append("urlImage", image.urlImage);
+    data.append("thumbnail", thumbnail.image);
+    data.append("urlThumbnail", thumbnail.urlImage);
     data.append("levels", JSON.stringify(levels));
 
     await toast
