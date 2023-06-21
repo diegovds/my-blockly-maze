@@ -5,7 +5,7 @@ import { useInView } from "framer-motion";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 import Skeleton from "../Skeleton";
 
@@ -93,4 +93,4 @@ const MazeDetail = ({
   );
 };
 
-export default MazeDetail;
+export default memo(MazeDetail);
