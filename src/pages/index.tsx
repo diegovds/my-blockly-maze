@@ -1,36 +1,70 @@
 import * as C from "@/styles/Home.styles";
 
-import Seo from "@/components/Seo";
-import { Maze } from "@/types/Maze";
-import { mazeApi } from "@/libs/mazeApi";
 import MazeDetail from "@/components/MazeDetail";
 import MazesContainer from "@/components/MazesContainer";
-
+import Seo from "@/components/Seo";
+import { mazeApi } from "@/libs/mazeApi";
+import { Maze } from "@/types/Maze";
+import axios from "axios";
 import Link from "next/link";
+import { useState } from "react";
 
 type Props = {
   mazes: Maze[];
 };
 
 const Home = ({ mazes }: Props) => {
+  const [showMore, setShowMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [pageCount, setPageCount] = useState(1);
+  const [mazesList, setMazesList] = useState(mazes);
+
+  const handleLoadMore = async () => {
+    if (!loading) {
+      setLoading(true);
+
+      const res = await axios.get(`/api/mazes?page=${pageCount + 1}`);
+
+      if (res.data.data.length > 0) {
+        setMazesList([...mazesList, ...res.data.data]);
+      } else {
+        setShowMore(false);
+      }
+      setLoading(false);
+      setPageCount(pageCount + 1);
+    }
+  };
+
   return (
-    <C.Container visible={mazes && mazes.length > 0 ? "visible" : undefined}>
+    <C.Container
+      visible={mazesList && mazesList.length > 0 ? "visible" : undefined}
+    >
       <Seo
         title="My BLOCKLY Maze | Home"
         description={`My Blockly Maze é uma plataforma de criação e compartilhamento de jogos de labirinto, nela os usuários também podem jogar suas criações e as da comunidade. Os jogos utilizam programação baseada em blocos para concluir os desafios.`}
         path="/"
       />
-      {mazes && mazes.length > 0 && (
+      {mazesList && mazesList.length > 0 && (
         <>
           <C.H2>Jogos criados recentemente:</C.H2>
-          <MazesContainer>
-            {mazes.map((maze) => (
+          <MazesContainer
+            btnText={
+              showMore && !loading
+                ? "Carregar mais jogos"
+                : loading
+                ? "Carregando..."
+                : "Todos os jogos foram carregados"
+            }
+            handleLoadMore={handleLoadMore}
+            disabled={!showMore || loading}
+          >
+            {mazesList.map((maze) => (
               <MazeDetail key={maze.id} maze={maze} />
             ))}
           </MazesContainer>
         </>
       )}
-      {mazes && mazes.length === 0 && (
+      {mazesList && mazesList.length === 0 && (
         <C.NoMazes>
           <p>Não foram encontrados jogos</p>
           <Link href="/mazes/create" className="btn">
@@ -45,7 +79,7 @@ const Home = ({ mazes }: Props) => {
 export const getServerSideProps = async () => {
   const { getAllMazes } = mazeApi();
 
-  const mazes: Maze[] = await getAllMazes();
+  const mazes: Maze[] = await getAllMazes(1);
 
   return {
     props: {
