@@ -6,7 +6,7 @@ import { compactDateFormatting, fullDateFormatting } from "./dayjs";
 import prisma from "./prisma";
 
 export const mazeApi = () => {
-  const getAllMazes = async (page: number) => {
+  const getAllMazes = async (page?: number) => {
     let treatedData: Maze[] = [];
 
     /** Qtde de mazes retornados */
@@ -23,8 +23,8 @@ export const mazeApi = () => {
 
     const mazes = await prisma.maze
       .findMany({
-        skip,
-        take,
+        skip: page ? skip : undefined,
+        take: page ? take : undefined,
 
         select: {
           id: true,
