@@ -51,16 +51,14 @@ const Create = ({ token }: Props) => {
 
     imageData.append("image", imageFile);
 
-    await axios
+    const img = axios
       .post<ImageProps>("/api/upload", imageData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        let data = response.data;
-        image.image = data.image;
-        image.urlImage = data.urlImage;
+        return response.data;
       })
       .catch(() => {});
 
@@ -68,16 +66,26 @@ const Create = ({ token }: Props) => {
 
     thumbnailData.append("image", thumbnailFile);
 
-    await axios
+    const thumb = axios
       .post<ImageProps>("/api/upload", thumbnailData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        let data = response.data;
-        thumbnail.image = data.image;
-        thumbnail.urlImage = data.urlImage;
+        return response.data;
+      })
+      .catch(() => {});
+
+    await Promise.allSettled([img, thumb])
+      .then((res) => {
+        if (res[0].status === "fulfilled" && res[0].value) {
+          image = res[0].value;
+        }
+
+        if (res[1].status === "fulfilled" && res[1].value) {
+          thumbnail = res[1].value;
+        }
       })
       .catch(() => {});
 
