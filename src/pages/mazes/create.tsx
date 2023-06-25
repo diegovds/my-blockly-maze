@@ -36,48 +36,40 @@ const Create = ({ token }: Props) => {
     setMobile(isMobile);
   }, [isMobile]);
 
+  const uploadImage = async (fileData: FormData) => {
+    return axios
+      .post<ImageProps>("/api/upload", fileData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      })
+      .catch(() => {});
+  };
+
   const insertMaze = async (
     gameName: string,
     imageFile: File,
     thumbnailFile: File,
     levels: any[]
   ) => {
+    const imageData = new FormData();
+    imageData.append("image", imageFile);
+
+    const thumbnailData = new FormData();
+    thumbnailData.append("image", thumbnailFile);
+
     setSaving(true);
     setError(false);
 
     const toastLoading = toast.loading("Salvando jogo");
 
-    const imageData = new FormData();
-
-    imageData.append("image", imageFile);
-
-    const img = axios
-      .post<ImageProps>("/api/upload", imageData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        return response.data;
-      })
-      .catch(() => {});
-
-    const thumbnailData = new FormData();
-
-    thumbnailData.append("image", thumbnailFile);
-
-    const thumb = axios
-      .post<ImageProps>("/api/upload", thumbnailData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        return response.data;
-      })
-      .catch(() => {});
-
-    await Promise.allSettled([img, thumb])
+    await Promise.allSettled([
+      uploadImage(imageData),
+      uploadImage(thumbnailData),
+    ])
       .then((res) => {
         if (res[0].status === "fulfilled" && res[0].value) {
           image = res[0].value;
