@@ -57,12 +57,12 @@ export const ImgDiv = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  aspect-ratio: 7/6;
+  margin-bottom: 0.4em;
 
   img {
     width: 90%;
-    height: auto;
-    aspect-ratio: 7/6;
-    margin-bottom: 0.4em;
+    height: 100%;
   }
 `;
 

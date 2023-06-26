@@ -25,21 +25,19 @@ const MazeDetail = ({
   disabled,
 }: Props) => {
   const { status: sessionStatus } = useSession();
-  const refFlipCardBack = useRef<HTMLDivElement>(null);
-  const isInView = useInView(refFlipCardBack, { once: true });
+  const refMazeDetail = useRef<HTMLDivElement>(null);
+  const isInView = useInView(refMazeDetail, { once: true });
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [styleImg, setStyleImg] = useState("img_loading");
 
   return (
     <C.MazeDetailContainer>
       <C.MazeDetail
-        ref={refFlipCardBack}
+        ref={refMazeDetail}
         $inView={isInView && sessionStatus !== "loading" ? true : false}
       >
         <C.ImgDiv>
-          {showSkeleton && (
-            <Skeleton skeletonWidth="90%" skeletonMarginBottom={true} />
-          )}
+          {showSkeleton && <Skeleton skeletonWidth="90%" />}
           <Image
             src={urlThumbnail}
             alt={thumbnail}
