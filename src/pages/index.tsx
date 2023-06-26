@@ -23,13 +23,17 @@ const Home = ({ mazes }: Props) => {
     if (!loading) {
       setLoading(true);
 
-      const res = await axios.get(`/api/mazes?page=${pageCount + 1}`);
+      await axios
+        .get(`/api/mazes?page=${pageCount + 1}`)
+        .then((response) => {
+          if (response.data.data.length > 0) {
+            setMazesList([...mazesList, ...response.data.data]);
+          } else {
+            setShowMore(false);
+          }
+        })
+        .catch(() => {});
 
-      if (res.data.data.length > 0) {
-        setMazesList([...mazesList, ...res.data.data]);
-      } else {
-        setShowMore(false);
-      }
       setLoading(false);
       setPageCount(pageCount + 1);
     }
