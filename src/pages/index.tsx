@@ -59,7 +59,7 @@ const Home = ({ mazes }: Props) => {
                 ? "Carregando..."
                 : "Todos os jogos foram carregados"
             }
-            handleLoadMore={handleLoadMore}
+            handleLoadMore={mazesList.length % 24 ? undefined : handleLoadMore}
             disabled={!showMore || loading}
           >
             {mazesList.map((maze) => (

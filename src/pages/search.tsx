@@ -74,7 +74,7 @@ const SearchPage = ({ q, mazes }: Props) => {
                 ? "Carregando..."
                 : "Pesquisa concluída"
             }
-            handleLoadMore={handleLoadMore}
+            handleLoadMore={mazesList.length % 24 ? undefined : handleLoadMore}
             disabled={!showMore || loading}
           >
             {mazesList.map((maze) => (
