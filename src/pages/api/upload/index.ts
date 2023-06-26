@@ -47,7 +47,7 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  res.status(200).json({ image, urlImage });
+  res.status(201).json({ image, urlImage });
 });
 
 export default apiRoute;

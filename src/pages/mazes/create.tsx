@@ -36,9 +36,12 @@ const Create = ({ token }: Props) => {
     setMobile(isMobile);
   }, [isMobile]);
 
-  const uploadImage = async (fileData: FormData) => {
+  const uploadImage = async (image: File) => {
+    const data = new FormData();
+    data.append("image", image);
+
     return axios
-      .post<ImageProps>("/api/upload", fileData, {
+      .post<ImageProps>("/api/upload", data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -55,20 +58,14 @@ const Create = ({ token }: Props) => {
     thumbnailFile: File,
     levels: any[]
   ) => {
-    const imageData = new FormData();
-    imageData.append("image", imageFile);
-
-    const thumbnailData = new FormData();
-    thumbnailData.append("image", thumbnailFile);
-
     setSaving(true);
     setError(false);
 
     const toastLoading = toast.loading("Salvando jogo");
 
     await Promise.allSettled([
-      uploadImage(imageData),
-      uploadImage(thumbnailData),
+      uploadImage(imageFile),
+      uploadImage(thumbnailFile),
     ])
       .then((res) => {
         if (res[0].status === "fulfilled" && res[0].value) {
