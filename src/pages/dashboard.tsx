@@ -121,7 +121,7 @@ const Dashboard = ({ userData, sessionToken }: Props) => {
               ? "Carregando..."
               : "Todos os jogos foram carregados"
           }
-          handleLoadMore={mazeGames.length % 24 ? undefined : handleLoadMore}
+          handleLoadMore={mazeGames.length % 18 ? undefined : handleLoadMore}
           disabled={!showMore || loading}
         >
           {mazeGames.map((maze) =>

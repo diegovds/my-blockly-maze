@@ -7,7 +7,7 @@ import prisma from "./prisma";
 
 export const mazeApi = () => {
   /** Qtde de mazes retornados */
-  const take = 24;
+  const take = 18;
 
   const getAllMazes = async (page?: number) => {
     let treatedData: Maze[] = [];

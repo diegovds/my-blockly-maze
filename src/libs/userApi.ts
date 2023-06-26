@@ -76,7 +76,7 @@ export const userApi = () => {
     let treatedMaze: Maze[] = [];
 
     /** Qtde de mazes retornados */
-    const take = 24;
+    const take = 18;
 
     /** Qtde de mazes a ser saltados */
     let skip = 0;
