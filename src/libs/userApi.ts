@@ -72,8 +72,20 @@ export const userApi = () => {
       });
   };
 
-  const getUser = async (id: string) => {
+  const getUser = async (id: string, page?: number) => {
     let treatedMaze: Maze[] = [];
+
+    /** Qtde de mazes retornados */
+    const take = 24;
+
+    /** Qtde de mazes a ser saltados */
+    let skip = 0;
+
+    /** skip e take para fazer a paginação */
+
+    if (page) {
+      skip = (page - 1) * take;
+    }
 
     const dataUser = await prisma.user
       .findUniqueOrThrow({
@@ -84,6 +96,9 @@ export const userApi = () => {
           id: true,
           name: true,
           mazes: {
+            skip: page ? skip : undefined,
+            take: page ? take : undefined,
+
             select: {
               id: true,
               name: true,

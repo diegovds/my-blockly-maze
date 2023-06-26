@@ -2,20 +2,20 @@ import * as C from "../styles/Dashboard.styles";
 
 import { GetServerSideProps } from "next";
 
-import { userApi } from "@/libs/userApi";
-import { MazesUser } from "@/types/MazesUser";
 import DashboardHeader from "@/components/DashboardHeader";
-import MazesContainer from "@/components/MazesContainer";
-import MazeDetail from "@/components/MazeDetail";
-import { Maze } from "@/types/Maze";
-import Seo from "@/components/Seo";
-import { toast, Toaster } from "react-hot-toast";
-import { ToastOptions } from "@/components/ToastOptions";
-import axios from "axios";
-import { useState } from "react";
 import DashBoardModal from "@/components/DashBoardModal";
+import MazeDetail from "@/components/MazeDetail";
+import MazesContainer from "@/components/MazesContainer";
+import Seo from "@/components/Seo";
+import { ToastOptions } from "@/components/ToastOptions";
+import { userApi } from "@/libs/userApi";
+import { Maze } from "@/types/Maze";
+import { MazesUser } from "@/types/MazesUser";
+import axios from "axios";
 import { AnimatePresence } from "framer-motion";
 import { getToken } from "next-auth/jwt";
+import { useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 
 type Props = {
   userData: MazesUser;
@@ -26,6 +26,33 @@ const Dashboard = ({ userData, sessionToken }: Props) => {
   const [mazeDelete, setMazeDelete] = useState<Maze | undefined>(undefined);
   const [mazeGames, setMazeGames] = useState<Maze[]>(userData.mazes);
   const [openModal, setOpenModal] = useState(false);
+  const [showMore, setShowMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [pageCount, setPageCount] = useState(1);
+
+  const handleLoadMore = async () => {
+    if (!loading) {
+      setLoading(true);
+
+      await axios
+        .get(`/api/users/${userData.id}?page=${pageCount + 1}`, {
+          headers: {
+            Authorization: `Bearer ${sessionToken}`,
+          },
+        })
+        .then((response) => {
+          if (response.data.mazes.length > 0) {
+            setMazeGames([...mazeGames, ...response.data.mazes]);
+          } else {
+            setShowMore(false);
+          }
+        })
+        .catch(() => {});
+
+      setLoading(false);
+      setPageCount(pageCount + 1);
+    }
+  };
 
   const toDelete = async (toDelete: boolean) => {
     if (toDelete && mazeDelete) {
@@ -86,7 +113,17 @@ const Dashboard = ({ userData, sessionToken }: Props) => {
       </AnimatePresence>
       <DashboardHeader username={userData.username} amount={mazeGames.length} />
       {userData && mazeGames.length > 0 && (
-        <MazesContainer>
+        <MazesContainer
+          btnText={
+            showMore && !loading
+              ? "Carregar mais jogos"
+              : loading
+              ? "Carregando..."
+              : "Todos os jogos foram carregados"
+          }
+          handleLoadMore={handleLoadMore}
+          disabled={!showMore || loading}
+        >
           {mazeGames.map((maze) =>
             maze.id !== mazeDelete?.id ? (
               <MazeDetail
@@ -130,7 +167,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   const { getUser } = userApi();
-  const userData: MazesUser = await getUser(session.sub);
+  const userData: MazesUser = await getUser(session.sub, 1);
 
   return {
     props: {

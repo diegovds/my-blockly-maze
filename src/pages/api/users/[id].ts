@@ -1,8 +1,8 @@
 import { userApi as api } from "@/libs/userApi";
-import { NextApiRequest, NextApiResponse } from "next";
-import nextConnect from "next-connect";
 import multer from "multer";
+import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
+import nextConnect from "next-connect";
 
 const secret = process.env.NEXTAUTH_SECRET;
 
@@ -25,8 +25,13 @@ apiRoute.options(async (req, res: NextApiResponse) => {
 
 /** Get a user */
 apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query;
+  const { id, page } = req.query;
   const token = await getToken({ req, secret });
+
+  if (!page) {
+    res.status(404).json({ message: "Page not found" });
+    return;
+  }
 
   if (!token || id !== token.sub) {
     res.status(401).json({ message: "Unauthorized" });
@@ -35,7 +40,7 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { getUser } = api();
 
-  const user = await getUser(id as string);
+  const user = await getUser(id as string, parseInt(page as string));
 
   res.status(200).json(user);
 });
