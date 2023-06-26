@@ -62,6 +62,63 @@ export const mazeApi = () => {
     return treatedData;
   };
 
+  const getSearchMazes = async (q: string) => {
+    let treatedData: Maze[] = [];
+
+    const mazes = await prisma.maze
+      .findMany({
+        where: {
+          OR: [
+            {
+              name: {
+                contains: q,
+                mode: "insensitive",
+              },
+            },
+            {
+              code: {
+                contains: q,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+        select: {
+          id: true,
+          name: true,
+          code: true,
+          image: true,
+          urlImage: true,
+          thumbnail: true,
+          urlThumbnail: true,
+          createdAt: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
+
+    for (let index = 0; index < mazes.length; index++) {
+      const element = mazes[index];
+
+      treatedData.push({
+        id: element.id,
+        name: element.name,
+        code: element.code,
+        image: element.image,
+        urlImage: element.urlImage,
+        thumbnail: element.thumbnail,
+        urlThumbnail: element.urlThumbnail,
+        createdAt: compactDateFormatting(element.createdAt),
+      });
+    }
+
+    return treatedData;
+  };
+
   const insertNewMaze = async (
     userId: string,
     name: string,
@@ -204,6 +261,7 @@ export const mazeApi = () => {
 
   return {
     getAllMazes,
+    getSearchMazes,
     insertNewMaze,
     deleteMaze,
     getMaze,

@@ -1,10 +1,10 @@
-import Seo from "@/components/Seo";
-import * as C from "@/styles/Search.style";
-import { mazeApi } from "@/libs/mazeApi";
-import { Maze } from "@/types/Maze";
-import { GetServerSideProps } from "next";
 import MazeDetail from "@/components/MazeDetail";
 import MazesContainer from "@/components/MazesContainer";
+import Seo from "@/components/Seo";
+import { mazeApi } from "@/libs/mazeApi";
+import * as C from "@/styles/Search.style";
+import { Maze } from "@/types/Maze";
+import { GetServerSideProps } from "next";
 
 type Props = {
   q: string;
@@ -52,27 +52,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     };
   }
 
-  let filteredMazes: Maze[] = [];
-
-  const { getAllMazes } = mazeApi();
-  const mazes: Maze[] = await getAllMazes();
-
-  mazes.forEach((item) => {
-    if (item.name.toLowerCase().includes((q as string).toLowerCase())) {
-      filteredMazes.push(item);
-    }
-    if (
-      item.code.toLowerCase().includes((q as string).toLowerCase()) &&
-      filteredMazes.find((filtered) => filtered.id === item.id) === undefined
-    ) {
-      filteredMazes.push(item);
-    }
-  });
+  const { getSearchMazes } = mazeApi();
+  const mazes: Maze[] = await getSearchMazes(q as string);
 
   return {
     props: {
       q,
-      mazes: filteredMazes,
+      mazes,
     },
   };
 };
