@@ -2,11 +2,10 @@ import * as C from "./styles";
 
 type Props = {
   skeletonWidth: string;
-  skeletonMarginBottom?: boolean;
 };
 
-const Skeleton = ({ skeletonWidth, skeletonMarginBottom }: Props) => {
-  return <C.SkeletonCard width={skeletonWidth} margin={skeletonMarginBottom} />;
+const Skeleton = ({ skeletonWidth }: Props) => {
+  return <C.SkeletonCard width={skeletonWidth} />;
 };
 
 export default Skeleton;
