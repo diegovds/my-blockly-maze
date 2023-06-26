@@ -4,7 +4,9 @@ import Seo from "@/components/Seo";
 import { mazeApi } from "@/libs/mazeApi";
 import * as C from "@/styles/Search.style";
 import { Maze } from "@/types/Maze";
+import axios from "axios";
 import { GetServerSideProps } from "next";
+import { useEffect, useState } from "react";
 
 type Props = {
   q: string;
@@ -12,6 +14,36 @@ type Props = {
 };
 
 const SearchPage = ({ q, mazes }: Props) => {
+  const [showMore, setShowMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [pageCount, setPageCount] = useState(1);
+  const [mazesList, setMazesList] = useState(mazes);
+
+  useEffect(() => {
+    setShowMore(true);
+    setLoading(false);
+    setPageCount(1);
+    setMazesList(mazes);
+  }, [mazes]);
+
+  const handleLoadMore = async () => {
+    if (!loading) {
+      setLoading(true);
+
+      const res = await axios.get(
+        `/api/mazes/search?q=${q}&page=${pageCount + 1}`
+      );
+
+      if (res.data.data.length > 0) {
+        setMazesList([...mazesList, ...res.data.data]);
+      } else {
+        setShowMore(false);
+      }
+      setLoading(false);
+      setPageCount(pageCount + 1);
+    }
+  };
+
   return (
     <>
       <C.Container>
@@ -22,18 +54,28 @@ const SearchPage = ({ q, mazes }: Props) => {
         />
         <h2>Pesquisa por &quot;{q}&quot;</h2>
         <p>
-          Quantidade de jogos encontrados: <strong>{mazes.length}</strong>
+          Quantidade de jogos encontrados: <strong>{mazesList.length}</strong>
         </p>
-        {mazes && mazes.length === 0 && (
+        {mazesList && mazesList.length === 0 && (
           <p className="p_a">
             Não foram encontrados jogos a partir da sua pesquisa...
           </p>
         )}
       </C.Container>
-      {mazes && mazes.length > 0 && (
+      {mazesList && mazesList.length > 0 && (
         <>
-          <MazesContainer>
-            {mazes.map((maze) => (
+          <MazesContainer
+            btnText={
+              showMore && !loading
+                ? `Pesquisar mais jogos com "${q}"`
+                : loading
+                ? "Carregando..."
+                : "Pesquisa concluída"
+            }
+            handleLoadMore={handleLoadMore}
+            disabled={!showMore || loading}
+          >
+            {mazesList.map((maze) => (
               <MazeDetail key={maze.id} maze={maze} />
             ))}
           </MazesContainer>
@@ -53,7 +95,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   }
 
   const { getSearchMazes } = mazeApi();
-  const mazes: Maze[] = await getSearchMazes(q as string);
+  const mazes: Maze[] = await getSearchMazes(q as string, 1);
 
   return {
     props: {
