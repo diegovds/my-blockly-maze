@@ -167,14 +167,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   const { getUser } = userApi();
-  const userData: MazesUser = await getUser(session.sub, 1);
+  try {
+    const userData: MazesUser = await getUser(session.sub, 1);
 
-  return {
-    props: {
-      userData,
-      sessionToken,
-    },
-  };
+    return {
+      props: {
+        userData,
+        sessionToken,
+      },
+    };
+  } catch (error) {
+    return {
+      redirect: { destination: "/logout", permanent: true },
+    };
+  }
 };
 
 export default Dashboard;
