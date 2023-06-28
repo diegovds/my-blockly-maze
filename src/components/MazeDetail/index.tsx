@@ -37,7 +37,7 @@ const MazeDetail = ({
         $inView={isInView && sessionStatus !== "loading" ? true : false}
       >
         <C.ImgDiv>
-          {showSkeleton && <Skeleton skeletonWidth="90%" />}
+          {showSkeleton && <Skeleton skeletonWidth="100%" />}
           <Image
             src={urlThumbnail}
             alt={thumbnail}

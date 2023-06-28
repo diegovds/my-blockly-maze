@@ -36,13 +36,13 @@ type MazeDetailProps = {
 export const MazeDetail = styled.div<MazeDetailProps>`
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  width: 9.5rem;
+  width: 100%;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 0.7rem 0.3rem;
+  padding: 0.7rem;
   background-color: #fff;
   box-shadow: 0 0 20px hsl(0deg 0% 24% / 0.375);
   word-wrap: break-word; /* com isso o conteúdo não vai vazar da div */
@@ -61,7 +61,7 @@ export const ImgDiv = styled.div`
   margin-bottom: 0.4em;
 
   img {
-    width: 90%;
+    width: 100%;
     height: 100%;
   }
 `;
@@ -98,7 +98,7 @@ export const InfoDiv = styled.div`
 
   a,
   button {
-    width: 90%;
+    width: 100%;
     font-size: 0.9em;
   }
 
