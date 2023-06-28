@@ -74,7 +74,7 @@ export const InfoDiv = styled.div`
   text-align: center;
 
   h3 {
-    max-width: 86%;
+    max-width: 100%;
     margin-bottom: 0.4em;
     white-space: nowrap;
     overflow: hidden;
