@@ -7,7 +7,6 @@ import DashBoardModal from "@/components/DashBoardModal";
 import MazeDetail from "@/components/MazeDetail";
 import MazesContainer from "@/components/MazesContainer";
 import Seo from "@/components/Seo";
-import { ToastOptions } from "@/components/ToastOptions";
 import { userApi } from "@/libs/userApi";
 import { Maze } from "@/types/Maze";
 import { MazesUser } from "@/types/MazesUser";
@@ -15,7 +14,7 @@ import axios from "axios";
 import { AnimatePresence } from "framer-motion";
 import { getToken } from "next-auth/jwt";
 import { useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 type Props = {
   userData: MazesUser;
@@ -150,7 +149,6 @@ const Dashboard = ({ userData, sessionToken }: Props) => {
           <p>Não foram encontrados jogos criados por você 😢</p>
         </C.NoMazes>
       )}
-      <Toaster toastOptions={ToastOptions} />
     </>
   );
 };

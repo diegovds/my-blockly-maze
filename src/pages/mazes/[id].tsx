@@ -1,10 +1,9 @@
 import * as C from "@/styles/Maze.styles";
 
-import { ToastOptions } from "@/components/ToastOptions";
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 import Iframe from "@/components/Iframe";
 import MazePage from "@/components/MazePage";
@@ -98,7 +97,6 @@ const Maze = ({ maze, myblocklymazeAdmin }: Props) => {
             loadGame={loadGame}
             loading={loading}
           />
-          <Toaster toastOptions={ToastOptions} />
         </>
       )}
       {runGame && (

@@ -1,6 +1,5 @@
 import MazeBuilder from "@/components/MazeBuilder";
 import Seo from "@/components/Seo";
-import { ToastOptions } from "@/components/ToastOptions";
 import * as C from "@/styles/Create.styles";
 import { ActionsNotification } from "@/types/ActionsNotification";
 import axios from "axios";
@@ -9,7 +8,7 @@ import { getToken } from "next-auth/jwt";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import Balance from "react-wrap-balancer";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -99,13 +98,7 @@ const Create = ({ token }: Props) => {
         toast.dismiss(toastLoading);
         toast.success("Jogo salvo com sucesso 👌");
 
-        const delay = setTimeout(async () => {
-          router.push(`/mazes/${mazeData.id}`);
-        }, 2000); // aguarda 2 segundos
-
-        return () => {
-          clearTimeout(delay);
-        };
+        router.push(`/mazes/${mazeData.id}`);
       })
       .catch(() => {
         toast.dismiss(toastLoading);
@@ -157,7 +150,6 @@ const Create = ({ token }: Props) => {
             </Link>
           </C.Container>
         )}
-        <Toaster toastOptions={ToastOptions} />
       </>
     </>
   );
