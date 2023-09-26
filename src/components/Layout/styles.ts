@@ -10,6 +10,9 @@ type PropsContainer = Props & {
 };
 
 export const Container = styled.div<PropsContainer>`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   opacity: ${({ load }) => (load ? 0 : 1)};
   transition: all 0.3s ease;
   width: ${({ positionContainer, timeElapsed }) =>
@@ -19,7 +22,9 @@ export const Container = styled.div<PropsContainer>`
 `;
 
 export const Main = styled.main<Props>`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   opacity: ${({ load }) => (load ? 0 : 1)};
   transition: all 0.3s ease;
-  min-height: calc(100vh - 70.94px); /*  70.94px é a altura da navbar */
 `;

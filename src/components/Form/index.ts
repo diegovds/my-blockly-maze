@@ -4,10 +4,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  @media screen and (min-width: 600px) {
-    min-height: inherit;
-  }
+  flex: 1;
 `;
 
 export const Register = styled.div`
