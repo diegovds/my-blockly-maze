@@ -1,15 +1,20 @@
-import { motion } from "framer-motion";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 export const Coontainer = styled.div`
-  flex: 1;
+  min-height: inherit;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 800px) and (orientation: portrait) {
+    min-height: auto;
+  }
 `;
 export const Maze = styled(motion.div)`
   margin: 2.5rem 0rem 2.5rem 0rem;
   width: 90%;
+  min-height: fit-content;
   display: flex;
   flex-direction: row;
   overflow: hidden;
@@ -38,6 +43,7 @@ export const Img = styled(motion.div)`
 
   @media (max-width: 800px) and (orientation: portrait) {
     width: 100%;
+    min-height: fit-content;
 
     padding: 0;
     padding-top: 1.7rem;
@@ -94,6 +100,7 @@ export const Informations = styled(motion.div)`
 
   @media (max-width: 800px) and ((orientation: portrait) or (orientation: landscape)) {
     width: 100%;
+    min-height: fit-content;
 
     padding: 0;
     padding: 0.75rem 0rem 1.7rem 0rem;

@@ -5,7 +5,8 @@ type VisibleProps = {
 };
 
 export const Container = styled.div<VisibleProps>`
-  flex: ${(props) => (props.visible !== "visible" ? 1 : undefined)};
+  min-height: ${(props) =>
+    props.visible !== "visible" ? "inherit" : undefined};
   display: ${(props) => (props.visible !== "visible" ? "flex" : undefined)};
   justify-content: ${(props) =>
     props.visible !== "visible" ? "center" : undefined};

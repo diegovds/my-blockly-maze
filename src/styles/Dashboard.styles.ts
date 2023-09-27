@@ -5,7 +5,7 @@ export const NoMazes = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1;
+  min-height: calc(50vh - 70.94px); /*  70.94px é a altura da navbar */
 
   p {
     color: #aaa;

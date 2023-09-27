@@ -1,11 +1,10 @@
 import { ReactElement, useEffect, useState } from "react";
 import * as C from "./styles";
 
+import Navbar from "../Navbar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Footer from "../Footer";
 import Loading from "../Loading";
-import Navbar from "../Navbar";
 
 type Props = {
   children: ReactElement;
@@ -56,7 +55,6 @@ const Layout = ({ children }: Props) => {
       <C.Main load={loading && router.pathname !== "/search" ? true : false}>
         {children}
       </C.Main>
-      <Footer />
       {loading && <Loading />}
     </C.Container>
   );
